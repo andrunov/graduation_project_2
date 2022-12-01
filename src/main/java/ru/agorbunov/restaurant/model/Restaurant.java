@@ -1,23 +1,36 @@
 package ru.agorbunov.restaurant.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Class represents restaurant
  */
+@Entity
+@Table(name = "restaurants")
 public class Restaurant extends BaseEntity {
 
     /*name of restaurant*/
+    @NotBlank
+    @Size(min = 2, max = 128)
+    @Column(name = "name", nullable = false)
     private String name;
 
     /*address of restaurant*/
+    @NotBlank
+    @Size(min = 2, max = 128)
+    @Column(name = "address", nullable = false)
     private String address;
 
     /*menuLists of restaurant*/
-    private Map<LocalDate, List<Dish>> menus;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "menu_lists",
+            joinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
+    @MapKeyColumn(name = "date_time")
+    private Map<LocalDate, MenuList> menu_lists;
 
     public Restaurant() {
     }
@@ -43,19 +56,20 @@ public class Restaurant extends BaseEntity {
         this.address = address;
     }
 
-    public Map<LocalDate, List<Dish>> getMenus() {
-        return menus;
+    public Map<LocalDate, MenuList> getMenu_lists() {
+        return menu_lists;
     }
 
-    public void setMenus(Map<LocalDate, List<Dish>> menus) {
-        this.menus = menus;
+    public void setMenu_lists(Map<LocalDate, MenuList> menus) {
+        this.menu_lists = menus;
     }
 
-    public void addNewDishItem(String name, double price){
-        LocalDate today = LocalDate.now();
-        List<Dish> todayMenu = this.menus.computeIfAbsent(today, k -> new ArrayList<>());
-        Dish newDish = new Dish(name, price);
-        todayMenu.add(newDish);
+    public void updateMenu(LocalDate date, MenuList menu) {
+        this.menu_lists.put(date, menu);
+    }
+
+    public void getMenu(LocalDate date) {
+        this.menu_lists.get(date);
     }
 
     @Override

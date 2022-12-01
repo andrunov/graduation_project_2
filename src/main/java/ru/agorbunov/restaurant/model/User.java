@@ -1,5 +1,9 @@
 package ru.agorbunov.restaurant.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.EnumSet;
 import java.util.Map;
@@ -8,21 +12,52 @@ import java.util.Set;
 /**
  * Class represents users
  */
+@NamedQueries({
+        @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
+        @NamedQuery(name = User.BY_EMAIL, query = "SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=?1"),
+        @NamedQuery(name = User.ALL_SORTED, query = "SELECT u FROM User u LEFT JOIN FETCH u.roles ORDER BY u.name, u.email"),
+})
+@Entity
+@Table(name = "users")
 public class User extends BaseEntity {
 
+    public static final String DELETE = "User.delete";
+    public static final String BY_EMAIL = "User.getByEmail";
+    public static final String ALL_SORTED = "User.getAllSorted";
+
     /*user's name*/
+    @NotBlank
+    @Size(min = 2, max = 128)
+    @Column(name = "name", nullable = false)
     private String name;
 
     /*users e-mail*/
+    @Column(name = "email", nullable = false, unique = true)
+    @Email
+    @NotBlank
+    @Size(max = 128)
     private String email;
 
     /*users password*/
+    @Column(name = "password", nullable = false)
+    @NotBlank
+    @Size(min = 5, max = 128)
     private String password;
 
     /*users roles*/
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "uk_user_roles")})
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     /*orders has made by the user */
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_votes",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
+    @MapKeyColumn(name = "date_time")
     private Map<LocalDateTime, Restaurant> votes;
 
 
@@ -83,4 +118,5 @@ public class User extends BaseEntity {
                 ", name='" + name + '\'' +
                 '}';
     }
+
 }

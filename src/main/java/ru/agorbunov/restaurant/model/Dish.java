@@ -1,16 +1,27 @@
 package ru.agorbunov.restaurant.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 /**
  * Class represents dish
  */
+@Entity
+@Table(name = "dishes")
 public class Dish extends BaseEntity {
 
     /*Name of dish*/
+    @NotBlank
+    @Size(min = 2, max = 128)
+    @Column(name = "name", nullable = false)
     private String name;
 
     /*price of dish*/
+    @Column(name = "price", nullable = false)
     private Double price;
-
 
     public Dish() {
     }
