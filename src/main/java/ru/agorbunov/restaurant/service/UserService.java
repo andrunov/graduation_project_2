@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.agorbunov.restaurant.model.User;
-import ru.agorbunov.restaurant.repository.UserRepositoryImpl;
+import ru.agorbunov.restaurant.repository.UserRepository;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFou
 @Service("userService")
 public class UserService {
 
-    private final UserRepositoryImpl repository;
+    private final UserRepository repository;
 
     @Autowired
-    public UserService(UserRepositoryImpl repository) {
+    public UserService(UserRepository repository) {
         this.repository = repository;
     }
 
