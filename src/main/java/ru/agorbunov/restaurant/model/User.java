@@ -58,8 +58,8 @@ public class User extends BaseEntity {
     @JoinTable(name = "user_votes",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
-    @MapKeyColumn(name = "date_time")
-    private Map<LocalDateTime, Restaurant> votes;
+    @MapKey(name = "dateTime")
+    private Map<LocalDateTime, Vote> votes;
 
 
     public User() {
@@ -104,11 +104,11 @@ public class User extends BaseEntity {
         this.roles = roles;
     }
 
-    public Map<LocalDateTime, Restaurant> getVotes() {
+    public Map<LocalDateTime, Vote> getVotes() {
         return votes;
     }
 
-    public void setVotes(Map<LocalDateTime, Restaurant> votes) {
+    public void setVotes(Map<LocalDateTime, Vote> votes) {
         this.votes = votes;
     }
 

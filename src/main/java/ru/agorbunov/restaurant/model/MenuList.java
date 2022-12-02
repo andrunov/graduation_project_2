@@ -16,24 +16,17 @@ public class MenuList extends BaseEntity {
     @OneToMany(mappedBy = "menuList")
     private List<Dish> dishList;
 
-    /*
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-    private Restaurant restaurant;
-
-     */
-
     /*Date and Time when menuList was made*/
     @NotBlank
-    @Column(name = "date_time", nullable = false)
-    private LocalDate localDate;
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
 
 
     public MenuList() {
     }
 
     public MenuList(LocalDate date) {
-        this.localDate = date;
+        this.date = date;
     }
 
 
@@ -45,29 +38,19 @@ public class MenuList extends BaseEntity {
         this.dishList = dishList;
     }
 
-    public LocalDate getLocalDate() {
-        return localDate;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
+    public void setDate(LocalDate localDate) {
+        this.date = localDate;
     }
 
-    /*
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-     */
 
     @Override
     public String toString() {
         return "MenuList{" +
-                ", dateTime=" + localDate +
+                ", dateTime=" + date +
                 '}';
     }
 }

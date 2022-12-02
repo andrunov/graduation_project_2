@@ -30,7 +30,7 @@ public class Restaurant extends BaseEntity {
     @JoinTable(name = "restaurant_menu",
             joinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "menu_list_id", referencedColumnName = "id")})
-    @MapKey(name = "localDate")
+    @MapKey(name = "date")
     private Map<LocalDate, MenuList> menu_lists;
 
     public Restaurant() {

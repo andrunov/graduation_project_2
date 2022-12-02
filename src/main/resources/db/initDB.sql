@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS users CASCADE ;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS restaurants CASCADE ;
 DROP TABLE IF EXISTS dishes CASCADE ;
+DROP TABLE IF EXISTS votes CASCADE ;
 DROP TABLE IF EXISTS user_votes CASCADE ;
 DROP TABLE IF EXISTS menu_lists CASCADE ;
 DROP TABLE IF EXISTS restaurant_menu CASCADE ;
@@ -46,7 +47,7 @@ CREATE TABLE user_votes
 
 CREATE TABLE menu_lists(
                            id                    INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-                           date_time             TIMESTAMP NOT NULL
+                           date             TIMESTAMP NOT NULL
 );
 
 CREATE TABLE dishes
@@ -65,6 +66,13 @@ CREATE TABLE restaurant_menu
     menu_list_id        INTEGER NOT NULL ,
     local_date          TIMESTAMP NOT NULL,
     FOREIGN KEY         (menu_list_id) REFERENCES menu_lists (id) ON DELETE CASCADE,
+    FOREIGN KEY         (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE
+);
+
+CREATE TABLE votes
+(
+    date_time          TIMESTAMP NOT NULL,
+    restaurant_id       INTEGER NOT NULL,
     FOREIGN KEY         (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE
 );
 
