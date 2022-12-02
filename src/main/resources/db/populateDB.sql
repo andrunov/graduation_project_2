@@ -9,12 +9,12 @@ DELETE FROM restaurant_menu;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO users(name,email,password) VALUES
-  ('Алексей Иванов','ivanov.alexey@gmail.com','111'),
-  ('Андрей Горбунов','andrunov@gmail.com','222'),
-  ('Павел Сидоров','sidor@gmail.com','333'),
-  ('Roberto Zanetti','rzanetti@gmail.com','444'),
-  ('John Bon Jovi','jbj@gmail.com','555'),
-  ('Didier Maoruani','dmauruani@gmail.com','666');
+  ('Алексей Иванов','ivanov.alexey@gmail.com','111222'),
+  ('Андрей Горбунов','andrunov@gmail.com','222333'),
+  ('Павел Сидоров','sidor@gmail.com','333444'),
+  ('Roberto Zanetti','rzanetti@gmail.com','444555'),
+  ('John Bon Jovi','jbj@gmail.com','555666'),
+  ('Didier Maoruani','dmauruani@gmail.com','666777');
 
 INSERT INTO roles(user_id, role) VALUES
   (100000,'REGULAR'),

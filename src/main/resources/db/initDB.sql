@@ -38,6 +38,7 @@ CREATE TABLE restaurants
 
 CREATE TABLE user_votes
 (
+    id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     user_id             INTEGER NOT NULL,
     date_time           TIMESTAMP NOT NULL,
     restaurant_id       INTEGER NOT NULL,
@@ -71,7 +72,8 @@ CREATE TABLE restaurant_menu
 
 CREATE TABLE votes
 (
-    date_time          TIMESTAMP NOT NULL,
+    id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    date_time           TIMESTAMP NOT NULL,
     restaurant_id       INTEGER NOT NULL,
     FOREIGN KEY         (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE
 );

@@ -13,9 +13,15 @@ public class Vote extends BaseEntity {
     private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     public Vote() {
+    }
+
+    public Vote(LocalDateTime dateTime, Restaurant restaurant) {
+        this.dateTime = dateTime;
+        this.restaurant = restaurant;
     }
 
     public LocalDateTime getDateTime() {

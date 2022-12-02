@@ -8,9 +8,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.agorbunov.restaurant.RestaurantTestData;
 import ru.agorbunov.restaurant.model.User;
+import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,6 +39,10 @@ public class UserServiceTest {
 
     @Test
     public void save() throws Exception {
+        USER_CREATED.setVotes(new HashMap<>());
+        LocalDateTime now = LocalDateTime.now();
+        Vote vote = new Vote(now, RestaurantTestData.RESTAURANT_01);
+    //    USER_CREATED.getVotes().put(now, vote);
         service.update(USER_CREATED);
         MATCHER.assertCollectionEquals(
                 Arrays.asList(USER_01, USER_02, USER_03, USER_04, USER_05, USER_06, USER_CREATED),
@@ -88,7 +95,6 @@ public class UserServiceTest {
         User user = service.get(USER_01_ID);
         user.setEmail("newmail@mail.ru");
         user.setName("обновленное имя");
-        user.setVotes(new HashMap<>());
         service.update(user);
         MATCHER.assertEquals(user,service.get(USER_01_ID));
     }
