@@ -1,8 +1,6 @@
 package ru.agorbunov.restaurant.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -22,6 +20,10 @@ public class Dish extends BaseEntity {
     /*price of dish*/
     @Column(name = "price", nullable = false)
     private Double price;
+
+    @ManyToOne(targetEntity = MenuList.class)
+    @JoinColumn(name = "menu_list_id", referencedColumnName = "id")
+    private MenuList menuList;
 
     public Dish() {
     }
@@ -47,6 +49,14 @@ public class Dish extends BaseEntity {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public MenuList getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(MenuList menuList) {
+        this.menuList = menuList;
     }
 
     @Override

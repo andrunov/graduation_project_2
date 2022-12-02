@@ -15,6 +15,7 @@ public class BaseEntity {
 
     /*identifier of entity in database*/
     @Id
+    @PrimaryKeyJoinColumn
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = START_SEQ)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     protected Integer id;

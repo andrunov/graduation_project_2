@@ -27,9 +27,10 @@ public class Restaurant extends BaseEntity {
 
     /*menuLists of restaurant*/
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "menu_lists",
-            joinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
-    @MapKeyColumn(name = "date_time")
+    @JoinTable(name = "restaurant_menu",
+            joinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "menu_list_id", referencedColumnName = "id")})
+    @MapKey(name = "localDate")
     private Map<LocalDate, MenuList> menu_lists;
 
     public Restaurant() {

@@ -18,11 +18,11 @@
         <property name="staticMethod" value="org.slf4j.bridge.SLF4JBridgeHandler.install" />
     </bean>
 
-    <context:component-scan base-package="ru.agorbunov.**.repository"/>
+    <context:component-scan base-package="ru.agorbunov.restaurant.repository"/>
 
     <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
         <jdbc:script location="classpath:db/initDB.sql"/>
-        <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
+    <!--    <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/> -->
     </jdbc:initialize-database>
 
     <!--no pooling-->
@@ -36,7 +36,7 @@
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:dataSource-ref="dataSource"
-          p:packagesToScan="ru.javawebinar.**.model">
+          p:packagesToScan="ru.agorbunov.restaurant.model">
         <!--p:persistenceUnitName="persistenceUnit">-->
 
         <property name="jpaPropertyMap">

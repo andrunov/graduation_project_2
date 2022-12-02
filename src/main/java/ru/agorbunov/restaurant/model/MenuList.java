@@ -13,15 +13,21 @@ import java.util.List;
 public class MenuList extends BaseEntity {
 
     /*List of dishes that were include in menuList*/
-    @OneToMany(mappedBy = "menu_lists", fetch = FetchType.EAGER)
-    @JoinColumn(name = "menu_list_id")
+    @OneToMany(mappedBy = "menuList")
     private List<Dish> dishList;
 
+    /*
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+    private Restaurant restaurant;
+
+     */
 
     /*Date and Time when menuList was made*/
     @NotBlank
     @Column(name = "date_time", nullable = false)
     private LocalDate localDate;
+
 
     public MenuList() {
     }
@@ -47,6 +53,16 @@ public class MenuList extends BaseEntity {
         this.localDate = localDate;
     }
 
+    /*
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+     */
 
     @Override
     public String toString() {

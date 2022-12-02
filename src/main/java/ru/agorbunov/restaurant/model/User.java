@@ -53,6 +53,7 @@ public class User extends BaseEntity {
     private Set<Role> roles;
 
     /*orders has made by the user */
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_votes",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},

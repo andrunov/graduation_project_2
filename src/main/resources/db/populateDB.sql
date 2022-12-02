@@ -4,6 +4,7 @@ DELETE FROM restaurants;
 DELETE FROM dishes;
 DELETE FROM user_votes;
 DELETE FROM menu_lists;
+DELETE FROM restaurant_menu;
 
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
@@ -30,12 +31,12 @@ INSERT INTO restaurants(name, address) VALUES
   ('Закусочная','Привокзальная пл, 3'),
   ('Прага','ул. Арбат, 1');
 
-INSERT INTO menu_lists(restaurant_id, description, date_time) VALUES
-  (100006,'Меню на 14.01','2017-01-14 16:30:00'),
-  (100007,'Обед комплексный','2017-01-14 15:45:00'),
-  (100008,'Обед','2017-01-14 15:40:00'),
-  (100009,'Обед','2017-01-14 15:32:00');
-
+INSERT INTO menu_lists(restaurant_id,  date_time) VALUES
+  (100006,'2017-01-14 16:30:00'),
+  (100007,'2017-01-14 15:45:00'),
+  (100008,'2017-01-14 15:40:00'),
+  (100009,'2017-01-14 15:32:00');
+/*
 INSERT INTO orders(user_id, restaurant_id, menu_list_id,date_time, status ) VALUES
   (100000,100006,100010,'2017-01-15 15:47:00','ACCEPTED'),
   (100001,100006,100010,'2017-01-14 18:49:00','ACCEPTED'),
@@ -44,7 +45,9 @@ INSERT INTO orders(user_id, restaurant_id, menu_list_id,date_time, status ) VALU
   (100004,100008,100012,'2017-01-15 14:17:00','ACCEPTED'),
   (100005,100009,100013,'2017-01-15 09:29:00','ACCEPTED');
 
-INSERT INTO dishes( menu_list_id,description,price) VALUES
+ */
+
+INSERT INTO dishes(menu_list_id, "name",price) VALUES
   (100010,'Каша овсяная',1.25),
   (100010,'Сырники',3.45),
   (100010,'Блины',2.48),
@@ -66,6 +69,7 @@ INSERT INTO dishes( menu_list_id,description,price) VALUES
   (100013,'Плов узбекский',12.75),
   (100013,'Салат оливье',8.12);
 
+/*
 INSERT INTO orders_dishes(order_id, dish_id,dish_quantity) VALUES
   (100014,100020,1),
   (100014,100021,2),
@@ -106,3 +110,5 @@ INSERT INTO orders_dishes(order_id, dish_id,dish_quantity) VALUES
   (100041,100037,2),
   (100041,100038,3),
   (100041,100039,1);
+
+ */
