@@ -13,6 +13,7 @@ import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 
 import static ru.agorbunov.restaurant.UserTestData.*;
 
@@ -25,6 +26,7 @@ import static ru.agorbunov.restaurant.UserTestData.*;
         "classpath:spring/spring-db.xml"
 })
 @RunWith(SpringRunner.class)
+@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class UserServiceImplTest {
 
 
@@ -86,6 +88,7 @@ public class UserServiceImplTest {
         User user = service.get(USER_01_ID);
         user.setEmail("newmail@mail.ru");
         user.setName("обновленное имя");
+        user.setVotes(new HashMap<>());
         service.update(user);
         MATCHER.assertEquals(user,service.get(USER_01_ID));
     }

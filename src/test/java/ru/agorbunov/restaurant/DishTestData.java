@@ -2,6 +2,7 @@ package ru.agorbunov.restaurant;
 
 import ru.agorbunov.restaurant.matcher.ModelMatcher;
 import ru.agorbunov.restaurant.model.Dish;
+import ru.agorbunov.restaurant.model.User;
 
 import java.util.Arrays;
 import java.util.List;

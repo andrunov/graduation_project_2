@@ -8,6 +8,9 @@ import ru.agorbunov.restaurant.repository.UserRepositoryImpl;
 
 import java.util.List;
 
+import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFound;
+import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFoundWithId;
+
 @Service("userService")
 public class UserService {
 
@@ -24,16 +27,16 @@ public class UserService {
     }
 
     public void delete(int id) {
-        repository.delete(id);
+        checkNotFoundWithId(repository.delete(id), id);
     }
 
     public User get(int id) {
-        return repository.get(id);
+        return checkNotFoundWithId(repository.get(id), id);
     }
 
     public User getByEmail(String email) {
         Assert.notNull(email, "email must not be null");
-        return repository.getByEmail(email);
+        return checkNotFound(repository.getByEmail(email), "email=" + email);
     }
 
     public List<User> getAll() {

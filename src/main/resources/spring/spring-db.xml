@@ -22,7 +22,7 @@
 
     <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
         <jdbc:script location="classpath:db/initDB.sql"/>
-    <!--    <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/> -->
+        <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
     </jdbc:initialize-database>
 
     <!--no pooling-->
