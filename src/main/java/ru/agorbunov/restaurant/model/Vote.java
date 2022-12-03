@@ -1,17 +1,22 @@
 package ru.agorbunov.restaurant.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
+
+@NamedNativeQueries({
+        @NamedNativeQuery(name = Vote.BY_USER, query = "SELECT * FROM votes v LEFT JOIN user_votes uv on v.restaurant_id = uv.restaurant_id where uv.user_id=:id", resultClass = Vote.class)
+})
 @Entity
 @Table(name = "votes")
 public class Vote extends BaseEntity {
 
+    public static final String BY_USER = "Vote.getByUser";
+
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Restaurant.class,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 

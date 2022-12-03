@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import static ru.agorbunov.restaurant.UserTestData.*;
 
@@ -125,7 +126,7 @@ public class UserServiceTest {
 
     @Test
     public void getWith() throws Exception{
-        User user = service.get(USER_02_ID);
+        User user = service.getWithVotes(USER_02_ID);
         Assert.assertEquals(user.getVotes().size(), 1);
     }
 
