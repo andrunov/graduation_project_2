@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -54,7 +55,7 @@ public class User extends BaseEntity {
 
     /*orders has made by the user */
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_votes",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
@@ -63,6 +64,7 @@ public class User extends BaseEntity {
 
 
     public User() {
+        this.votes = new HashMap<>();
     }
 
     public User(String name, String email, String password, Role role, Role... roles) {
@@ -70,6 +72,7 @@ public class User extends BaseEntity {
         this.email = email;
         this.password = password;
         this.roles = EnumSet.of(role, roles);
+        this.votes = new HashMap<>();
     }
 
     public String getName() {

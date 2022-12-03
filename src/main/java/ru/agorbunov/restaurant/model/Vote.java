@@ -8,11 +8,10 @@ import java.time.LocalDateTime;
 @Table(name = "votes")
 public class Vote extends BaseEntity {
 
-    @NotBlank
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 

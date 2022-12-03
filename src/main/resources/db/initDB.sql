@@ -40,15 +40,14 @@ CREATE TABLE user_votes
 (
     id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     user_id             INTEGER NOT NULL,
-    date_time           TIMESTAMP NOT NULL,
     restaurant_id       INTEGER NOT NULL,
     FOREIGN KEY         (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE,
     FOREIGN KEY         (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE menu_lists(
-                           id                    INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-                           date             TIMESTAMP NOT NULL
+    id                    INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    date                  TIMESTAMP NOT NULL
 );
 
 CREATE TABLE dishes
@@ -63,6 +62,7 @@ CREATE TABLE dishes
 
 CREATE TABLE restaurant_menu
 (
+    id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     restaurant_id       INTEGER NOT NULL ,
     menu_list_id        INTEGER NOT NULL ,
     local_date          TIMESTAMP NOT NULL,

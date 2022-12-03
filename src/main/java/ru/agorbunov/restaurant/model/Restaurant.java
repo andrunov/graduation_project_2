@@ -9,9 +9,16 @@ import java.util.Map;
 /**
  * Class represents restaurant
  */
+@NamedQueries({
+        @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant r WHERE r.id=:id"),
+        @NamedQuery(name = Restaurant.ALL_SORTED, query = "SELECT r FROM Restaurant r ORDER BY r.id asc "),
+})
 @Entity
 @Table(name = "restaurants")
 public class Restaurant extends BaseEntity {
+
+    public static final String DELETE = "Restaurant.delete";
+    public static final String ALL_SORTED = "Restaurant.getAllSorted";
 
     /*name of restaurant*/
     @NotBlank

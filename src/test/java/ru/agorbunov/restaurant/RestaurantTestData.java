@@ -16,8 +16,8 @@ public class RestaurantTestData {
     public static final Restaurant RESTAURANT_04 = new Restaurant("Прага","ул. Арбат, 1");
     public static final Restaurant RESTAURANT_CREATED = new Restaurant("Созданный ресторант","ул. Новая, 1");
 
-    public static int RESTAURANT_01_ID = 100006;
-    public static int RESTAURANT_02_ID = 100007;
-    public static int RESTAURANT_03_ID = 100008;
+    public static final int RESTAURANT_01_ID = 100006;
+    public static final int RESTAURANT_02_ID = 100007;
+    public static final int RESTAURANT_03_ID = 100008;
 
 }

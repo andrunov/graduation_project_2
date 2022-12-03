@@ -17,7 +17,6 @@ public class MenuList extends BaseEntity {
     private List<Dish> dishList;
 
     /*Date and Time when menuList was made*/
-    @NotBlank
     @Column(name = "date", nullable = false)
     private LocalDate date;
 

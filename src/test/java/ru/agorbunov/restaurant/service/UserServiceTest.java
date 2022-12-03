@@ -9,8 +9,10 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.agorbunov.restaurant.RestaurantTestData;
+import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
+import ru.agorbunov.restaurant.repository.VoteRepository;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
@@ -36,13 +38,29 @@ public class UserServiceTest {
     @Autowired
     private UserService service;
 
+    @Autowired
+    private RestaurantService restaurantService;
+
+    @Autowired
+    private VoteRepository voteRepository;
+
 
     @Test
     public void save() throws Exception {
+        service.update(USER_CREATED);
+        MATCHER.assertCollectionEquals(
+                Arrays.asList(USER_01, USER_02, USER_03, USER_04, USER_05, USER_06, USER_CREATED),
+                service.getAll());
+    }
+
+    @Test
+    public void saveWith() throws Exception {
         USER_CREATED.setVotes(new HashMap<>());
         LocalDateTime now = LocalDateTime.now();
-        Vote vote = new Vote(now, RestaurantTestData.RESTAURANT_01);
-    //    USER_CREATED.getVotes().put(now, vote);
+        Restaurant restaurant = restaurantService.get(RestaurantTestData.RESTAURANT_01_ID);
+        Vote vote = new Vote(now, restaurant);
+        voteRepository.save(vote);
+        USER_CREATED.getVotes().put(now, vote);
         service.update(USER_CREATED);
         MATCHER.assertCollectionEquals(
                 Arrays.asList(USER_01, USER_02, USER_03, USER_04, USER_05, USER_06, USER_CREATED),
@@ -107,12 +125,8 @@ public class UserServiceTest {
 
     @Test
     public void getWith() throws Exception{
-        /*
-        ModelMatcher<Order> OrderMatcher = new ModelMatcher<>();
-        User user = service.getWithOrders(USER_02_ID);
-        OrderMatcher.assertCollectionEquals(USER_02.getOrders(),user.getOrders());
-
-         */
+        User user = service.get(USER_02_ID);
+        Assert.assertEquals(user.getVotes().size(), 1);
     }
 
 
