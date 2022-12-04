@@ -2,13 +2,15 @@ package ru.agorbunov.restaurant.repository;
 
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.model.User;
+import ru.agorbunov.restaurant.model.Vote;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Transactional(readOnly = true)
@@ -20,11 +22,13 @@ public class UserRepository {
     @Transactional
     public User save(User user) {
         if (user.isNew()) {
-            em.persist(user);
-            return user;
-        } else {
-            return em.merge(user);
+            if (user.getVotes() != null) {
+                Map<LocalDateTime, Vote> temp = user.getVotes();
+                user.setVotes(null);
+                em.persist(user);
+            }
         }
+        return em.merge(user);
     }
 
     public User get(int id) {

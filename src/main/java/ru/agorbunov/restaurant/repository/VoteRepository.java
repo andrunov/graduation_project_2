@@ -2,6 +2,7 @@ package ru.agorbunov.restaurant.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.model.Vote;
 
 import javax.persistence.EntityManager;
@@ -17,12 +18,7 @@ public class VoteRepository {
 
     @Transactional
     public Vote save(Vote vote) {
-        if (vote.isNew()) {
-            em.persist(vote);
-            return vote;
-        } else {
-            return em.merge(vote);
-        }
+        return em.merge(vote);
     }
 
     public Vote get(int id) {
