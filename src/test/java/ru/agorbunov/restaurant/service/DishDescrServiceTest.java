@@ -8,7 +8,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.agorbunov.restaurant.model.Dish;
 import ru.agorbunov.restaurant.model.DishDescription;
 
 import static ru.agorbunov.restaurant.DishTestData.*;
@@ -33,5 +32,14 @@ public class DishDescrServiceTest {
     public void getWithDish() throws Exception {
         DishDescription dishDescription = dishDescrService.get(DISH_DESCR_04_ID);
         MATCHER.assertEquals(DISH_04, dishDescription.getDish());
+    }
+
+    @Test
+    public void update() throws Exception{
+        DishDescription dishDescr = dishDescrService.get(DISH_DESCR_04_ID);
+        dishDescr.setDish(DISH_05);
+        dishDescrService.update(dishDescr);
+        DishDescription dishDescrUpdated = dishDescrService.get(DISH_DESCR_04_ID);
+        MATCHER.assertEquals(DISH_05, dishDescrUpdated.getDish());
     }
 }

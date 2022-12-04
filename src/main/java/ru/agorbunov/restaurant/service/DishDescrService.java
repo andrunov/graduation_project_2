@@ -22,7 +22,7 @@ public class DishDescrService {
 
 
     public DishDescription create(DishDescription dishDescr) {
-        Assert.notNull(dishDescr, "dishDescr must not be null");
+        Assert.notNull(dishDescr, "dishDescription must not be null");
         return repository.save(dishDescr);
     }
 

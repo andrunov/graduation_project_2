@@ -1,17 +1,21 @@
 package ru.agorbunov.restaurant.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 /**
  * Class represents menu list
  */
+@NamedNativeQueries({
+        @NamedNativeQuery(name = MenuList.BY_RESTAURANT, query = "SELECT * FROM menu_lists ml LEFT JOIN restaurant_menu rm on ml.id = rm.menu_list_id WHERE rm.restaurant_id=:id", resultClass = MenuList.class)
+})
 @Entity
 @Table(name = "menu_lists")
 public class MenuList extends BaseEntity {
+
+    public static final String BY_RESTAURANT = "MenuList.byRestaurant";
+
 
     /*List of dishes that were include in menuList*/
     @OneToMany(mappedBy = "menuList")

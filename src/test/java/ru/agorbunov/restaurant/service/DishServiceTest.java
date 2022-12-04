@@ -8,21 +8,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.agorbunov.restaurant.DishTestData;
-import ru.agorbunov.restaurant.RestaurantTestData;
 import ru.agorbunov.restaurant.model.Dish;
-import ru.agorbunov.restaurant.model.Restaurant;
-import ru.agorbunov.restaurant.model.User;
-import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-
 import static ru.agorbunov.restaurant.DishTestData.*;
-import static ru.agorbunov.restaurant.UserTestData.USER_02_ID;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",

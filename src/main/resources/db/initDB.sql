@@ -72,7 +72,6 @@ CREATE TABLE restaurant_menu
     id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     restaurant_id       INTEGER NOT NULL ,
     menu_list_id        INTEGER NOT NULL ,
-    local_date          TIMESTAMP NOT NULL,
     FOREIGN KEY         (menu_list_id) REFERENCES menu_lists (id) ON DELETE CASCADE,
     FOREIGN KEY         (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE
 );
