@@ -23,7 +23,6 @@ public class DishTestData {
 
 
     public static final Dish DISH_CREATED = new Dish("Созданная еда");
-
     public static final int DISH_01_ID = 100022;
     public static final int DISH_02_ID = 100023;
     public static final int DISH_03_ID = 100024;
