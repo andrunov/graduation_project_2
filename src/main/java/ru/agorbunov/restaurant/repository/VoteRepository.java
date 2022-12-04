@@ -3,8 +3,10 @@ package ru.agorbunov.restaurant.repository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.model.Vote;
+import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -31,22 +33,10 @@ public class VoteRepository {
             Vote ref = em.getReference(Vote.class, id);
             em.remove(ref);
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+
+        } catch (Exception e2) {
+            throw new NotFoundException("Vote with ID=" + id + " not found");
         }
-
-
-
-        /*
-        Query query = em.createQuery("DELETE FROM User u WHERE u.id=:id");
-        return query.setParameter("id", id).executeUpdate() != 0;
-
-        return em.createNamedQuery(User.DELETE)
-                .setParameter("id", id)
-                .executeUpdate() != 0;
-
-         */
     }
 
     public List<Vote> getByUser(int userId) {

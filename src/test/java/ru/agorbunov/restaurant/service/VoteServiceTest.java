@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ru.agorbunov.restaurant.UserTestData;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
+import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -34,6 +35,11 @@ public class VoteServiceTest {
         }
         User userUpdated = userService.getWithVotes(UserTestData.USER_02_ID);
         Assert.assertEquals(userUpdated.getVotes().size(), 0);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void deleteNotFound() throws Exception {
+        voteService.delete(10);
     }
 
 
