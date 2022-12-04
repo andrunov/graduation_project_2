@@ -38,7 +38,7 @@ public class Restaurant extends BaseEntity {
             joinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "menu_list_id", referencedColumnName = "id")})
     @MapKey(name = "date")
-    private Map<LocalDate, MenuList> menu_lists;
+    private Map<LocalDate, MenuList> menuLists;
 
     public Restaurant() {
     }
@@ -64,20 +64,20 @@ public class Restaurant extends BaseEntity {
         this.address = address;
     }
 
-    public Map<LocalDate, MenuList> getMenu_lists() {
-        return menu_lists;
+    public Map<LocalDate, MenuList> getMenuLists() {
+        return menuLists;
     }
 
-    public void setMenu_lists(Map<LocalDate, MenuList> menus) {
-        this.menu_lists = menus;
+    public void setMenuLists(Map<LocalDate, MenuList> menus) {
+        this.menuLists = menus;
     }
 
     public void updateMenu(LocalDate date, MenuList menu) {
-        this.menu_lists.put(date, menu);
+        this.menuLists.put(date, menu);
     }
 
     public void getMenu(LocalDate date) {
-        this.menu_lists.get(date);
+        this.menuLists.get(date);
     }
 
     @Override
