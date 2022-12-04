@@ -55,7 +55,7 @@ public class User extends BaseEntity {
 
     /*orders has made by the user */
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "user_votes",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
@@ -64,7 +64,6 @@ public class User extends BaseEntity {
 
 
     public User() {
-        this.votes = new HashMap<>();
     }
 
     public User(String name, String email, String password, Role role, Role... roles) {
@@ -72,7 +71,6 @@ public class User extends BaseEntity {
         this.email = email;
         this.password = password;
         this.roles = EnumSet.of(role, roles);
-        this.votes = new HashMap<>();
     }
 
     public String getName() {
