@@ -12,14 +12,12 @@ import ru.agorbunov.restaurant.RestaurantTestData;
 import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
-import ru.agorbunov.restaurant.repository.VoteRepository;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 import static ru.agorbunov.restaurant.UserTestData.*;
 
@@ -37,21 +35,17 @@ public class UserServiceTest {
 
 
     @Autowired
-    private UserService service;
+    private UserService userService;
 
     @Autowired
     private RestaurantService restaurantService;
 
-    @Autowired
-    private VoteRepository voteRepository;
-
-
     @Test
     public void save() throws Exception {
-        service.update(USER_CREATED);
+        userService.update(USER_CREATED);
         MATCHER.assertCollectionEquals(
-                Arrays.asList(USER_01, USER_02, USER_03, USER_04, USER_05, USER_06, USER_CREATED),
-                service.getAll());
+                Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, USER_CREATED),
+                userService.getAll());
     }
 
     @Test
@@ -60,74 +54,79 @@ public class UserServiceTest {
         LocalDateTime now = LocalDateTime.now();
         Restaurant restaurant = restaurantService.get(RestaurantTestData.RESTAURANT_01_ID);
         Vote vote = new Vote(now, restaurant);
-        voteRepository.save(vote);
         USER_CREATED.getVotes().put(now, vote);
-        service.update(USER_CREATED);
+        userService.update(USER_CREATED);
         MATCHER.assertCollectionEquals(
-                Arrays.asList(USER_01, USER_02, USER_03, USER_04, USER_05, USER_06, USER_CREATED),
-                service.getAll());
+                Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, USER_CREATED),
+                userService.getAll());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void saveNull() throws Exception {
-        service.update(null);
+        userService.update(null);
     }
 
     @Test
     public void delete() throws Exception {
-        service.delete(USER_01_ID);
-        MATCHER.assertCollectionEquals(Arrays.asList( USER_02, USER_03, USER_04, USER_05, USER_06), service.getAll());
+        userService.delete(USER_00_ID);
+        MATCHER.assertCollectionEquals(Arrays.asList(USER_01, USER_02, USER_03, USER_04, USER_05), userService.getAll());
+    }
+
+    @Test
+    public void deleteWithVotes() throws Exception {
+        userService.delete(USER_02_ID);
+        MATCHER.assertCollectionEquals(Arrays.asList(USER_00, USER_01, USER_03, USER_04, USER_05), userService.getAll());
     }
 
     @Test(expected = NotFoundException.class)
     public void deleteNotFound() throws Exception {
-        service.delete(10);
+        userService.delete(10);
     }
 
     @Test
     public void getAll() throws Exception {
-        MATCHER.assertCollectionEquals(Arrays.asList(USER_01, USER_02, USER_03, USER_04, USER_05, USER_06), service.getAll());
+        MATCHER.assertCollectionEquals(Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05), userService.getAll());
 
     }
 
     @Test
     public void get() throws Exception {
-        User user = service.get(USER_01_ID);
-        MATCHER.assertEquals(USER_01, user);
-        Assert.assertEquals(Collections.singletonList(USER_01.getRoles()),
+        User user = userService.get(USER_00_ID);
+        MATCHER.assertEquals(USER_00, user);
+        Assert.assertEquals(Collections.singletonList(USER_00.getRoles()),
                             Collections.singletonList(user.getRoles()));
     }
 
     @Test
     public void getByEmail() throws Exception {
-        User user = service.getByEmail("jbj@gmail.com");
-        MATCHER.assertEquals(USER_05, user);
+        User user = userService.getByEmail("jbj@gmail.com");
+        MATCHER.assertEquals(USER_04, user);
     }
 
     @Test(expected = NotFoundException.class)
     public void getNotFound() throws Exception {
-        service.get(10);
+        userService.get(10);
     }
 
     @Test
     public void update() throws Exception{
-        User user = service.get(USER_01_ID);
+        User user = userService.get(USER_00_ID);
         user.setEmail("newmail@mail.ru");
         user.setName("обновленное имя");
-        service.update(user);
-        MATCHER.assertEquals(user,service.get(USER_01_ID));
+        userService.update(user);
+        MATCHER.assertEquals(user, userService.get(USER_00_ID));
     }
 
 
     @Test(expected = IllegalArgumentException.class)
     public void updateNull() throws Exception {
-        service.update(null);
+        userService.update(null);
     }
 
     @Test
     public void getWith() throws Exception{
-        User user = service.getWithVotes(USER_02_ID);
-        Assert.assertEquals(user.getVotes().size(), 1);
+        User user = userService.getWithVotes(USER_02_ID);
+        Assert.assertEquals(1, user.getVotes().size());
     }
 
 
