@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Class represents menu list
@@ -14,7 +15,7 @@ public class MenuList extends BaseEntity {
 
     /*List of dishes that were include in menuList*/
     @OneToMany(mappedBy = "menuList")
-    private List<Dish> dishList;
+    private Set<DishDescription> dishList;
 
     /*Date and Time when menuList was made*/
     @Column(name = "date", nullable = false)
@@ -29,11 +30,11 @@ public class MenuList extends BaseEntity {
     }
 
 
-    public List<Dish> getDishList() {
+    public Set<DishDescription> getDishList() {
         return dishList;
     }
 
-    public void setDishList(List<Dish> dishList) {
+    public void setDishList(Set<DishDescription> dishList) {
         this.dishList = dishList;
     }
 

@@ -17,22 +17,13 @@ public class Dish extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    /*price of dish*/
-    @Column(name = "price", nullable = false)
-    private Double price;
-
-    @ManyToOne(targetEntity = MenuList.class)
-    @JoinColumn(name = "menu_list_id", referencedColumnName = "id")
-    private MenuList menuList;
-
     public Dish() {
     }
 
     /** Constructor
      */
-    public Dish(String name, Double price) {
+    public Dish(String name) {
         this.name = name;
-        this.price = price;
     }
 
     public String getName() {
@@ -43,27 +34,10 @@ public class Dish extends BaseEntity {
         this.name = name;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public MenuList getMenuList() {
-        return menuList;
-    }
-
-    public void setMenuList(MenuList menuList) {
-        this.menuList = menuList;
-    }
-
     @Override
     public String toString() {
         return "Dish{" +
-                "price=" + price +
-                ", description='" + name + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }
