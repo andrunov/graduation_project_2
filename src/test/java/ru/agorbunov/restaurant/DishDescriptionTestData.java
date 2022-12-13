@@ -1,7 +1,6 @@
 package ru.agorbunov.restaurant;
 
 import ru.agorbunov.restaurant.matcher.ModelMatcher;
-import ru.agorbunov.restaurant.model.Dish;
 import ru.agorbunov.restaurant.model.DishDescription;
 
 public class DishDescriptionTestData {

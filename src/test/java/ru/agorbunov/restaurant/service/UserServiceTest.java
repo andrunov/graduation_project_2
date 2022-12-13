@@ -59,6 +59,8 @@ public class UserServiceTest {
         MATCHER.assertCollectionEquals(
                 Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, USER_CREATED),
                 userService.getAll());
+        User updated = userService.getWithVotes(USER_CREATED_ID);
+        Assert.assertEquals(updated.getVotes().size(), 1);
     }
 
     @Test(expected = IllegalArgumentException.class)

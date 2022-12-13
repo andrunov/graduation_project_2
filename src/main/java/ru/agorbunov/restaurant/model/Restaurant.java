@@ -76,8 +76,8 @@ public class Restaurant extends BaseEntity {
         this.menuLists.put(date, menu);
     }
 
-    public void getMenu(LocalDate date) {
-        this.menuLists.get(date);
+    public MenuList getMenu(LocalDate date) {
+       return this.menuLists.get(date);
     }
 
     @Override

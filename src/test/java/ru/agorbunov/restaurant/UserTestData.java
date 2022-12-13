@@ -28,18 +28,8 @@ public class UserTestData {
     public static final int USER_02_ID = 100002;
     public static final int USER_04_ID = 100004;
     public static final int ORDER_02_ID = 100011;
+    public static final int USER_CREATED_ID = 100066;
 
-    /*
-    static {
-        USER_01.setOrders(Collections.singletonList(ORDER_01));
-        USER_02.setOrders(Collections.singletonList(ORDER_02));
-        USER_03.setOrders(Collections.singletonList(ORDER_03));
-        USER_04.setOrders(Collections.singletonList(ORDER_04));
-        USER_05.setOrders(Collections.singletonList(ORDER_05));
-        USER_06.setOrders(Arrays.asList(ORDER_06,ORDER_07,ORDER_08));
-        USER_CREATED.setOrders(Collections.singletonList(ORDER_01));
-    }
 
-     */
 
 }
