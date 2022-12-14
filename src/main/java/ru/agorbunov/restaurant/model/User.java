@@ -55,12 +55,8 @@ public class User extends BaseEntity {
 
     /*orders has made by the user */
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_votes",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
-    @MapKey(name = "dateTime")
-    private Map<LocalDateTime, Vote> votes;
+    @OneToMany(mappedBy = "user")
+    private Set<Vote> votes;
 
 
     public User() {
@@ -105,11 +101,11 @@ public class User extends BaseEntity {
         this.roles = roles;
     }
 
-    public Map<LocalDateTime, Vote> getVotes() {
+    public Set<Vote> getVotes() {
         return votes;
     }
 
-    public void setVotes(Map<LocalDateTime, Vote> votes) {
+    public void setVotes(Set<Vote> votes) {
         this.votes = votes;
     }
 

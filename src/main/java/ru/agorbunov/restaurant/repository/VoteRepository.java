@@ -2,6 +2,7 @@ package ru.agorbunov.restaurant.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
@@ -17,7 +18,8 @@ public class VoteRepository {
     private EntityManager em;
 
     @Transactional
-    public Vote save(Vote vote) {
+    public Vote save(Vote vote, int userID) {
+        vote.setUser(em.getReference(User.class, userID));
         return em.merge(vote);
     }
 
@@ -40,7 +42,7 @@ public class VoteRepository {
 
     public List<Vote> getByUser(int userId) {
         return em.createNamedQuery(Vote.BY_USER, Vote.class)
-                .setParameter("id", userId)
+                .setParameter("user_id", userId)
                 .getResultList();
     }
 

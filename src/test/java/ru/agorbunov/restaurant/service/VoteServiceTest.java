@@ -30,7 +30,7 @@ public class VoteServiceTest {
     @Test
     public void delete() throws Exception {
         User user = userService.getWithVotes(UserTestData.USER_02_ID);
-        for (Vote vote : user.getVotes().values()) {
+        for (Vote vote : user.getVotes()) {
             voteService.delete(vote.getId());
         }
         User userUpdated = userService.getWithVotes(UserTestData.USER_02_ID);

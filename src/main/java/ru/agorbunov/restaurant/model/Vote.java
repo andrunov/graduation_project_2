@@ -4,14 +4,19 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
-@NamedNativeQueries({
-        @NamedNativeQuery(name = Vote.BY_USER, query = "SELECT * FROM votes v LEFT JOIN user_votes uv on v.restaurant_id = uv.restaurant_id where uv.user_id=:id", resultClass = Vote.class)
+
+@NamedQueries({
+        @NamedQuery(name = Vote.BY_USER, query = "select v from Vote v where v.user.id=:user_id")
 })
 @Entity
 @Table(name = "votes")
 public class Vote extends BaseEntity {
 
     public static final String BY_USER = "Vote.getByUser";
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
@@ -26,6 +31,14 @@ public class Vote extends BaseEntity {
     public Vote(LocalDateTime dateTime, Restaurant restaurant) {
         this.dateTime = dateTime;
         this.restaurant = restaurant;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getDateTime() {

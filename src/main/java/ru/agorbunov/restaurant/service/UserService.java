@@ -9,9 +9,7 @@ import ru.agorbunov.restaurant.repository.UserRepository;
 import ru.agorbunov.restaurant.repository.VoteRepository;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFound;
 import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFoundWithId;
@@ -43,11 +41,8 @@ public class UserService {
 
     public User getWithVotes(int id) {
         User user = this.get(id);
-        Map<LocalDateTime, Vote> userVotes = new HashMap<>();
         List<Vote> votes = voteRepository.getByUser(id);
-        for (Vote v : votes) {
-            userVotes.put(v.getDateTime(), v);
-        }
+        Set<Vote> userVotes = new HashSet<>(votes);
         user.setVotes(userVotes);
         return user;
     }

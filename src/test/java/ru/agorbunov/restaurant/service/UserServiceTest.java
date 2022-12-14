@@ -17,7 +17,7 @@ import ru.agorbunov.restaurant.util.exception.NotFoundException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
 
 import static ru.agorbunov.restaurant.UserTestData.*;
 
@@ -38,6 +38,9 @@ public class UserServiceTest {
     private UserService userService;
 
     @Autowired
+    private VoteService voteService;
+
+    @Autowired
     private RestaurantService restaurantService;
 
     @Test
@@ -50,17 +53,20 @@ public class UserServiceTest {
 
     @Test
     public void saveWith() throws Exception {
-        USER_CREATED.setVotes(new HashMap<>());
+        USER_CREATED.setVotes(new HashSet<>());
         LocalDateTime now = LocalDateTime.now();
         Restaurant restaurant = restaurantService.get(RestaurantTestData.RESTAURANT_01_ID);
         Vote vote = new Vote(now, restaurant);
-        USER_CREATED.getVotes().put(now, vote);
+        USER_CREATED.getVotes().add(vote);
         userService.update(USER_CREATED);
+        for (Vote vote1: USER_CREATED.getVotes()) {
+            voteService.update(vote1, USER_CREATED);
+        }
         MATCHER.assertCollectionEquals(
                 Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, USER_CREATED),
                 userService.getAll());
         User updated = userService.getWithVotes(USER_CREATED_ID);
-        Assert.assertEquals(updated.getVotes().size(), 1);
+        Assert.assertEquals(1, updated.getVotes().size());
     }
 
     @Test(expected = IllegalArgumentException.class)

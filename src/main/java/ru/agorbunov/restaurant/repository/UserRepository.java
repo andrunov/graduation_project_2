@@ -22,11 +22,8 @@ public class UserRepository {
     @Transactional
     public User save(User user) {
         if (user.isNew()) {
-            if (user.getVotes() != null) {
-                Map<LocalDateTime, Vote> temp = user.getVotes();
-                user.setVotes(null);
-                em.persist(user);
-            }
+           em.persist(user);
+           return user;
         }
         return em.merge(user);
     }

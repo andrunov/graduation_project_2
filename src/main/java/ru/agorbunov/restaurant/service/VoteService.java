@@ -2,6 +2,7 @@ package ru.agorbunov.restaurant.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.repository.VoteRepository;
 
@@ -26,8 +27,9 @@ public class VoteService {
     }
 
 
-    public void update(Vote vote) {
+    public void update(Vote vote, User user) {
+        Assert.isTrue(!user.isNew(), "user must not be new");
         Assert.notNull(vote, "vote must not be null");
-        repository.save(vote);
+        repository.save(vote, user.getId());
     }
 }
