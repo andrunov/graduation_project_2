@@ -29,6 +29,7 @@ public class DishTestData {
     public static final int DISH_04_ID = 100021;
     public static final int DISH_05_ID = 100022;
     public static final int DISH_DESCR_04_ID = 100041;
+    public static final int DISH_DESCR_05_ID = 100045;
 
 
 

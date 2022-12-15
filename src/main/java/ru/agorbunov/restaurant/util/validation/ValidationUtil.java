@@ -1,6 +1,5 @@
 package ru.agorbunov.restaurant.util.validation;
 
-import ru.agorbunov.restaurant.model.BaseEntity;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 public class ValidationUtil {

@@ -3,6 +3,7 @@ package ru.agorbunov.restaurant.repository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.model.DishDescription;
+import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import javax.persistence.EntityManager;
@@ -17,7 +18,8 @@ public class DishDescriptionRepository {
     private EntityManager em;
 
     @Transactional
-    public DishDescription save(DishDescription dishDescription) {
+    public DishDescription save(DishDescription dishDescription, int menuListId) {
+        dishDescription.setMenuList(em.getReference(MenuList.class, menuListId));
         if (dishDescription.isNew()) {
             em.persist(dishDescription);
             return dishDescription;
