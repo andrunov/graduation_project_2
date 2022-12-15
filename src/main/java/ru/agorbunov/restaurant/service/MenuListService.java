@@ -20,9 +20,9 @@ public class MenuListService {
         this.repository = repository;
     }
 
-    public MenuList create(MenuList menuList) {
+    public MenuList create(MenuList menuList, int restaurantId) {
         Assert.notNull(menuList, "menuList must not be null");
-        return repository.save(menuList);
+        return repository.save(menuList, restaurantId);
     }
 
     public void delete(int id) {
@@ -37,8 +37,8 @@ public class MenuListService {
         return repository.getByRestaurant(restaurant_id);
     }
 
-    public void update(MenuList menuList) {
+    public void update(MenuList menuList, int restaurantId) {
         Assert.notNull(menuList, "menuList must not be null");
-        repository.save(menuList);
+        repository.save(menuList, restaurantId);
     }
 }

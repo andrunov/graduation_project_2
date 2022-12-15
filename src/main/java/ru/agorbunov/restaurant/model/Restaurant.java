@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Class represents restaurant
@@ -33,12 +33,8 @@ public class Restaurant extends BaseEntity {
     private String address;
 
     /*menuLists of restaurant*/
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "restaurant_menu",
-            joinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "menu_list_id", referencedColumnName = "id")})
-    @MapKey(name = "date")
-    private Map<LocalDate, MenuList> menuLists;
+    @OneToMany(mappedBy = "restaurant")
+    private Set<MenuList> menuLists;
 
     public Restaurant() {
     }
@@ -64,21 +60,18 @@ public class Restaurant extends BaseEntity {
         this.address = address;
     }
 
-    public Map<LocalDate, MenuList> getMenuLists() {
+    public Set<MenuList> getMenuLists() {
         return menuLists;
     }
 
-    public void setMenuLists(Map<LocalDate, MenuList> menus) {
+    public void setMenuLists(Set<MenuList> menus) {
         this.menuLists = menus;
     }
 
-    public void updateMenu(LocalDate date, MenuList menu) {
-        this.menuLists.put(date, menu);
+    public void updateMenu(MenuList menu) {
+        this.menuLists.add(menu);
     }
 
-    public MenuList getMenu(LocalDate date) {
-       return this.menuLists.get(date);
-    }
 
     @Override
     public String toString() {

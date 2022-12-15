@@ -8,10 +8,9 @@ import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.repository.MenuListRepository;
 import ru.agorbunov.restaurant.repository.RestaurantRepository;
 
-import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFoundWithId;
 
@@ -46,11 +45,8 @@ public class RestaurantService {
 
     public Restaurant getWithMenuLists(int id) {
         Restaurant restaurant = this.get(id);
-        Map<LocalDate, MenuList> menuListsMap = new HashMap<>();
         List<MenuList> votes = menuListRepository.getByRestaurant(id);
-        for (MenuList menuList : votes) {
-            menuListsMap.put(menuList.getDate(), menuList);
-        }
+        Set<MenuList> menuListsMap = new HashSet<>(votes);
         restaurant.setMenuLists(menuListsMap);
         return restaurant;
     }

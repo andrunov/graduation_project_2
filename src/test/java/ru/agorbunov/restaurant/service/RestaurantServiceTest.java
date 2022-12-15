@@ -17,7 +17,6 @@ import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,9 +45,10 @@ public class RestaurantServiceTest {
 
     @Test
     public void save() throws Exception {
-        restaurantService.update(RESTAURANT_CREATED);
+        Restaurant newRestaurant = new Restaurant("Созданный ресторант","ул. Новая, 1");
+        restaurantService.update(newRestaurant);
         MATCHER.assertCollectionEquals(
-                Arrays.asList(RESTAURANT_01, RESTAURANT_02, RESTAURANT_03, RESTAURANT_04,  RESTAURANT_CREATED),
+                Arrays.asList(RESTAURANT_01, RESTAURANT_02, RESTAURANT_03, RESTAURANT_04,  newRestaurant),
                 restaurantService.getAll());
     }
 
@@ -65,14 +65,17 @@ public class RestaurantServiceTest {
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_04);
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_05);
         menuList.setDishList(dishList);
-        RESTAURANT_CREATED.setMenuLists(new HashMap<>());
-        RESTAURANT_CREATED.getMenuLists().put(now, menuList);
-        restaurantService.update(RESTAURANT_CREATED);
+        Restaurant newRestaurant = new Restaurant("Созданный ресторант","ул. Новая, 1");
+        menuList.setRestaurant(newRestaurant);
+        newRestaurant.setMenuLists(new HashSet<>());
+        newRestaurant.getMenuLists().add(menuList);
+        restaurantService.update(newRestaurant);
+        menuListService.update(menuList, newRestaurant.getId());
         MATCHER.assertCollectionEquals(
-                Arrays.asList(RESTAURANT_01, RESTAURANT_02, RESTAURANT_03, RESTAURANT_04,  RESTAURANT_CREATED),
+                Arrays.asList(RESTAURANT_01, RESTAURANT_02, RESTAURANT_03, RESTAURANT_04,  newRestaurant),
                 restaurantService.getAll());
-        Restaurant updated = restaurantService.getWithMenuLists(RESTAURANT_CREATED_ID);
-        Assert.assertEquals(updated.getMenu(now).getDishList().size(), 4);
+        Restaurant updated = restaurantService.getWithMenuLists(newRestaurant.getId());
+        Assert.assertEquals(1, updated.getMenuLists().size());
 
     }
 
