@@ -21,9 +21,9 @@ public class UserTestData {
 
 
     public static final int USER_00_ID = 100000;
+    public static final int USER_01_ID = 100001;
     public static final int USER_02_ID = 100002;
     public static final int USER_04_ID = 100004;
-    public static final int ORDER_02_ID = 100011;
 
 
 

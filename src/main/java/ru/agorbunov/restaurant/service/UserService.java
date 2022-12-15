@@ -3,6 +3,7 @@ package ru.agorbunov.restaurant.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.repository.UserRepository;
@@ -54,4 +55,5 @@ public class UserService {
         Assert.notNull(user, "user must not be null");
         repository.save(user);
     }
+
 }

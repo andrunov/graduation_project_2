@@ -11,18 +11,18 @@ import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
-public class DishDescrRepository {
+public class DishDescriptionRepository {
 
     @PersistenceContext
     private EntityManager em;
 
     @Transactional
-    public DishDescription save(DishDescription dishDescr) {
-        if (dishDescr.isNew()) {
-            em.persist(dishDescr);
-            return dishDescr;
+    public DishDescription save(DishDescription dishDescription) {
+        if (dishDescription.isNew()) {
+            em.persist(dishDescription);
+            return dishDescription;
         } else {
-            return em.merge(dishDescr);
+            return em.merge(dishDescription);
         }
     }
 

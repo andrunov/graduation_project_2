@@ -8,6 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.agorbunov.restaurant.DishDescriptionTestData;
 import ru.agorbunov.restaurant.model.DishDescription;
 
 import static ru.agorbunov.restaurant.DishTestData.*;
@@ -25,7 +26,7 @@ public class DishDescrServiceTest {
 
     @Test
     public void getByMenu() throws Exception {
-        Assert.assertEquals(5, dishDescrService.getByMenu(100014).size());
+        Assert.assertEquals(5, dishDescrService.getByMenu(DishDescriptionTestData.MENU_LIST_01_ID).size());
     }
 
     @Test

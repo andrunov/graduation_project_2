@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.agorbunov.restaurant.model.DishDescription;
-import ru.agorbunov.restaurant.repository.DishDescrRepository;
+import ru.agorbunov.restaurant.repository.DishDescriptionRepository;
 
 import java.util.List;
 
@@ -13,10 +13,10 @@ import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFou
 @Service("dishDescrService")
 public class DishDescrService {
 
-    private final DishDescrRepository repository;
+    private final DishDescriptionRepository repository;
 
     @Autowired
-    public DishDescrService(DishDescrRepository repository) {
+    public DishDescrService(DishDescriptionRepository repository) {
         this.repository = repository;
     }
 

@@ -7,8 +7,8 @@ public class DishDescriptionTestData {
 
     public static final ModelMatcher<DishDescription> MATCHER = new ModelMatcher<>();
 
-    public static final int MENU_LIST_01_ID = 100014;
-    public static final int MENU_LIST_02_ID = 100015;
+    public static final int MENU_LIST_01_ID = 100010;
+    public static final int MENU_LIST_02_ID = 100011;
 
     public static final DishDescription DISH_DESCRPT_01 = new DishDescription(null, DishTestData.DISH_01,1.25);
     public static final DishDescription DISH_DESCRPT_02 = new DishDescription(null, DishTestData.DISH_02,3.45);
