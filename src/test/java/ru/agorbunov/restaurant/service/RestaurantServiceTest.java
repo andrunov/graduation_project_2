@@ -16,9 +16,7 @@ import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static ru.agorbunov.restaurant.RestaurantTestData.*;
 
@@ -58,7 +56,7 @@ public class RestaurantServiceTest {
         LocalDate now = LocalDate.now();
         MenuList menuList = new MenuList();
         menuList.setDate(now);
-        Set<DishDescription> dishList = new HashSet<>();
+        List<DishDescription> dishList = new ArrayList<>();
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_01);
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_02);
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_03);
@@ -67,7 +65,7 @@ public class RestaurantServiceTest {
         menuList.setDishList(dishList);
         Restaurant newRestaurant = new Restaurant("Созданный ресторант","ул. Новая, 1");
         menuList.setRestaurant(newRestaurant);
-        newRestaurant.setMenuLists(new HashSet<>());
+        newRestaurant.setMenuLists(new ArrayList<>());
         newRestaurant.getMenuLists().add(menuList);
         restaurantService.update(newRestaurant);
         menuListService.update(menuList, newRestaurant.getId());

@@ -8,6 +8,7 @@ import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.repository.MenuListRepository;
 import ru.agorbunov.restaurant.repository.RestaurantRepository;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,8 +47,7 @@ public class RestaurantService {
     public Restaurant getWithMenuLists(int id) {
         Restaurant restaurant = this.get(id);
         List<MenuList> votes = menuListRepository.getByRestaurant(id);
-        Set<MenuList> menuListsMap = new HashSet<>(votes);
-        restaurant.setMenuLists(menuListsMap);
+        restaurant.setMenuLists(votes);
         return restaurant;
     }
 

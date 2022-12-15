@@ -4,10 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -56,7 +54,7 @@ public class User extends BaseEntity {
     /*orders has made by the user */
 
     @OneToMany(mappedBy = "user")
-    private Set<Vote> votes;
+    private List<Vote> votes;
 
 
     public User() {
@@ -101,11 +99,11 @@ public class User extends BaseEntity {
         this.roles = roles;
     }
 
-    public Set<Vote> getVotes() {
+    public List<Vote> getVotes() {
         return votes;
     }
 
-    public void setVotes(Set<Vote> votes) {
+    public void setVotes(List<Vote> votes) {
         this.votes = votes;
     }
 

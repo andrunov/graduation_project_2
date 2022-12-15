@@ -2,7 +2,7 @@ package ru.agorbunov.restaurant.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Class represents menu list
@@ -23,7 +23,7 @@ public class MenuList extends BaseEntity {
 
     /*List of dishes that were include in menuList*/
     @OneToMany(mappedBy = "menuList")
-    private Set<DishDescription> dishList;
+    private List<DishDescription> dishList;
 
     /*Date and Time when menuList was made*/
     @Column(name = "date", nullable = false)
@@ -41,11 +41,11 @@ public class MenuList extends BaseEntity {
         this.restaurant = restaurant;
     }
 
-    public Set<DishDescription> getDishList() {
+    public List<DishDescription> getDishList() {
         return dishList;
     }
 
-    public void setDishList(Set<DishDescription> dishList) {
+    public void setDishList(List<DishDescription> dishList) {
         this.dishList = dishList;
     }
 

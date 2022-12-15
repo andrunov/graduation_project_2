@@ -42,8 +42,7 @@ public class UserService {
     public User getWithVotes(int id) {
         User user = this.get(id);
         List<Vote> votes = voteRepository.getByUser(id);
-        Set<Vote> userVotes = new HashSet<>(votes);
-        user.setVotes(userVotes);
+        user.setVotes(votes);
         return user;
     }
 

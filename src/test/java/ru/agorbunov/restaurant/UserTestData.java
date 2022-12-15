@@ -19,16 +19,11 @@ public class UserTestData {
     public static final User USER_04 = new User("John Bon Jovi","jbj@gmail.com","555666", Role.REGULAR);
     public static final User USER_05 = new User("Didier Maoruani","dmauruani@gmail.com","666777", Role.REGULAR);
 
-    public static final User USER_CREATED = new User("Созданный пользователь",
-                                                        "created@yandex.ru",
-                                                        "12340Gsdf",
-                                                         Role.REGULAR);
 
     public static final int USER_00_ID = 100000;
     public static final int USER_02_ID = 100002;
     public static final int USER_04_ID = 100004;
     public static final int ORDER_02_ID = 100011;
-    public static final int USER_CREATED_ID = 100062;
 
 
 

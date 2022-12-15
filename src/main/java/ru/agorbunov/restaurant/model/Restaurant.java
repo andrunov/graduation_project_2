@@ -3,8 +3,7 @@ package ru.agorbunov.restaurant.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Class represents restaurant
@@ -34,7 +33,7 @@ public class Restaurant extends BaseEntity {
 
     /*menuLists of restaurant*/
     @OneToMany(mappedBy = "restaurant")
-    private Set<MenuList> menuLists;
+    private List<MenuList> menuLists;
 
     public Restaurant() {
     }
@@ -60,11 +59,11 @@ public class Restaurant extends BaseEntity {
         this.address = address;
     }
 
-    public Set<MenuList> getMenuLists() {
+    public List<MenuList> getMenuLists() {
         return menuLists;
     }
 
-    public void setMenuLists(Set<MenuList> menus) {
+    public void setMenuLists(List<MenuList> menus) {
         this.menuLists = menus;
     }
 

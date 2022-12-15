@@ -10,14 +10,15 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.agorbunov.restaurant.RestaurantTestData;
 import ru.agorbunov.restaurant.model.Restaurant;
+import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 
 import static ru.agorbunov.restaurant.UserTestData.*;
 
@@ -45,27 +46,35 @@ public class UserServiceTest {
 
     @Test
     public void save() throws Exception {
-        userService.update(USER_CREATED);
+        User newUser = new User("Созданный пользователь",
+                            "created@yandex.ru",
+                            "12340Gsdf",
+                            Role.REGULAR);
+        userService.update(newUser);
         MATCHER.assertCollectionEquals(
-                Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, USER_CREATED),
+                Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, newUser),
                 userService.getAll());
     }
 
     @Test
     public void saveWith() throws Exception {
-        USER_CREATED.setVotes(new HashSet<>());
+        User newUser = new User("Созданный пользователь",
+                            "created@yandex.ru",
+                            "12340Gsdf",
+                             Role.REGULAR);
+        newUser.setVotes(new ArrayList<>());
         LocalDateTime now = LocalDateTime.now();
         Restaurant restaurant = restaurantService.get(RestaurantTestData.RESTAURANT_01_ID);
         Vote vote = new Vote(now, restaurant);
-        USER_CREATED.getVotes().add(vote);
-        userService.update(USER_CREATED);
-        for (Vote vote1: USER_CREATED.getVotes()) {
-            voteService.update(vote1, USER_CREATED);
+        newUser.getVotes().add(vote);
+        userService.update(newUser);
+        for (Vote vote1: newUser.getVotes()) {
+            voteService.update(vote1, newUser);
         }
         MATCHER.assertCollectionEquals(
-                Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, USER_CREATED),
+                Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, newUser),
                 userService.getAll());
-        User updated = userService.getWithVotes(USER_CREATED_ID);
+        User updated = userService.getWithVotes(newUser.getId());
         Assert.assertEquals(1, updated.getVotes().size());
     }
 
