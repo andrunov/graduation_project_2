@@ -8,6 +8,8 @@ import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -43,6 +45,16 @@ public class VoteRepository {
     public List<Vote> getByUser(int id) {
         return em.createNamedQuery(Vote.BY_USER, Vote.class)
                 .setParameter("id", id)
+                .getResultList();
+    }
+
+    public List<Vote> getByRestaurantAndDate(int id, LocalDate date) {
+        LocalDateTime from = date.atStartOfDay();
+        LocalDateTime to = date.plusDays(1).atStartOfDay();
+        return em.createNamedQuery(Vote.BY_RESTAURANT_DATE, Vote.class)
+                .setParameter("id", id)
+                .setParameter("from", from)
+                .setParameter("to", to)
                 .getResultList();
     }
 

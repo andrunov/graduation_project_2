@@ -6,13 +6,15 @@ import java.time.LocalDateTime;
 
 
 @NamedQueries({
-        @NamedQuery(name = Vote.BY_USER, query = "select v from Vote v where v.user.id=:id")
+        @NamedQuery(name = Vote.BY_USER, query = "select v from Vote v where v.user.id=:id"),
+        @NamedQuery(name = Vote.BY_RESTAURANT_DATE, query = "select v from Vote v where v.restaurant.id = :id and v.dateTime >= :from and v.dateTime < :to")
 })
 @Entity
 @Table(name = "votes")
 public class Vote extends BaseEntity {
 
     public static final String BY_USER = "Vote.getByUser";
+    public static final String BY_RESTAURANT_DATE = "Vote.getByRestaurantAndDate";
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
