@@ -9,7 +9,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.agorbunov.restaurant.DishDescriptionTestData;
-import ru.agorbunov.restaurant.UserTestData;
 import ru.agorbunov.restaurant.model.DishDescription;
 import ru.agorbunov.restaurant.util.exception.NoRightsException;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
@@ -52,43 +51,31 @@ public class DishDescriptionServiceTest {
     public void update() throws Exception{
         DishDescription dishDescr = dishDescriptionService.get(DISH_DESCR_04_ID);
         dishDescr.setDish(DISH_05);
-        dishDescriptionService.update(dishDescr, DishDescriptionTestData.MENU_LIST_02_ID, UserTestData.USER_01_ID);
+        dishDescriptionService.update(dishDescr, DishDescriptionTestData.MENU_LIST_02_ID);
         DishDescription dishDescrUpdated = dishDescriptionService.get(DISH_DESCR_04_ID);
         MATCHER.assertEquals(DISH_05, dishDescrUpdated.getDish());
     }
 
-    @Test(expected = NoRightsException.class)
-    public void updateNoRights() throws Exception{
-        DishDescription dishDescr = dishDescriptionService.get(DISH_DESCR_04_ID);
-        dishDescr.setDish(DISH_05);
-        dishDescriptionService.update(dishDescr, DishDescriptionTestData.MENU_LIST_02_ID, UserTestData.USER_02_ID);
-    }
-
     @Test
     public void create() throws Exception{
-        dishDescriptionService.update(DishDescriptionTestData.DISH_DESCRPT_01, DishDescriptionTestData.MENU_LIST_02_ID, UserTestData.USER_01_ID);
+        dishDescriptionService.update(DishDescriptionTestData.DISH_DESCRPT_01, DishDescriptionTestData.MENU_LIST_02_ID);
         Assert.assertEquals(6, dishDescriptionService.getByMenu(DishDescriptionTestData.MENU_LIST_02_ID).size());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void saveNull() throws Exception {
-        dishDescriptionService.update(null, DishDescriptionTestData.MENU_LIST_02_ID, UserTestData.USER_01_ID);
+        dishDescriptionService.update(null, DishDescriptionTestData.MENU_LIST_02_ID);
     }
 
     @Test
     public void delete() throws Exception {
-        dishDescriptionService.delete(DISH_DESCR_05_ID, UserTestData.USER_01_ID);
+        dishDescriptionService.delete(DISH_DESCR_05_ID);
         Assert.assertEquals(4, dishDescriptionService.getByMenu(DishDescriptionTestData.MENU_LIST_02_ID).size());
     }
 
     @Test(expected = NotFoundException.class)
     public void deleteNotFound() throws Exception {
-        dishDescriptionService.delete(10, UserTestData.USER_01_ID);
-    }
-
-    @Test(expected = NoRightsException.class)
-    public void deleteNotRights() throws Exception {
-        dishDescriptionService.delete(10, UserTestData.USER_00_ID);
+        dishDescriptionService.delete(10);
     }
 
 

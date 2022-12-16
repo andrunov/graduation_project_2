@@ -52,7 +52,7 @@ public class MenuListServiceTest {
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_05);
         menuList.setDishList(dishList);
         menuListService.update(menuList, RestaurantTestData.RESTAURANT_01_ID, UserTestData.USER_01_ID);
-        dishDescriptionService.updateList(menuList.getDishList(), menuList.getId(), UserTestData.USER_01_ID);
+        dishDescriptionService.updateList(menuList.getDishList(), menuList.getId());
         MenuList updated = menuListService.get(menuList.getId());
         Assert.assertEquals(RestaurantTestData.RESTAURANT_01.getAddress(), updated.getRestaurant().getAddress());
         List<DishDescription> updatedDDList = dishDescriptionService.getByMenu(menuList.getId());
