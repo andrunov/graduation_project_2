@@ -4,7 +4,6 @@ import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.model.User;
-import ru.agorbunov.restaurant.util.exception.NoRightsException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -50,10 +49,5 @@ public class UserRepository {
                 .getResultList();
     }
 
-    public void checkIsAdmin(int userId) {
-        User user = this.get(userId);
-        if (!user.isAdmin()) {
-            throw new NoRightsException("User " + user.getName() + " does not have rights for this operation");
-        }
-    }
+
 }
