@@ -13,34 +13,34 @@ import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFou
 @Service("DishDescriptionService")
 public class DishDescriptionService {
 
-    private final DishDescriptionRepository dishDescriptionRepository;
+    private final DishDescriptionRepository repository;
 
 
     @Autowired
-    public DishDescriptionService(DishDescriptionRepository dishDescriptionRepository) {
-        this.dishDescriptionRepository = dishDescriptionRepository;
+    public DishDescriptionService(DishDescriptionRepository repository) {
+        this.repository = repository;
     }
 
 
     public void delete(int id) {
-        checkNotFoundWithId(dishDescriptionRepository.delete(id), id);
+        checkNotFoundWithId(repository.delete(id), id);
     }
 
     public DishDescription get(int id) {
-        return checkNotFoundWithId(dishDescriptionRepository.get(id), id);
+        return checkNotFoundWithId(repository.get(id), id);
     }
 
     public List<DishDescription> getByMenu(int id) {
-        return dishDescriptionRepository.getByMenu(id);
+        return repository.getByMenu(id);
     }
 
     public void update(DishDescription dishDescription, int menuListId) {
         Assert.notNull(dishDescription, "dishDescription must not be null");
-        dishDescriptionRepository.save(dishDescription, menuListId);
+        repository.save(dishDescription, menuListId);
     }
 
     public void updateList(List<DishDescription> dishDescriptionList, int menuListId) {
         Assert.notNull(dishDescriptionList, "dishDescriptionList must not be null");
-        dishDescriptionRepository.saveList(dishDescriptionList, menuListId);
+        repository.saveList(dishDescriptionList, menuListId);
     }
 }
