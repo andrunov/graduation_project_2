@@ -43,4 +43,10 @@ public class DishDescriptionService {
         Assert.notNull(dishDescription, "dishDescription must not be null");
         dishDescriptionRepository.save(dishDescription, menuListId);
     }
+
+    public void updateList(List<DishDescription> dishDescriptionList, int menuListId, int userId) {
+        userRepository.checkIsAdmin(userId);
+        Assert.notNull(dishDescriptionList, "dishDescriptionList must not be null");
+        dishDescriptionRepository.saveList(dishDescriptionList, menuListId);
+    }
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.repository.MenuListRepository;
+import ru.agorbunov.restaurant.repository.UserRepository;
 
 import java.util.List;
 
@@ -13,32 +14,32 @@ import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFou
 @Service("menuListService")
 public class MenuListService {
 
-    private final MenuListRepository repository;
+    private final MenuListRepository menuListRepository;
+
+    private final UserRepository userRepository;
 
     @Autowired
-    public MenuListService(MenuListRepository repository) {
-        this.repository = repository;
+    public MenuListService(MenuListRepository menuListRepository, UserRepository userRepository) {
+        this.menuListRepository = menuListRepository;
+        this.userRepository = userRepository;
     }
 
-    public MenuList create(MenuList menuList, int restaurantId) {
-        Assert.notNull(menuList, "menuList must not be null");
-        return repository.save(menuList, restaurantId);
-    }
-
-    public void delete(int id) {
-        checkNotFoundWithId(repository.delete(id), id);
+     public void delete(int id, int userId) {
+        userRepository.checkIsAdmin(userId);
+        checkNotFoundWithId(menuListRepository.delete(id), id);
     }
 
     public MenuList get(int id) {
-        return checkNotFoundWithId(repository.get(id), id);
+        return checkNotFoundWithId(menuListRepository.get(id), id);
     }
 
     public List<MenuList> getByRestaurant(int id) {
-        return repository.getByRestaurant(id);
+        return menuListRepository.getByRestaurant(id);
     }
 
-    public void update(MenuList menuList, int restaurantId) {
+    public void update(MenuList menuList, int restaurantId, int userId) {
+        userRepository.checkIsAdmin(userId);
         Assert.notNull(menuList, "menuList must not be null");
-        repository.save(menuList, restaurantId);
+        menuListRepository.save(menuList, restaurantId);
     }
 }

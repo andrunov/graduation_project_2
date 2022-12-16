@@ -28,6 +28,19 @@ public class DishDescriptionRepository {
         }
     }
 
+    @Transactional
+    public List<DishDescription> saveList(List<DishDescription> dishDescriptionList, int menuListId) {
+        for (DishDescription dishDescription : dishDescriptionList) {
+            dishDescription.setMenuList(em.getReference(MenuList.class, menuListId));
+            if (dishDescription.isNew()) {
+                em.persist(dishDescription);
+            } else {
+                dishDescription = em.merge(dishDescription);
+            }
+        }
+        return dishDescriptionList;
+    }
+
     public DishDescription get(int id) {
         return em.find(DishDescription.class, id);
     }
