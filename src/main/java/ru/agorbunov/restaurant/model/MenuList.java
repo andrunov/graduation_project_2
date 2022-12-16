@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 @NamedQueries({
-        @NamedQuery(name = MenuList.BY_RESTAURANT, query = "select ml from MenuList ml where ml.restaurant.id=:restaurant_id")
+        @NamedQuery(name = MenuList.BY_RESTAURANT, query = "select ml from MenuList ml where ml.restaurant.id=:id")
 })
 @Entity
 @Table(name = "menu_lists")

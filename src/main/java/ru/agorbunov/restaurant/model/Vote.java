@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 
 @NamedQueries({
-        @NamedQuery(name = Vote.BY_USER, query = "select v from Vote v where v.user.id=:user_id")
+        @NamedQuery(name = Vote.BY_USER, query = "select v from Vote v where v.user.id=:id")
 })
 @Entity
 @Table(name = "votes")

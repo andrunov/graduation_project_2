@@ -34,8 +34,8 @@ public class DishDescriptionService {
         return checkNotFoundWithId(dishDescriptionRepository.get(id), id);
     }
 
-    public List<DishDescription> getByMenu(int menu_list_id) {
-        return dishDescriptionRepository.getByMenu(menu_list_id);
+    public List<DishDescription> getByMenu(int id) {
+        return dishDescriptionRepository.getByMenu(id);
     }
 
     public void update(DishDescription dishDescription, int menuListId, int userId) {

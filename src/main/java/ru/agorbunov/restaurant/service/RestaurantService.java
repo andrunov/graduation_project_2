@@ -8,10 +8,7 @@ import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.repository.MenuListRepository;
 import ru.agorbunov.restaurant.repository.RestaurantRepository;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFoundWithId;
 

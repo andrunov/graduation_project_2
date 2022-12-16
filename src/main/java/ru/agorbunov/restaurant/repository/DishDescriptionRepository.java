@@ -45,9 +45,9 @@ public class DishDescriptionRepository {
     }
 
 
-    public List<DishDescription> getByMenu(int menu_list_id) {
+    public List<DishDescription> getByMenu(int id) {
         return em.createNamedQuery(DishDescription.BY_MENU_LIST, DishDescription.class)
-                .setParameter("id", menu_list_id)
+                .setParameter("id", id)
                 .getResultList();
     }
 }

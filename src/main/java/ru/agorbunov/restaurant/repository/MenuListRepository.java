@@ -45,9 +45,9 @@ public class MenuListRepository {
     }
 
 
-    public List<MenuList> getByRestaurant(int restaurant_id) {
+    public List<MenuList> getByRestaurant(int id) {
         return em.createNamedQuery(MenuList.BY_RESTAURANT, MenuList.class)
-                .setParameter("restaurant_id", restaurant_id)
+                .setParameter("id", id)
                 .getResultList();
     }
 }

@@ -33,8 +33,8 @@ public class MenuListService {
         return checkNotFoundWithId(repository.get(id), id);
     }
 
-    public List<MenuList> getByRestaurant(int restaurant_id) {
-        return repository.getByRestaurant(restaurant_id);
+    public List<MenuList> getByRestaurant(int id) {
+        return repository.getByRestaurant(id);
     }
 
     public void update(MenuList menuList, int restaurantId) {

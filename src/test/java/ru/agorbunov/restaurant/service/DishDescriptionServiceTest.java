@@ -14,6 +14,8 @@ import ru.agorbunov.restaurant.model.DishDescription;
 import ru.agorbunov.restaurant.util.exception.NoRightsException;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
+import java.util.List;
+
 import static ru.agorbunov.restaurant.DishTestData.*;
 
 @ContextConfiguration({
@@ -30,6 +32,14 @@ public class DishDescriptionServiceTest {
     @Test
     public void getByMenu() throws Exception {
         Assert.assertEquals(5, dishDescriptionService.getByMenu(DishDescriptionTestData.MENU_LIST_01_ID).size());
+    }
+
+    @Test
+    public void getByMenuWithDish() throws Exception {
+        List<DishDescription> list = dishDescriptionService.getByMenu(DishDescriptionTestData.MENU_LIST_01_ID);
+        for (DishDescription dd : list) {
+            Assert.assertNotNull(dd.getDish());
+        }
     }
 
     @Test
