@@ -10,7 +10,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.agorbunov.restaurant.DishDescriptionTestData;
-import ru.agorbunov.restaurant.UserTestData;
 import ru.agorbunov.restaurant.model.DishDescription;
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.model.Restaurant;
@@ -69,7 +68,7 @@ public class RestaurantServiceTest {
         newRestaurant.setMenuLists(new ArrayList<>());
         newRestaurant.getMenuLists().add(menuList);
         restaurantService.update(newRestaurant);
-        menuListService.update(menuList, newRestaurant.getId(), UserTestData.USER_01_ID);
+        menuListService.update(menuList, newRestaurant.getId());
         MATCHER.assertCollectionEquals(
                 Arrays.asList(RESTAURANT_01, RESTAURANT_02, RESTAURANT_03, RESTAURANT_04,  newRestaurant),
                 restaurantService.getAll());

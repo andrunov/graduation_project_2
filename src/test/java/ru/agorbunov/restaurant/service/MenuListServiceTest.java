@@ -10,10 +10,8 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.agorbunov.restaurant.DishDescriptionTestData;
 import ru.agorbunov.restaurant.RestaurantTestData;
-import ru.agorbunov.restaurant.UserTestData;
 import ru.agorbunov.restaurant.model.DishDescription;
 import ru.agorbunov.restaurant.model.MenuList;
-import ru.agorbunov.restaurant.util.exception.NoRightsException;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDate;
@@ -51,7 +49,7 @@ public class MenuListServiceTest {
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_04);
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_05);
         menuList.setDishList(dishList);
-        menuListService.update(menuList, RestaurantTestData.RESTAURANT_01_ID, UserTestData.USER_01_ID);
+        menuListService.update(menuList, RestaurantTestData.RESTAURANT_01_ID);
         dishDescriptionService.updateList(menuList.getDishList(), menuList.getId());
         MenuList updated = menuListService.get(menuList.getId());
         Assert.assertEquals(RestaurantTestData.RESTAURANT_01.getAddress(), updated.getRestaurant().getAddress());
@@ -63,24 +61,19 @@ public class MenuListServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void saveNull() throws Exception {
-        menuListService.update(null, RestaurantTestData.RESTAURANT_02_ID, UserTestData.USER_01_ID);
+        menuListService.update(null, RestaurantTestData.RESTAURANT_02_ID);
     }
 
     @Test(expected = NotFoundException.class)
     public void delete() throws Exception {
-        menuListService.delete(DishDescriptionTestData.MENU_LIST_01_ID, UserTestData.USER_01_ID);
+        menuListService.delete(DishDescriptionTestData.MENU_LIST_01_ID);
         menuListService.get(DishDescriptionTestData.MENU_LIST_01_ID);
-    }
-
-    @Test(expected = NoRightsException.class)
-    public void deleteNoRights() throws Exception {
-        menuListService.delete(DishDescriptionTestData.MENU_LIST_01_ID, UserTestData.USER_00_ID);
     }
 
 
     @Test(expected = NotFoundException.class)
     public void deleteNotFound() throws Exception {
-        menuListService.delete(10, UserTestData.USER_01_ID);
+        menuListService.delete(10);
     }
 
 
@@ -101,22 +94,15 @@ public class MenuListServiceTest {
         MenuList menuList = menuListService.get(DishDescriptionTestData.MENU_LIST_02_ID);
         LocalDate date = LocalDate.of(2000, 01, 01);
         menuList.setDate(date);
-        menuListService.update(menuList, menuList.getRestaurant().getId(), UserTestData.USER_01_ID);
+        menuListService.update(menuList, menuList.getRestaurant().getId());
         MenuList updated = menuListService.get(menuList.getId());
         Assert.assertEquals(date, updated.getDate());
     }
 
-    @Test(expected = NoRightsException.class)
-    public void updateNoRights() throws Exception{
-        MenuList menuList = menuListService.get(DishDescriptionTestData.MENU_LIST_02_ID);
-        LocalDate date = LocalDate.of(2000, 01, 01);
-        menuList.setDate(date);
-        menuListService.update(menuList, menuList.getRestaurant().getId(), UserTestData.USER_00_ID);
-    }
 
     @Test(expected = IllegalArgumentException.class)
     public void updateNull() throws Exception {
-        menuListService.update(null, RestaurantTestData.RESTAURANT_02_ID, UserTestData.USER_01_ID);
+        menuListService.update(null, RestaurantTestData.RESTAURANT_02_ID);
     }
 
 
