@@ -48,4 +48,5 @@ public class DishRepository {
         return em.createNamedQuery(Dish.ALL_SORTED, Dish.class)
                 .getResultList();
     }
+
 }

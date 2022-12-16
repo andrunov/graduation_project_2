@@ -8,7 +8,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.agorbunov.restaurant.UserTestData;
 import ru.agorbunov.restaurant.model.Dish;
+import ru.agorbunov.restaurant.util.exception.NoRightsException;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import static ru.agorbunov.restaurant.DishTestData.*;
@@ -26,7 +28,7 @@ public class DishServiceTest {
 
     @Test
     public void save() throws Exception {
-        dishService.update(DISH_CREATED);
+        dishService.update(DISH_CREATED, UserTestData.USER_01_ID);
         Assert.assertEquals(21, dishService.getAll().size());
 
     }
@@ -34,19 +36,24 @@ public class DishServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void saveNull() throws Exception {
-        dishService.update(null);
+        dishService.update(null, UserTestData.USER_01_ID);
     }
 
     @Test(expected = NotFoundException.class)
     public void delete() throws Exception {
-        dishService.delete(DISH_03_ID);
+        dishService.delete(DISH_03_ID, UserTestData.USER_01_ID);
         dishService.get(DISH_03_ID);
+    }
+
+    @Test(expected = NoRightsException.class)
+    public void deleteNoRights() throws Exception {
+        dishService.delete(DISH_03_ID, UserTestData.USER_00_ID);
     }
 
 
     @Test(expected = NotFoundException.class)
     public void deleteNotFound() throws Exception {
-        dishService.delete(10);
+        dishService.delete(10, UserTestData.USER_01_ID);
     }
 
     @Test
@@ -70,14 +77,20 @@ public class DishServiceTest {
     public void update() throws Exception{
         Dish dish = dishService.get(DISH_02_ID);
         dish.setName("обновленное название");
-        dishService.update(dish);
+        dishService.update(dish, UserTestData.USER_01_ID);
         Assert.assertEquals(dish.getName(), "обновленное название");
     }
 
+    @Test(expected = NoRightsException.class)
+    public void updateNoRights() throws Exception{
+        Dish dish = dishService.get(DISH_02_ID);
+        dish.setName("обновленное название");
+        dishService.update(dish, UserTestData.USER_00_ID);
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void updateNull() throws Exception {
-        dishService.update(null);
+        dishService.update(null, UserTestData.USER_01_ID);
     }
 
 
