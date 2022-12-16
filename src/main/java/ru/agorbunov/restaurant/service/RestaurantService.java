@@ -26,11 +26,6 @@ public class RestaurantService {
     }
 
 
-    public Restaurant create(Restaurant restaurant) {
-        Assert.notNull(restaurant, "restaurant must not be null");
-        return restaurantRepository.save(restaurant);
-    }
-
     public void delete(int id) {
         checkNotFoundWithId(restaurantRepository.delete(id), id);
     }
