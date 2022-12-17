@@ -37,7 +37,7 @@ public class RestaurantServiceTest {
     @Test
     public void getWith() throws Exception{
         Restaurant restaurant = restaurantService.getWithMenuLists(RESTAURANT_01_ID);
-        Assert.assertEquals(1, restaurant.getMenuLists().size());
+        Assert.assertEquals(3, restaurant.getMenuLists().size());
     }
 
 

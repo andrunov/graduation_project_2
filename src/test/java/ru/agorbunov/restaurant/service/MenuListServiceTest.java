@@ -34,7 +34,7 @@ public class MenuListServiceTest {
 
     @Test
     public void getByRestaurant() throws Exception {
-        Assert.assertEquals(1, menuListService.getByRestaurant(RestaurantTestData.RESTAURANT_01_ID).size());
+        Assert.assertEquals(3, menuListService.getByRestaurant(RestaurantTestData.RESTAURANT_01_ID).size());
     }
 
     @Test

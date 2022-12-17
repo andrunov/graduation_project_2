@@ -42,16 +42,16 @@ public class DishDescriptionServiceTest {
 
     @Test
     public void getWithDish() throws Exception {
-        DishDescription dishDescription = service.get(DISH_DESCR_04_ID);
-        MATCHER.assertEquals(DISH_04, dishDescription.getDish());
+        DishDescription dishDescription = service.get(DISH_DESCR_01_ID);
+        MATCHER.assertEquals(DISH_01, dishDescription.getDish());
     }
 
     @Test
     public void update() throws Exception{
-        DishDescription dishDescr = service.get(DISH_DESCR_04_ID);
+        DishDescription dishDescr = service.get(DISH_DESCR_01_ID);
         dishDescr.setDish(DISH_05);
         service.update(dishDescr, DishDescriptionTestData.MENU_LIST_02_ID);
-        DishDescription dishDescrUpdated = service.get(DISH_DESCR_04_ID);
+        DishDescription dishDescrUpdated = service.get(DISH_DESCR_01_ID);
         MATCHER.assertEquals(DISH_05, dishDescrUpdated.getDish());
     }
 
@@ -68,8 +68,8 @@ public class DishDescriptionServiceTest {
 
     @Test
     public void delete() throws Exception {
-        service.delete(DISH_DESCR_05_ID);
-        Assert.assertEquals(4, service.getByMenu(DishDescriptionTestData.MENU_LIST_02_ID).size());
+        service.delete(DISH_DESCR_04_ID);
+        Assert.assertEquals(4, service.getByMenu(DishDescriptionTestData.MENU_LIST_01_ID).size());
     }
 
     @Test(expected = NotFoundException.class)

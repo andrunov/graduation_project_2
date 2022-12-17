@@ -50,7 +50,6 @@ public class VoteServiceTest {
     public void getByRestaurantAndDate() throws Exception {
         List<Vote> votes = voteService.getByRestaurantAndDate(RestaurantTestData.RESTAURANT_02_ID, LocalDate.now());
         Assert.assertEquals("Roberto Zanetti", votes.get(0).getUser().getName());
-        System.out.println(votes);
     }
 
 }
