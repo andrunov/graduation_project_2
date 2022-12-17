@@ -35,6 +35,10 @@ public class VoteService {
         repository.save(vote, user.getId());
     }
 
+    public List<Vote> getAllByUser(int id) {
+        return repository.getAllByUser(id);
+    }
+
     public List<Vote> getByRestaurantAndDate(int id, LocalDate date) {
         Assert.notNull(date, "date must not be null");
         return repository.getByRestaurantAndDate(id, date);

@@ -40,7 +40,7 @@ public class UserService {
 
     public User getWithVotes(int id) {
         User user = this.get(id);
-        List<Vote> votes = voteRepository.getByUser(id);
+        List<Vote> votes = voteRepository.getAllByUser(id);
         user.setVotes(votes);
         return user;
     }
