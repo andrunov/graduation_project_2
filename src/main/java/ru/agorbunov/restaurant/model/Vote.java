@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 
 @NamedQueries({
         @NamedQuery(name = Vote.BY_USER, query = "select v from Vote v where v.user.id=:id"),
-        @NamedQuery(name = Vote.BY_RESTAURANT_DATE, query = "select v from Vote v where v.restaurant.id = :id and v.dateTime >= :from and v.dateTime < :to")
+        @NamedQuery(name = Vote.BY_RESTAURANT_DATE, query = "select v from Vote v where v.restaurant.id = :id and v.dateTime >= :from and v.dateTime < :to"),
+        @NamedQuery(name = Vote.BY_USER_DATE, query = "select v from Vote v where v.user.id = :id and v.dateTime >= :from and v.dateTime < :to"),
+        @NamedQuery(name = Vote.BY_USER_RESTAURANT, query = "select v from Vote v where v.user.id = :user_id and v.restaurant.id = :restaurant_id ")
 })
 @Entity
 @Table(name = "votes")
@@ -15,6 +17,8 @@ public class Vote extends BaseEntity {
 
     public static final String BY_USER = "Vote.getByUser";
     public static final String BY_RESTAURANT_DATE = "Vote.getByRestaurantAndDate";
+    public static final String BY_USER_DATE = "Vote.getByUserAndDate";
+    public static final String BY_USER_RESTAURANT = "Vote.getByUserAndRestaurant";
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")

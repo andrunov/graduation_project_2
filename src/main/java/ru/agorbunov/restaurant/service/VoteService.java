@@ -43,4 +43,15 @@ public class VoteService {
         Assert.notNull(date, "date must not be null");
         return repository.getByRestaurantAndDate(id, date);
     }
+
+    public List<Vote> getByUserAndDate(int id, LocalDate date) {
+        Assert.notNull(date, "date must not be null");
+        return repository.getByUserAndDate(id, date);
+    }
+
+    public List<Vote> getByUserAndRestaurant(int userId, int restaurantId) {
+        return repository.getByUserAndRestaurant(userId, restaurantId);
+    }
+
+
 }

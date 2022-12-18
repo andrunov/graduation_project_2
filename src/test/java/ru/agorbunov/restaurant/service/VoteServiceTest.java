@@ -15,6 +15,7 @@ import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ContextConfiguration({
@@ -52,6 +53,18 @@ public class VoteServiceTest {
     public void getByRestaurantAndDate() throws Exception {
         List<Vote> votes = voteService.getByRestaurantAndDate(RestaurantTestData.RESTAURANT_02_ID, LocalDate.now());
         Assert.assertEquals("Roberto Zanetti", votes.get(0).getUser().getName());
+    }
+
+    @Test
+    public void getByUserAndDate() throws Exception {
+        List<Vote> votes = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
+        Assert.assertEquals("John Bon Jovi", votes.get(0).getUser().getName());
+    }
+
+    @Test
+    public void getByUserAndRestaurant() throws Exception {
+        List<Vote> votes = voteService.getByUserAndRestaurant(UserTestData.USER_01_ID, RestaurantTestData.RESTAURANT_01_ID);
+        Assert.assertEquals(1, votes.size());
     }
 
 }
