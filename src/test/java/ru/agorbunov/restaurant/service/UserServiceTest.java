@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static ru.agorbunov.restaurant.UserTestData.*;
 
@@ -75,7 +74,8 @@ public class UserServiceTest {
         MATCHER.assertCollectionEquals(
                 Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, newUser),
                 userService.getAll());
-        User updated = userService.getWithVotes(newUser.getId());
+        User updated = userService.get(newUser.getId());
+        updated.setVotes(voteService.getAllByUser(newUser.getId()));
         Assert.assertEquals(1, updated.getVotes().size());
     }
 
@@ -143,7 +143,8 @@ public class UserServiceTest {
 
     @Test
     public void getWith() throws Exception{
-        User user = userService.getWithVotes(USER_02_ID);
+        User user = userService.get(USER_02_ID);
+        user.setVotes(voteService.getAllByUser(USER_02_ID));
         Assert.assertEquals(1, user.getVotes().size());
     }
 

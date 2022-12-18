@@ -38,13 +38,6 @@ public class UserService {
         return checkNotFound(repository.getByEmail(email), "email=" + email);
     }
 
-    public User getWithVotes(int id) {
-        User user = this.get(id);
-        List<Vote> votes = voteRepository.getAllByUser(id);
-        user.setVotes(votes);
-        return user;
-    }
-
     public List<User> getAll() {
         return repository.getAll();
     }

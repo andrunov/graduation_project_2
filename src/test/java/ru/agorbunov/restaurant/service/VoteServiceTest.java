@@ -33,11 +33,13 @@ public class VoteServiceTest {
 
     @Test
     public void delete() throws Exception {
-        User user = userService.getWithVotes(UserTestData.USER_02_ID);
+        User user = userService.get(UserTestData.USER_02_ID);
+        user.setVotes(voteService.getAllByUser(UserTestData.USER_02_ID));
         for (Vote vote : user.getVotes()) {
             voteService.delete(vote.getId());
         }
-        User userUpdated = userService.getWithVotes(UserTestData.USER_02_ID);
+        User userUpdated = userService.get(UserTestData.USER_02_ID);
+        userUpdated.setVotes(voteService.getAllByUser(UserTestData.USER_02_ID));
         Assert.assertEquals(userUpdated.getVotes().size(), 0);
     }
 
