@@ -23,7 +23,7 @@ public class MenuList extends BaseEntity {
 
     /*List of dishes that were include in menuList*/
     @OneToMany(mappedBy = "menuList")
-    private List<DishDescription> dishList;
+    private List<MenuItem> items;
 
     /*Date and Time when menuList was made*/
     @Column(name = "date", nullable = false)
@@ -41,12 +41,12 @@ public class MenuList extends BaseEntity {
         this.restaurant = restaurant;
     }
 
-    public List<DishDescription> getDishList() {
-        return dishList;
+    public List<MenuItem> getItems() {
+        return items;
     }
 
-    public void setDishList(List<DishDescription> dishList) {
-        this.dishList = dishList;
+    public void setItems(List<MenuItem> dishList) {
+        this.items = dishList;
     }
 
     public LocalDate getDate() {

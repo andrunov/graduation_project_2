@@ -3,11 +3,11 @@ package ru.agorbunov.restaurant.model;
 import javax.persistence.*;
 
 @NamedQueries({
-        @NamedQuery(name = DishDescription.BY_MENU_LIST, query = "SELECT dd from DishDescription dd where dd.menuList.id=:id")
+        @NamedQuery(name = MenuItem.BY_MENU_LIST, query = "SELECT mi from MenuItem mi where mi.menuList.id=:id")
 })
 @Entity
-@Table(name = "dish_descriptions")
-public class DishDescription extends BaseEntity{
+@Table(name = "menu_items")
+public class MenuItem extends BaseEntity{
 
 
     public static final String BY_MENU_LIST = "DishDescription.byMenuList";
@@ -24,10 +24,10 @@ public class DishDescription extends BaseEntity{
     @JoinColumn(name = "dish_id")
     private Dish dish;
 
-    public DishDescription() {
+    public MenuItem() {
     }
 
-    public DishDescription(MenuList menuList, Dish dish, Double price) {
+    public MenuItem(MenuList menuList, Dish dish, Double price) {
         this.price = price;
         this.menuList = menuList;
         this.dish = dish;

@@ -1,7 +1,7 @@
 DELETE FROM users;
 DELETE FROM roles;
 DELETE FROM restaurants;
-DELETE FROM dish_descriptions;
+DELETE FROM menu_items;
 DELETE FROM dishes;
 DELETE FROM menu_lists;
 ALTER SEQUENCE GLOBAL_SEQ RESTART WITH 100000;
@@ -75,7 +75,7 @@ INSERT INTO dishes(name) VALUES
   ('Салат оливье');
 
 
-INSERT INTO dish_descriptions(menu_list_id, dish_id,price) VALUES
+INSERT INTO menu_items(menu_list_id, dish_id,price) VALUES
   (100010,100028,1.25),
   (100010,100029,3.45),
   (100010,100030,2.48),

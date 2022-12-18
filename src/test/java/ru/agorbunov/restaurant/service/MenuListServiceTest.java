@@ -10,7 +10,7 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.agorbunov.restaurant.DishDescriptionTestData;
 import ru.agorbunov.restaurant.RestaurantTestData;
-import ru.agorbunov.restaurant.model.DishDescription;
+import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
@@ -30,7 +30,7 @@ public class MenuListServiceTest {
     private MenuListService menuListService;
 
     @Autowired
-    private DishDescriptionService dishDescriptionService;
+    private MenuItemService menuItemService;
 
     @Test
     public void getByRestaurant() throws Exception {
@@ -42,18 +42,18 @@ public class MenuListServiceTest {
         LocalDate now = LocalDate.now();
         MenuList menuList = new MenuList();
         menuList.setDate(now);
-        List<DishDescription> dishList = new ArrayList<>();
+        List<MenuItem> dishList = new ArrayList<>();
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_01);
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_02);
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_03);
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_04);
         dishList.add(DishDescriptionTestData.DISH_DESCRPT_05);
-        menuList.setDishList(dishList);
+        menuList.setItems(dishList);
         menuListService.update(menuList, RestaurantTestData.RESTAURANT_01_ID);
-        dishDescriptionService.updateList(menuList.getDishList(), menuList.getId());
+        menuItemService.updateList(menuList.getItems(), menuList.getId());
         MenuList updated = menuListService.get(menuList.getId());
         Assert.assertEquals(RestaurantTestData.RESTAURANT_01.getAddress(), updated.getRestaurant().getAddress());
-        List<DishDescription> updatedDDList = dishDescriptionService.getByMenu(menuList.getId());
+        List<MenuItem> updatedDDList = menuItemService.getByMenu(menuList.getId());
         Assert.assertEquals(5, updatedDDList.size());
 
     }

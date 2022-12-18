@@ -9,7 +9,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.agorbunov.restaurant.DishDescriptionTestData;
-import ru.agorbunov.restaurant.model.DishDescription;
+import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.util.List;
@@ -22,10 +22,10 @@ import static ru.agorbunov.restaurant.DishTestData.*;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class DishDescriptionServiceTest {
+public class MenuItemServiceTest {
 
     @Autowired
-    private DishDescriptionService service;
+    private MenuItemService service;
 
     @Test
     public void getByMenu() throws Exception {
@@ -34,24 +34,24 @@ public class DishDescriptionServiceTest {
 
     @Test
     public void getByMenuWithDish() throws Exception {
-        List<DishDescription> list = service.getByMenu(DishDescriptionTestData.MENU_LIST_01_ID);
-        for (DishDescription dd : list) {
+        List<MenuItem> list = service.getByMenu(DishDescriptionTestData.MENU_LIST_01_ID);
+        for (MenuItem dd : list) {
             Assert.assertNotNull(dd.getDish());
         }
     }
 
     @Test
     public void getWithDish() throws Exception {
-        DishDescription dishDescription = service.get(DISH_DESCR_01_ID);
-        MATCHER.assertEquals(DISH_01, dishDescription.getDish());
+        MenuItem menuItem = service.get(DISH_DESCR_01_ID);
+        MATCHER.assertEquals(DISH_01, menuItem.getDish());
     }
 
     @Test
     public void update() throws Exception{
-        DishDescription dishDescr = service.get(DISH_DESCR_01_ID);
+        MenuItem dishDescr = service.get(DISH_DESCR_01_ID);
         dishDescr.setDish(DISH_05);
         service.update(dishDescr, DishDescriptionTestData.MENU_LIST_02_ID);
-        DishDescription dishDescrUpdated = service.get(DISH_DESCR_01_ID);
+        MenuItem dishDescrUpdated = service.get(DISH_DESCR_01_ID);
         MATCHER.assertEquals(DISH_05, dishDescrUpdated.getDish());
     }
 
