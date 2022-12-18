@@ -23,7 +23,7 @@
         <slf4j.version>2.0.3</slf4j.version>
 
         <!--DB-->
-        <postgresql.version>42.5.0</postgresql.version>
+        <hsqlbd.version>2.3.4</hsqlbd.version>
 
         <!-- Hibernate -->
         <hibernate.version>5.6.12.Final</hibernate.version>
@@ -96,9 +96,9 @@
 
         <!--DataBase-->
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsqlbd.version}</version>
         </dependency>
 
         <!--- ORM -->
