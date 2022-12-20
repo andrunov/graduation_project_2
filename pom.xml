@@ -36,10 +36,17 @@
         <!--    Tests  -->
         <junit.version>4.13.2</junit.version>
         <assertj.version>3.23.1</assertj.version>
+
+        <!--webjars-->
+        <webjars-bootstrap.version>3.3.7-1</webjars-bootstrap.version>
+        <webjars-jquery.version>3.1.1-1</webjars-jquery.version>
+        <webjars-datetimepicker.version>2.5.4</webjars-datetimepicker.version>
+        <webjars-noty.version>2.3.8</webjars-noty.version>
+        <webjars-datatables.version>1.10.13</webjars-datatables.version>
     </properties>
 
     <build>
-        <finalName>topjava</finalName>
+        <finalName>restaurant</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
@@ -58,6 +65,11 @@
                 <configuration>
                     <argLine>-Dfile.encoding=UTF-8</argLine>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.1</version>
             </plugin>
         </plugins>
     </build>
@@ -189,11 +201,66 @@
             <artifactId>jackson-annotations</artifactId>
             <version>${jackson-json.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate5</artifactId>
             <version>${jackson-json.version}</version>
+        </dependency>
+
+        <!-- Webjars (static dependencies distributed as JAR files) -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${webjars-jquery.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${webjars-bootstrap.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.webjars</groupId>
+                    <artifactId>jquery</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>datatables</artifactId>
+            <version>${webjars-datatables.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.webjars</groupId>
+                    <artifactId>jquery</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>datetimepicker</artifactId>
+            <version>${webjars-datetimepicker.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.webjars.bower</groupId>
+                    <artifactId>jquery</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>noty</artifactId>
+            <version>${webjars-noty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>bootstrap-add-clear</artifactId>
+            <version>1.0.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.webjars.bower</groupId>
+                    <artifactId>jquery</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--Test-->
