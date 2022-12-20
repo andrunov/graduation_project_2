@@ -15,13 +15,12 @@ INSERT INTO users(name,email,password) VALUES
   ('Didier Maoruani','dmauruani@gmail.com','666777');
 
 INSERT INTO roles(user_id, role) VALUES
-  (100000,'REGULAR'),
-  (100001,'REGULAR'),
-  (100001,'ADMIN'),
-  (100002,'REGULAR'),
-  (100003,'REGULAR'),
-  (100004,'REGULAR'),
-  (100005,'REGULAR');
+  (100000,'ROLE_USER'),
+  (100001,'ROLE_ADMIN'),
+  (100002,'ROLE_USER'),
+  (100003,'ROLE_USER'),
+  (100004,'ROLE_USER'),
+  (100005,'ROLE_USER');
 
 INSERT INTO restaurants(name, address) VALUES
   ('Ёлки-палки','ул. Некрасова, 14'),

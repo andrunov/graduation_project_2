@@ -10,7 +10,7 @@ import ru.agorbunov.restaurant.to.UserTo;
 public class UserUtil {
 
     public static User createNewFromTo(UserTo newUser) {
-        return new User(newUser.getName(), newUser.getEmail().toLowerCase(), newUser.getPassword(), Role.REGULAR);
+        return new User(newUser.getName(), newUser.getEmail().toLowerCase(), newUser.getPassword(), Role.ROLE_USER);
     }
 
     public static UserTo asTo(User user) {

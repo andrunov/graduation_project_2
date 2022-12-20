@@ -67,10 +67,6 @@ public class User extends BaseEntity {
         this.roles = EnumSet.of(role, roles);
     }
 
-    public boolean isAdmin() {
-        return this.roles.contains(Role.ADMIN);
-    }
-
     public String getName() {
         return name;
     }
