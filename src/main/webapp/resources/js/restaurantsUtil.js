@@ -4,7 +4,7 @@
  */
 
 /*url for exchange JSON data between DataTable and server*/
-var ajaxUrl = '/ajax/restaurants/';
+var ajaxUrl = 'ajax/restaurants/';
 
 /*url for link to menuLists.jsp*/
 var goMenuLists = '/menuLists/';
@@ -77,5 +77,3 @@ function linkBtn(data, type, row) {
             '<span class="glyphicon glyphicon-list-alt"></span></a>';
     }
 }
-
-
