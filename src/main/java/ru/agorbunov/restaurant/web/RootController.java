@@ -91,70 +91,6 @@ public class RootController {
         return "restaurants";
     }
 
-    /*get id parameter to set current restaurant and redirect to menuLists.jsp*/
-    @GetMapping(value = "/menuLists/{id}")
-    public String menuLists(@PathVariable("id") int id) {
-        log.info("get /menuLists/{id}");
-        CurrentEntities.setCurrentRestaurant(restaurantService.get(id));
-        return "redirect:/menuLists";
-    }
-
-    /*return menuLists.jsp and display menu lists of current restaurant*/
-    @GetMapping(value = "/menuLists")
-    public String menuLists(Model model) {
-        log.info("get /menuLists");
-        model.addAttribute(CurrentEntities.getCurrentRestaurant());
-        return "menuLists";
-    }
-
-    /*get id parameter to set current userTo and redirect to orders.jsp*/
-    @GetMapping(value = "/orders/{id}")
-    public String orders(@PathVariable("id") int id) {
-        log.info("get /orders/{id}");
-        CurrentEntities.setCurrentUser(userService.get(id));
-        return "redirect:/orders";
-    }
-
-    /*return orders.jsp and display orders of current userTo*/
-    @GetMapping(value = "/orders")
-    public String orders(Model model) {
-        log.info("get /orders");
-        model.addAttribute("currentUser",CurrentEntities.getCurrentUser());
-        return "orders";
-    }
-
-    /*get id parameter to set current menuList and redirect to dishes.jsp*/
-    @GetMapping(value = "/dishes/{id}")
-    public String dishes(@PathVariable("id") int id) {
-        log.info("get /dishes/{id}");
-        Restaurant restaurant = CurrentEntities.getCurrentRestaurant();
-        CurrentEntities.setCurrentMenuList(menuListService.get(id));
-        return "redirect:/dishes";
-    }
-
-    /*return dishes.jsp and display dishes of current menu list of current restaurant*/
-    @GetMapping(value = "/dishes")
-    public String dishes(Model model) {
-        log.info("get /dishes");
-        model.addAttribute("restaurant",CurrentEntities.getCurrentRestaurant());
-     //   model.addAttribute("description",CurrentEntities.getCurrentMenuList().getDescription());
-     //   model.addAttribute("localDate",CurrentEntities.getCurrentMenuList().getDateTime().toLocalDate().toString());
-        return "dishes";
-    }
-
-
-    /*get id parameter to set current dish and redirect to orders_by_dish.jsp*/
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping(value = "/orders_by_dish/{id}")
-    public String ordersByDish(@PathVariable("id") int id){
-        log.info("get /orders_by_dish/{id}");
-        MenuList menuList = CurrentEntities.getCurrentMenuList();
-        CurrentEntities.setCurrentDish(dishService.get(id));
-        return "redirect:/orders_by_dish";
-    }
-
-
-
     @GetMapping("/profile")
     public String profile() {
         log.info("get /profile");
@@ -202,5 +138,73 @@ public class RootController {
             return "redirect:login?message=registersuccessfull&username=" + userTo.getEmail();
         }
     }
+
+
+
+
+
+    /*get id parameter to set current restaurant and redirect to menuLists.jsp*/
+    @GetMapping(value = "/menuLists/{id}")
+    public String menuLists(@PathVariable("id") int id) {
+        log.info("get /menuLists/{id}");
+        CurrentEntities.setCurrentRestaurant(restaurantService.get(id));
+        return "redirect:/menuLists";
+    }
+
+    /*return menuLists.jsp and display menu lists of current restaurant*/
+    @GetMapping(value = "/menuLists")
+    public String menuLists(Model model) {
+        log.info("get /menuLists");
+        model.addAttribute(CurrentEntities.getCurrentRestaurant());
+        return "menuLists";
+    }
+
+    /*get id parameter to set current userTo and redirect to orders.jsp*/
+    @GetMapping(value = "/orders/{id}")
+    public String orders(@PathVariable("id") int id) {
+        log.info("get /orders/{id}");
+        CurrentEntities.setCurrentUser(userService.get(id));
+        return "redirect:/orders";
+    }
+
+    /*return orders.jsp and display orders of current userTo*/
+    @GetMapping(value = "/orders")
+    public String orders(Model model) {
+        log.info("get /orders");
+        model.addAttribute("currentUser",CurrentEntities.getCurrentUser());
+        return "orders";
+    }
+
+    /*get id parameter to set current menuList and redirect to dishes.jsp*/
+    @GetMapping(value = "/dishes/{id}")
+    public String dishes(@PathVariable("id") int id) {
+        log.info("get /dishes/{id}");
+        Restaurant restaurant = CurrentEntities.getCurrentRestaurant();
+        CurrentEntities.setCurrentMenuList(menuListService.get(id));
+        return "redirect:/dishes";
+    }
+
+    /*return dishes.jsp and display dishes of current menu list of current restaurant*/
+    @GetMapping(value = "/dishes")
+    public String dishes(Model model) {
+        log.info("get /dishes");
+        model.addAttribute("restaurant",CurrentEntities.getCurrentRestaurant());
+        //   model.addAttribute("description",CurrentEntities.getCurrentMenuList().getDescription());
+        //   model.addAttribute("localDate",CurrentEntities.getCurrentMenuList().getDateTime().toLocalDate().toString());
+        return "dishes";
+    }
+
+
+    /*get id parameter to set current dish and redirect to orders_by_dish.jsp*/
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/orders_by_dish/{id}")
+    public String ordersByDish(@PathVariable("id") int id){
+        log.info("get /orders_by_dish/{id}");
+        MenuList menuList = CurrentEntities.getCurrentMenuList();
+        CurrentEntities.setCurrentDish(dishService.get(id));
+        return "redirect:/orders_by_dish";
+    }
+
+
 
 }

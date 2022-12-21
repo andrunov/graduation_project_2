@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -25,8 +26,13 @@ public class JacksonObjectMapper  extends ObjectMapper {
 
         /*customise LocalDateTime serialise-deserialize*/
         SimpleModule customModule = new SimpleModule("customModule");
+
         customModule.addSerializer(new JsonLocalDateTimeConverter.UserSettingSerializer());
         customModule.addDeserializer(LocalDateTime.class, new JsonLocalDateTimeConverter.UserSettingDeserializer());
+
+        customModule.addSerializer(new JsonLocalDateConverter.UserSettingSerializer());
+        customModule.addDeserializer(LocalDate.class, new JsonLocalDateConverter.UserSettingDeserializer());
+
         registerModule(customModule);
 
         /*set visibility for fields*/

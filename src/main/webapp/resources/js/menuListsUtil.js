@@ -4,7 +4,7 @@
  */
 
 /*url for exchange JSON data between DataTable and server*/
-var ajaxUrl = '/ajax/menuLists/';
+var ajaxUrl = 'ajax/menuLists/';
 
 /*url for exchange JSON data between main form DataTable
  *represents menu lists, and server, using filter by status*/
@@ -49,31 +49,7 @@ $(function () {
         "columns": [
             /*add column with image depending of Enabled*/
             {
-                "orderable": false,
-                "data": "enabled",
-                "render": function (data, type, row) {
-                    if (type == 'display') {
-                        if (data){
-                            return '<img  src="resources/pictures/menulist.png" />';
-                        }
-                        else {
-                            return '<img  src="resources/pictures/cross.png" />';
-                        }
-                    }
-                    return null;
-                }
-            },
-            {
-                "data": "description"
-            },
-            {
-                "data": "dateTime",
-                "render": function (date, type, row) {
-                    if (type == 'display') {
-                        return formatDate(date);
-                    }
-                    return date;
-                }
+                "data": "date",
             },
             {
                 "orderable": false,
@@ -101,11 +77,7 @@ $(function () {
             ]
         ],
         /*customize row style depending of Enabled*/
-        "createdRow": function (row, data, dataIndex) {
-            if (!data.enabled) {
-                $(row).addClass("disabled");
-            }
-        },
+        "createdRow": "",
         "initComplete": makeEditable
     });
 

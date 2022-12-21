@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <fmt:setBundle basename="messages.app"/>
 
 <html>
@@ -17,34 +18,14 @@
         <div class="shadow">
             <h3>${restaurant.name}, ${restaurant.address}</h3>
             <p style="color: darkgreen"><fmt:message key="menuLists.list"/></p>
-            <table class="table" >
-                <tr>
-                    <td>
-                        <a class="btn btn-primary" type="button" onclick="add()">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                            <fmt:message key="menuLists.add"/>
-                        </a>
-                    </td>
-                    <td>
-                        <input name="filter" type="radio" checked="checked" id="GET_ALL" onclick="updateTable('ALL')"/>
-                        <label  for="GET_ALL"><fmt:message key="status.ALL"/></label>
-                    </td>
-                    <td>
-                        <input name="filter" type="radio" id="GET_ENABLED" onclick="updateTable('TRUE')"/>
-                        <label  for="GET_ENABLED"><fmt:message key="common.enabled"/></label>
-                    </td>
-                    <td>
-                        <input name="filter" type="radio" id="GET_DISABLED" onclick="updateTable('FALSE')"/>
-                        <label  for="GET_DISABLED"><fmt:message key="common.disabled"/></label>
-                    </td>
-                </tr>
-            </table>
             <div class="view-box">
+                <a class="btn btn-primary" type="button" onclick="add()">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    <fmt:message key="menuLists.add"/>
+                </a>
                 <table class="table table-hover table-bordered " id="datatable">
                     <thead>
                     <tr>
-                        <th></th>
-                        <th><fmt:message key="menuLists.description"/></th>
                         <th><fmt:message key="common.dateTime"/></th>
                         <th><fmt:message key="menuLists.content"/></th>
                         <th><fmt:message key="common.update"/></th>

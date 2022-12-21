@@ -7,7 +7,7 @@
 var ajaxUrl = 'ajax/restaurants/';
 
 /*url for link to menuLists.jsp*/
-var goMenuLists = '/menuLists/';
+var goMenuLists = 'menuLists/';
 
 /*variable links to DataTable represents restaurants in restaurants.jsp*/
 var datatableApi;
