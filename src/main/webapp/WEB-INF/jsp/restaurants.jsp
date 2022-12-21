@@ -1,6 +1,7 @@
 <%--shows restaurants--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <fmt:setBundle basename="messages.app"/>
 
@@ -12,6 +13,7 @@
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
+<%--restaurants datatable--%>
 <div class="container">
     <div class="jumbotron">
         <div class="shadow">
@@ -26,7 +28,6 @@
                     <tr>
                         <th><fmt:message key="restaurants.name"/></th>
                         <th><fmt:message key="restaurants.address"/></th>
-                        <th><fmt:message key="menuLists.title"/></th>
                         <th><fmt:message key="common.update"/></th>
                         <th><fmt:message key="common.delete"/></th>
                     </tr>

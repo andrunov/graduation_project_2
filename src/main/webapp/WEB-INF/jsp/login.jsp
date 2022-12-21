@@ -50,10 +50,10 @@
             <br/>
             <p>
                 <a class="btn btn-lg btn-success" href="register"><fmt:message key="app.register"/> &raquo;</a>
-                <button type="submit" class="btn btn-lg btn-primary" onclick="setCredentials('vgordeev.78@gmail.com', '111222777')">
+                <button type="submit" class="btn btn-lg btn-primary" onclick="setCredentials('sidor@gmail.com', '333444')">
                     <fmt:message key="app.login"/> <fmt:message key="roles.ROLE_USER_FULL"/>
                 </button>
-                <button type="submit" class="btn btn-lg btn-success" onclick="setCredentials('r_eliseev78yandex.ru', '222333555')">
+                <button type="submit" class="btn btn-lg btn-success" onclick="setCredentials('andrunov@gmail.com', '222333')">
                     <fmt:message key="app.login"/> <fmt:message key="roles.ROLE_ADMIN_FULL"/>
                 </button>
             </p>
