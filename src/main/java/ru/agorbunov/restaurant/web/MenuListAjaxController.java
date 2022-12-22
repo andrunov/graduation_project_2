@@ -10,10 +10,13 @@ import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.service.MenuListService;
 import ru.agorbunov.restaurant.service.RestaurantService;
+import ru.agorbunov.restaurant.to.MenuListTo;
 import ru.agorbunov.restaurant.util.DateTimeUtil;
 import ru.agorbunov.restaurant.util.ValidationUtil;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,17 +37,22 @@ public class MenuListAjaxController {
 
     /*get all menu lists by current restaurant*/
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<MenuList> getByRestaurant() {
+    public List<MenuListTo> getByRestaurant() {
         log.info("getByRestaurant");
         Restaurant currentRestaurant = CurrentEntities.getCurrentRestaurant();
-        return menuListService.getByRestaurant(currentRestaurant.getId());
+        List<MenuList> menuLists = menuListService.getByRestaurant(currentRestaurant.getId());
+        List<MenuListTo> result = new ArrayList<>();
+        for (MenuList menuList : menuLists) {
+            result.add(MenuListTo.fromMenuList(menuList));
+        }
+        return result;
     }
 
     /*get menuList by Id */
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public MenuList getMenuList(@PathVariable("id") int id) {
+    public MenuListTo getMenuList(@PathVariable("id") int id) {
         log.info("get " + id);
-        return menuListService.get(id);
+        return MenuListTo.fromMenuList(menuListService.get(id));
     }
 
     /*delete menuList by Id*/
@@ -57,12 +65,14 @@ public class MenuListAjaxController {
     /*create new menuList or update if exist*/
     @PostMapping
     public void createOrUpdate(@RequestParam("id") Integer id,
-                               @RequestParam("dateTime")@DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN) LocalDateTime dateTime){
+                               @RequestParam("date")@DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN) LocalDateTime date){
         Restaurant currentRestaurant = CurrentEntities.getCurrentRestaurant();
-        MenuList menuList = new MenuList();
-        menuList.setDate(dateTime.toLocalDate());
-        menuList.setId(id);
-        checkEmpty(menuList);
+        MenuListTo menuListTo = new MenuListTo();
+        menuListTo.setDate(date.toLocalDate());
+        menuListTo.setId(id);
+        checkEmpty(menuListTo);
+        CurrentEntities.setCurrentMenuListTo(menuListTo);
+        MenuList menuList = MenuListTo.toMenuList(menuListTo);
         if (menuList.isNew()) {
             ValidationUtil.checkNew(menuList);
             log.info("create " + menuList);
@@ -74,8 +84,8 @@ public class MenuListAjaxController {
     }
 
     /*check menuList for empty fields*/
-    private void checkEmpty(MenuList menuList){
-        ValidationUtil.checkEmpty(menuList.getDate(),"date");
+    private void checkEmpty(MenuListTo menuListTo){
+        ValidationUtil.checkEmpty(menuListTo.getDate(),"date");
     }
 
 
