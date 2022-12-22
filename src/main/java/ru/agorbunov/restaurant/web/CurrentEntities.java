@@ -1,6 +1,7 @@
 package ru.agorbunov.restaurant.web;
 
 import ru.agorbunov.restaurant.model.*;
+import ru.agorbunov.restaurant.to.MenuListTo;
 
 /**
  * Current entities of session
@@ -11,7 +12,7 @@ class CurrentEntities {
 
     private static Restaurant currentRestaurant;
 
-    private static MenuList currentMenuList;
+    private static MenuListTo currentMenuListTo;
 
     private static Dish currentDish;
 
@@ -34,12 +35,12 @@ class CurrentEntities {
         CurrentEntities.currentRestaurant = currentRestaurant;
     }
 
-    static MenuList getCurrentMenuList() {
-        return currentMenuList;
+    static MenuListTo getCurrentMenuListTo() {
+        return currentMenuListTo;
     }
 
-    static void setCurrentMenuList(MenuList currentMenuList) {
-        CurrentEntities.currentMenuList = currentMenuList;
+    static void setCurrentMenuListTo(MenuListTo currentMenuListTo) {
+        CurrentEntities.currentMenuListTo = currentMenuListTo;
     }
 
 

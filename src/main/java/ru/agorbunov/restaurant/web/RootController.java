@@ -181,7 +181,7 @@ public class RootController {
     public String dishes(@PathVariable("id") int id) {
         log.info("get /dishes/{id}");
         Restaurant restaurant = CurrentEntities.getCurrentRestaurant();
-        CurrentEntities.setCurrentMenuList(menuListService.get(id));
+     //   CurrentEntities.setCurrentMenuListTo(menuListService.get(id));
         return "redirect:/dishes";
     }
 
@@ -201,7 +201,7 @@ public class RootController {
     @GetMapping(value = "/orders_by_dish/{id}")
     public String ordersByDish(@PathVariable("id") int id){
         log.info("get /orders_by_dish/{id}");
-        MenuList menuList = CurrentEntities.getCurrentMenuList();
+        //MenuList menuList = CurrentEntities.getCurrentMenuListTo();
         CurrentEntities.setCurrentDish(dishService.get(id));
         return "redirect:/orders_by_dish";
     }

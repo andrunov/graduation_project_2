@@ -54,33 +54,12 @@
                     <input type="text" hidden="hidden" id="id" name="id">
 
                     <div class="form-group">
-                        <label for="description" class="control-label col-xs-3"><fmt:message
-                                key="menuLists.description"/></label>
-
-                        <div class="col-xs-9">
-                            <input class="form-control" id="description" name="description"
-                                   placeholder="<fmt:message key="menuLists.description"/>">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label for="dateTime" class="control-label col-xs-3"><fmt:message
                                 key="common.dateTime"/></label>
 
                         <div class="col-xs-9">
-                            <input class="form-control" id="dateTime" name="dateTime"
+                            <input class="form-control" id="dateTime" name="date"
                                    placeholder="<fmt:message key="common.dateTime"/>">
-                        </div>
-                    </div>
-
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                <label for="enabled" class="text-right"><fmt:message key="users.enabled"/></label>
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <input type="checkbox" id="enabled" name="enabled" value="true" checked >
                         </div>
                     </div>
 
