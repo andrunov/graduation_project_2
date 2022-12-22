@@ -13,8 +13,8 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
             <sec:authorize access="isAuthenticated()">
-                <li><a class="btn btn-primary" href="javascript:javascript:history.go(-1)">&nbsp;<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;</a></li>
-                <li><a class="btn btn-primary" href="javascript:javascript:history.go(+1)">&nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</a></li>
+                <li><a class="btn btn-primary" href="javascript:history.go(-1)">&nbsp;<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;</a></li>
+                <li><a class="btn btn-primary" href="javascript:history.go(+1)">&nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</a></li>
                 <li><a class="btn btn-primary" href="home">&nbsp;<span class="glyphicon glyphicon-home"></span>&nbsp;</a></li>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                         <li><a class="btn btn-primary" href="users"><fmt:message key="users.title"/></a></li>

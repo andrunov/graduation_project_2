@@ -10,13 +10,9 @@
             <table  class="table">
                 <tr>
                 <td class="col-sm-3" style="text-align: center">
-                    <a href="https://restaurantdemoapp.herokuapp.com/"><fmt:message key="app.heroku"/></a>
-                </td>
-                <td class="col-sm-3" style="text-align: center">
-                    <a href="https://github.com/andrunov/restaurant_jdbc"><fmt:message key="app.jdbc"/></a>
-                </td>
-                <td class="col-sm-3" style="text-align: center">
-                    <a href="https://github.com/andrunov/restaurant_jpa"><fmt:message key="app.jpa"/></a>
+                    <ul class="nav navbar-nav">
+                        <li><a class="btn btn-primary" href="javascript:history.go(-1)" style="text-align: center" >&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;&nbsp;<fmt:message key="app.backward"/>&nbsp;&nbsp;&nbsp;</a></li>
+                    </ul>
                 </td>
                 </tr>
             </table>

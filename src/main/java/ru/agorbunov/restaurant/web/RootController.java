@@ -76,21 +76,6 @@ public class RootController {
         }
     }
 
-    /*return users.jsp and display all users*/
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/users")
-    public String users() {
-        log.info("get /users");
-        return "users";
-    }
-
-    /*return restaurants.jsp and display all restaurants*/
-    @GetMapping(value = "/restaurants")
-    public String restaurants() {
-        log.info("get /restaurants");
-        return "restaurants";
-    }
-
     @GetMapping("/profile")
     public String profile() {
         log.info("get /profile");
@@ -139,9 +124,20 @@ public class RootController {
         }
     }
 
+    /*return users.jsp and display all users*/
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/users")
+    public String users() {
+        log.info("get /users");
+        return "users";
+    }
 
-
-
+    /*return restaurants.jsp and display all restaurants*/
+    @GetMapping(value = "/restaurants")
+    public String restaurants() {
+        log.info("get /restaurants");
+        return "restaurants";
+    }
 
     /*get id parameter to set current restaurant and redirect to menuLists.jsp*/
     @GetMapping(value = "/menuLists/{id}")
@@ -158,6 +154,11 @@ public class RootController {
         model.addAttribute(CurrentEntities.getCurrentRestaurant());
         return "menuLists";
     }
+
+
+
+
+
 
     /*get id parameter to set current userTo and redirect to orders.jsp*/
     @GetMapping(value = "/orders/{id}")
