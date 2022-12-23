@@ -50,7 +50,7 @@ public class UserAjaxController {
 
     /*create new user or update if exists*/
     @PostMapping
-    public void createOrUpdate(@RequestParam("id") Integer id,
+    public void createOrUpdate(@RequestParam(value = "id", required = false ) Integer id,
                                @RequestParam("name") String name,
                                @RequestParam("email") String email,
                                @RequestParam("password") String password,

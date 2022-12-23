@@ -47,7 +47,7 @@ public class RestaurantAjaxController {
 
     /*create new restaurant or update if exist*/
     @PostMapping
-    public void createOrUpdate(@RequestParam("id") Integer id,
+    public void createOrUpdate(@RequestParam(value = "id", required = false) Integer id,
                                @RequestParam("name") String name,
                                @RequestParam("address") String address) {
         Restaurant restaurant = new Restaurant(name, address);

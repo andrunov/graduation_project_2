@@ -64,7 +64,7 @@ public class MenuListAjaxController {
 
     /*create new menuList or update if exist*/
     @PostMapping
-    public void createOrUpdate(@RequestParam("id") Integer id,
+    public void createOrUpdate(@RequestParam(value = "id", required = false) Integer id,
                                @RequestParam("date")@DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN) LocalDateTime date){
         Restaurant currentRestaurant = CurrentEntities.getCurrentRestaurant();
         MenuListTo menuListTo = new MenuListTo();
