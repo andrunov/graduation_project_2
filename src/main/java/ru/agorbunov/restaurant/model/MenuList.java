@@ -9,13 +9,15 @@ import java.util.List;
  */
 
 @NamedQueries({
-        @NamedQuery(name = MenuList.BY_RESTAURANT, query = "select ml from MenuList ml where ml.restaurant.id=:id")
+        @NamedQuery(name = MenuList.BY_RESTAURANT, query = "select ml from MenuList ml where ml.restaurant.id=:id"),
+        @NamedQuery(name = MenuList.BY_RESTAURANT_AND_DATE, query = "select ml from MenuList ml where ml.restaurant.id=:id and ml.date=:date")
 })
 @Entity
 @Table(name = "menu_lists")
 public class MenuList extends BaseEntity {
 
     public static final String BY_RESTAURANT = "MenuList.byRestaurant";
+    public static final String BY_RESTAURANT_AND_DATE = "MenuList.byRestaurantAndDate";
 
     @ManyToOne(targetEntity = Restaurant.class)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")

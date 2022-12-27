@@ -1,6 +1,7 @@
 package ru.agorbunov.restaurant.repository;
 
 
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.model.MenuList;
@@ -9,6 +10,9 @@ import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -49,5 +53,15 @@ public class MenuListRepository {
         return em.createNamedQuery(MenuList.BY_RESTAURANT, MenuList.class)
                 .setParameter("id", id)
                 .getResultList();
+    }
+
+
+    public MenuList getByRestaurantIdAndDate(int id, LocalDate date) {
+        List<MenuList> menuLists = em.createNamedQuery(MenuList.BY_RESTAURANT_AND_DATE, MenuList.class)
+                .setParameter("id", id)
+                .setParameter("date", date)
+                .getResultList();
+
+        return DataAccessUtils.singleResult(menuLists);
     }
 }

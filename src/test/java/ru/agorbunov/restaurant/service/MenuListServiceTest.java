@@ -13,6 +13,7 @@ import ru.agorbunov.restaurant.RestaurantTestData;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
+import ru.agorbunov.restaurant.util.exception.UpdateException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class MenuListServiceTest {
 
     @Test
     public void saveWith() throws Exception {
-        LocalDate now = LocalDate.now();
+        LocalDate now = LocalDate.now().plusDays(1);
         MenuList menuList = new MenuList();
         menuList.setDate(now);
         List<MenuItem> dishList = new ArrayList<>();
@@ -103,6 +104,14 @@ public class MenuListServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void updateNull() throws Exception {
         menuListService.update(null, RestaurantTestData.RESTAURANT_02_ID);
+    }
+
+    @Test(expected = UpdateException.class)
+    public void saveWithSameTate() throws Exception{
+        LocalDate now = LocalDate.now();
+        MenuList menuList = new MenuList();
+        menuList.setDate(now);
+        menuListService.update(menuList, RestaurantTestData.RESTAURANT_01_ID);
     }
 
 

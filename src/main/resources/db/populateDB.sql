@@ -30,10 +30,10 @@ INSERT INTO restaurants(name, address) VALUES
 
 
 INSERT INTO menu_lists( date, restaurant_id) VALUES
-  (now(), 100006),
-  (now(), 100007),
-  (now(), 100008),
-  (now(), 100009),
+  (curdate(), 100006),
+  (curdate(), 100007),
+  (curdate(), 100008),
+  (curdate(), 100009),
   ('2022-12-14 00:00:00', 100006),
   ('2022-12-14 00:00:00', 100007),
   ('2022-12-14 00:00:00', 100008),
