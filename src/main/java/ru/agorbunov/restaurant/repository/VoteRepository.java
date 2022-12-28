@@ -1,5 +1,6 @@
 package ru.agorbunov.restaurant.repository;
 
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.model.User;
@@ -58,14 +59,16 @@ public class VoteRepository {
                 .getResultList();
     }
 
-    public List<Vote> getByUserAndDate(int id, LocalDate date) {
+    public Vote getByUserAndDate(int id, LocalDate date) {
         LocalDateTime from = date.atStartOfDay();
         LocalDateTime to = date.plusDays(1).atStartOfDay();
-        return em.createNamedQuery(Vote.BY_USER_DATE, Vote.class)
+        List<Vote> votes = em.createNamedQuery(Vote.BY_USER_DATE, Vote.class)
                 .setParameter("id", id)
                 .setParameter("from", from)
                 .setParameter("to", to)
                 .getResultList();
+
+        return DataAccessUtils.singleResult(votes);
     }
 
     public List<Vote> getByUserAndRestaurant(int userId, int restaurantId) {

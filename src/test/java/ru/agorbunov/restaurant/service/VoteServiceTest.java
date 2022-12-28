@@ -13,9 +13,11 @@ import ru.agorbunov.restaurant.UserTestData;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
+import ru.agorbunov.restaurant.util.exception.UpdateException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @ContextConfiguration({
@@ -57,8 +59,34 @@ public class VoteServiceTest {
 
     @Test
     public void getByUserAndDate() throws Exception {
-        List<Vote> votes = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
-        Assert.assertEquals("John Bon Jovi", votes.get(0).getUser().getName());
+        Vote vote = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
+        Assert.assertEquals("John Bon Jovi", vote.getUser().getName());
+    }
+
+    @Test
+    public void updateSuccessful() throws Exception {
+        Vote vote = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
+        LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,0));
+        vote.setDateTime(dateTime);
+        voteService.update(vote, UserTestData.USER_04_ID);
+        Vote updated = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
+        Assert.assertEquals(dateTime, updated.getDateTime());
+    }
+
+    @Test(expected = UpdateException.class)
+    public void updateUnsuccessful() throws Exception {
+        Vote vote = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
+        LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,1));
+        vote.setDateTime(dateTime);
+        voteService.update(vote, UserTestData.USER_04_ID);
+    }
+
+    @Test(expected = UpdateException.class)
+    public void updateUnsuccessful2() throws Exception {
+        Vote vote = voteService.getByUserAndDate(UserTestData.USER_00_ID, LocalDate.of(2022,12,14));
+        LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,1));
+        vote.setDateTime(dateTime);
+        voteService.update(vote, UserTestData.USER_00_ID);
     }
 
     @Test

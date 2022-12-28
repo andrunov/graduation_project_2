@@ -69,7 +69,7 @@ public class UserServiceTest {
         newUser.getVotes().add(vote);
         userService.update(newUser);
         for (Vote vote1: newUser.getVotes()) {
-            voteService.update(vote1, newUser);
+            voteService.update(vote1, newUser.getId());
         }
         MATCHER.assertCollectionEquals(
                 Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, newUser),
