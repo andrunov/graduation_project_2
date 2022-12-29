@@ -16,6 +16,7 @@ import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -63,7 +64,7 @@ public class UserServiceTest {
                             "12340Gsdf",
                              Role.ROLE_USER);
         newUser.setVotes(new ArrayList<>());
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now().with(LocalTime.of(9,0));
         Restaurant restaurant = restaurantService.get(RestaurantTestData.RESTAURANT_01_ID);
         Vote vote = new Vote(now, restaurant);
         newUser.getVotes().add(vote);
