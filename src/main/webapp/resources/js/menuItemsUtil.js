@@ -4,20 +4,20 @@
  */
 
 /*url for exchange JSON data between DataTable and server*/
-var ajaxUrl = 'ajax/menuLists/';
+var ajaxUrl = 'ajax/menuItems/';
 
 /*url for exchange JSON data between main form DataTable
  *represents menu lists, and server, using filter by status*/
 var ajaxUrlWithFilter = '/ajax/menuLists/filterByEnabled/';
 
 /*url for link to order_by_dish.jsp*/
-var goMenuItems = 'menuItems/';
+var goMenuItems = '/menuItems/';
 
 /*variable links to DataTable represents menu lists in menuList.jsp*/
 var datatableApi;
 
 /*variable links to menuLists.edit resource bundle */
-var editTitleKey ="menuLists.edit";
+var editTitleKey ="dishes.edit";
 
 /*variable links to menuLists.add resource bundle */
 var addTitleKey ="menuLists.add";
@@ -47,15 +47,12 @@ $(function () {
         "searching": false,
         "info": true,
         "columns": [
-            /*add column with image depending on Enabled*/
+            /*add column with image depending of Enabled*/
             {
-                "data": "date",
+                "data": "name",
             },
             {
-                "orderable": false,
-                "defaultContent": "",
-                "className": "dt-center",
-                "render": linkBtn
+                "data": "price",
             },
             {
                 "orderable": false,

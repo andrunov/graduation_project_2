@@ -18,6 +18,7 @@ import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.service.*;
+import ru.agorbunov.restaurant.to.MenuListTo;
 import ru.agorbunov.restaurant.to.UserTo;
 import ru.agorbunov.restaurant.util.UserUtil;
 
@@ -153,6 +154,23 @@ public class RootController {
         log.info("get /menuLists");
         model.addAttribute(CurrentEntities.getCurrentRestaurant());
         return "menuLists";
+    }
+
+    /*get id parameter to set current restaurant and redirect to menuLists.jsp*/
+    @GetMapping(value = "/menuItems/{id}")
+    public String menuItems(@PathVariable("id") int id) {
+        log.info("get /menuItems/{id}");
+        CurrentEntities.setCurrentMenuListTo(MenuListTo.fromMenuList(menuListService.get(id)));
+        return "redirect:/menuItems";
+    }
+
+    /*return menuLists.jsp and display menu lists of current restaurant*/
+    @GetMapping(value = "/menuItems")
+    public String menuItems(Model model) {
+        log.info("get /menuItems");
+        model.addAttribute(CurrentEntities.getCurrentRestaurant());
+        model.addAttribute(CurrentEntities.getCurrentMenuListTo());
+        return "menuItems";
     }
 
 
