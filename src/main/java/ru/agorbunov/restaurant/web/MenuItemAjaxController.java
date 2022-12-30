@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.agorbunov.restaurant.model.Dish;
 import ru.agorbunov.restaurant.model.MenuItem;
+import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.service.MenuItemService;
 import ru.agorbunov.restaurant.service.RestaurantService;
 import ru.agorbunov.restaurant.to.MenuItemTo;
@@ -48,7 +50,9 @@ public class MenuItemAjaxController {
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public MenuItemTo getMenuItem(@PathVariable("id") int id) {
         log.info("get " + id);
-        return MenuItemTo.fromMenuItem(menuItemService.get(id));
+        MenuItem menuItem = menuItemService.get(id);
+        CurrentEntities.setCurrentDish(menuItem.getDish());
+        return MenuItemTo.fromMenuItem(menuItem);
     }
 
     /*delete menuList by Id*/
@@ -67,8 +71,8 @@ public class MenuItemAjaxController {
         menuItemTo.setId(id);
         menuItemTo.setPrice(Double.parseDouble(price));
         checkEmpty(menuItemTo);
-        MenuItem menuItem = null;
-     //   MenuItem menuItem = MenuItemTo.fromMenuItem(menuItemTo);
+        MenuItem menuItem = MenuItemTo.fromMenuItemTo(menuItemTo);
+        menuItem.setDish(CurrentEntities.getCurrentDish());
         if (menuItem.isNew()) {
             ValidationUtil.checkNew(menuItem);
             log.info("create " + menuItem);

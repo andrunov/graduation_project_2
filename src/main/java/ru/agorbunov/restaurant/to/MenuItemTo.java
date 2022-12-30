@@ -12,6 +12,13 @@ public class MenuItemTo {
         return result;
     }
 
+    public static MenuItem fromMenuItemTo(MenuItemTo source) {
+        MenuItem result = new MenuItem();
+        result.setId(source.getId());
+        result.setPrice(source.getPrice());
+        return result;
+    }
+
     public MenuItemTo() {
     }
 
