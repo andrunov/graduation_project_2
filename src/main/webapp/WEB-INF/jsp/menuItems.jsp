@@ -22,7 +22,7 @@
             <div class="view-box">
                 <a class="btn btn-primary" type="button" onclick="add()">
                     <span class="glyphicon glyphicon-plus-sign"></span>
-                    <fmt:message key="menuLists.add"/>
+                    <fmt:message key="dishes.add"/>
                 </a>
                 <table class="table table-hover table-bordered " id="datatable">
                     <thead>
@@ -56,6 +56,16 @@
 
                     <div class="form-group">
                         <label for="menuItemPrice" class="control-label col-xs-3"><fmt:message
+                                key="dishes.description"/></label>
+
+                        <div class="col-xs-9">
+                            <input class="form-control" id="menuItemName" name="name" size="15" readonly="readonly"
+                                   placeholder="<fmt:message key="dishes.description"/>">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="menuItemPrice" class="control-label col-xs-3"><fmt:message
                                 key="dishes.price"/></label>
 
                         <div class="col-xs-9">
@@ -70,6 +80,10 @@
                                 <span class="glyphicon glyphicon-remove"></span>
                                 <fmt:message key="common.cancel"/>
                             </button>
+                            <a class="btn btn-primary" type="button" onclick="add()">
+                                <span class="glyphicon glyphicon-time"></span>
+                                <fmt:message key="dishes.select"/>
+                            </a>
                             <button type="button" onclick="saveWithFilter()" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                 <fmt:message key="common.complete"/>
