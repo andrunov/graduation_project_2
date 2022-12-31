@@ -26,14 +26,8 @@ var addTitleKey ="menuLists.add";
 var currentFilterValue = "ALL";
 
 /*function to update DataTable by data from server*/
-function updateTable(enabledKey) {
-    if (enabledKey == "ALL") {
-        $.get(ajaxUrl, updateTableByData);
-    }
-    else {
-        $.get(ajaxUrlWithFilter+enabledKey, updateTableByData);
-    }
-    currentFilterValue = enabledKey;
+function updateTable() {
+    $.get(ajaxUrl, updateTableByData);
 }
 
 /*document.ready function*/
