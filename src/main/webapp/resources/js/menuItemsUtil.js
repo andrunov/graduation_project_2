@@ -6,6 +6,8 @@
 /*url for exchange JSON data between DataTable and server*/
 var ajaxUrl = 'ajax/menuItems/';
 
+var ajaxDishUrl = 'ajax/dishes/';
+
 /*url for exchange JSON data between main form DataTable
  *represents menu lists, and server, using filter by status*/
 var ajaxUrlWithFilter = '/ajax/menuLists/filterByEnabled/';
@@ -21,6 +23,8 @@ var editTitleKey ="dishes.edit";
 
 /*variable links to menuLists.add resource bundle */
 var addTitleKey ="menuLists.add";
+
+var selectDishKey ="dishes.select";
 
 /*variable for save current filter value*/
 var currentFilterValue = "ALL";
@@ -117,3 +121,45 @@ function updateRow(id) {
         $('#editRow').modal();
     });
 }
+
+/*method to add new several entities in several forms*/
+function selectDish() {
+    $('#modalTitle2').html(i18n[selectDishKey]);
+    $.get(ajaxDishUrl, function (data) {
+        $.each(data, function (key, value) {
+            form.find("input[name='" + key + "']").val(value);
+        });
+        $('#selectDish').modal();
+    });
+}
+
+/*document.ready function*/
+$(function () {
+    datatableApi = $('#dishdatatable').DataTable({
+        "ajax": {
+            "url": ajaxDishUrl,
+            "dataSrc": ""
+        },
+        "paging": false,
+        "searching": false,
+        "info": true,
+        "columns": [
+            /*add column with image depending of Enabled*/
+            {
+                "data": "name",
+            },
+            {
+                "orderable": false,
+                "defaultContent": "",
+                "className": "dt-center",
+                "render": renderDeleteBtnWithFilter
+            }
+        ],
+        "order": [
+            [
+                0,
+                "asc"
+            ]
+        ],
+    });
+});

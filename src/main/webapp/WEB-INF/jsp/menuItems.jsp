@@ -80,7 +80,7 @@
                                 <span class="glyphicon glyphicon-remove"></span>
                                 <fmt:message key="common.cancel"/>
                             </button>
-                            <a class="btn btn-primary" type="button" onclick="add()">
+                            <a class="btn btn-primary" type="button" onclick="selectDish()">
                                 <span class="glyphicon glyphicon-time"></span>
                                 <fmt:message key="dishes.select"/>
                             </a>
@@ -95,6 +95,33 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="selectDish">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="span7 text-center">
+                    <h2 class="modal-title" id="modalTitle2"></h2>
+                </div>
+
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" method="post" id="detailsForm2">
+                    <table class="table table-hover table-bordered " id="dishdatatable">
+                        <thead>
+                        <tr>
+                            <th><fmt:message key="dishes.description"/></th>
+                            <th><fmt:message key="common.select"/></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
 
