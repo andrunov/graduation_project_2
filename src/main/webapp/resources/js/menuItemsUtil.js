@@ -30,14 +30,8 @@ var selectDishKey ="dishes.select";
 var currentFilterValue = "ALL";
 
 /*function to update DataTable by data from server*/
-function updateTable(enabledKey) {
-    if (enabledKey == "ALL") {
-        $.get(ajaxUrl, updateTableByData);
-    }
-    else {
-        $.get(ajaxUrlWithFilter+enabledKey, updateTableByData);
-    }
-    currentFilterValue = enabledKey;
+function updateTable() {
+     $.get(ajaxUrl, updateTableByData);
 }
 
 /*document.ready function*/
@@ -62,13 +56,13 @@ $(function () {
                 "orderable": false,
                 "defaultContent": "",
                 "className": "dt-center",
-                "render": renderEditMenuListBtn
+                "render": renderEditMenuItemBtn
             },
             {
                 "orderable": false,
                 "defaultContent": "",
                 "className": "dt-center",
-                "render": renderDeleteBtnWithFilter
+                "render": renderDeleteBtn
             }
         ],
         "order": [
@@ -81,13 +75,6 @@ $(function () {
         "createdRow": "",
         "initComplete": makeEditable
     });
-
-    $.datetimepicker.setLocale(localeCode);
-
-    /*set field with datetimepicker*/
-    $('#dateTime').datetimepicker({
-        format: 'Y-m-d H:i'
-    });
 });
 
 /*function for link to dishes.jsp*/
@@ -99,7 +86,7 @@ function linkBtn(data, type, row) {
 }
 
 /*render function draw button for update row*/
-function renderEditMenuListBtn(data, type, row) {
+function renderEditMenuItemBtn(data, type, row) {
     if (type == 'display') {
         return '<a class="btn btn-primary" onclick="updateRow(' + row.id + ');">' +
             '<span class="glyphicon glyphicon-time"></span></a>';
@@ -111,12 +98,7 @@ function updateRow(id) {
     $('#modalTitle').html(i18n[editTitleKey]);
     $.get(ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
-            if (key === "enabled") {
-                $("#" + key).prop("checked", value);
-            }
-            else {
-                form.find("input[name='" + key + "']").val(value);
-            }
+             form.find("input[name='" + key + "']").val(value);
         });
         $('#editRow').modal();
     });
