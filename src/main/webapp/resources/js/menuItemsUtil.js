@@ -146,13 +146,12 @@ function openSelectDishWindow() {
 
 function selectDish(data, type, row) {
     if (type === 'display') {
-        return '<a class="btn btn-primary" onclick="updateSelectedDish(' + row.id + ');">' +
-            '<span class="glyphicon glyphicon-time"></span></a>';
+        return `<a class="btn btn-primary" onclick="updateSelectedDish(${row.id}, '${row.name}');"><span class="glyphicon glyphicon-time"></span></a>`;
     }
 }
 
-function updateSelectedDish(id) {
-    document.getElementById('menuItemName').value = "Новая еда"
-    document.getElementById('id').valueOf(id);
+function updateSelectedDish(id, name) {
+    document.getElementById('menuItemName').value = name;
+    document.getElementById('id').value = id;
     $('#selectDish').modal('hide');
 }
