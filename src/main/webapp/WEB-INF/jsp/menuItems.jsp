@@ -55,7 +55,7 @@
                     <input type="text" hidden="hidden" id="id" name="id">
 
                     <div class="form-group">
-                        <label for="menuItemPrice" class="control-label col-xs-3"><fmt:message
+                        <label for="menuItemName" class="control-label col-xs-3"><fmt:message
                                 key="dishes.description"/></label>
 
                         <div class="col-xs-9">
@@ -84,7 +84,7 @@
                                 <span class="glyphicon glyphicon-time"></span>
                                 <fmt:message key="dishes.select"/>
                             </a>
-                            <button type="button" onclick="saveWithFilter()" class="btn btn-primary">
+                            <button type="button" onclick="save()" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                 <fmt:message key="common.complete"/>
                             </button>

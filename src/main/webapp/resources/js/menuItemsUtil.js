@@ -75,6 +75,33 @@ $(function () {
         "createdRow": "",
         "initComplete": makeEditable
     });
+    dishSelectApi = $('#dishdatatable').DataTable({
+        "ajax": {
+            "url": ajaxDishUrl,
+            "dataSrc": ""
+        },
+        "paging": false,
+        "searching": false,
+        "info": true,
+        "columns": [
+            /*add column with image depending of Enabled*/
+            {
+                "data": "name",
+            },
+            {
+                "orderable": false,
+                "defaultContent": "",
+                "className": "dt-center",
+                "render": renderDeleteBtnWithFilter
+            }
+        ],
+        "order": [
+            [
+                0,
+                "asc"
+            ]
+        ],
+    });
 });
 
 /*function for link to dishes.jsp*/
@@ -114,34 +141,3 @@ function selectDish() {
         $('#selectDish').modal();
     });
 }
-
-/*document.ready function*/
-$(function () {
-    datatableApi = $('#dishdatatable').DataTable({
-        "ajax": {
-            "url": ajaxDishUrl,
-            "dataSrc": ""
-        },
-        "paging": false,
-        "searching": false,
-        "info": true,
-        "columns": [
-            /*add column with image depending of Enabled*/
-            {
-                "data": "name",
-            },
-            {
-                "orderable": false,
-                "defaultContent": "",
-                "className": "dt-center",
-                "render": renderDeleteBtnWithFilter
-            }
-        ],
-        "order": [
-            [
-                0,
-                "asc"
-            ]
-        ],
-    });
-});
