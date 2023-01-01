@@ -92,7 +92,7 @@ $(function () {
                 "orderable": false,
                 "defaultContent": "",
                 "className": "dt-center",
-                "render": renderDeleteBtnWithFilter
+                "render": selectDish
             }
         ],
         "order": [
@@ -101,12 +101,14 @@ $(function () {
                 "asc"
             ]
         ],
+        "createdRow": "",
+        "initComplete": makeEditable
     });
 });
 
 /*function for link to dishes.jsp*/
 function linkBtn(data, type, row) {
-    if (type == 'display') {
+    if (type === 'display') {
         return '<a class="btn btn-primary" onclick=location.href="'+ goMenuItems + row.id +'">' +
             '<span class="glyphicon glyphicon-list-alt"></span></a>';
     }
@@ -114,7 +116,7 @@ function linkBtn(data, type, row) {
 
 /*render function draw button for update row*/
 function renderEditMenuItemBtn(data, type, row) {
-    if (type == 'display') {
+    if (type === 'display') {
         return '<a class="btn btn-primary" onclick="updateRow(' + row.id + ');">' +
             '<span class="glyphicon glyphicon-time"></span></a>';
     }
@@ -132,7 +134,7 @@ function updateRow(id) {
 }
 
 /*method to add new several entities in several forms*/
-function selectDish() {
+function openSelectDishWindow() {
     $('#modalTitle2').html(i18n[selectDishKey]);
     $.get(ajaxDishUrl, function (data) {
         $.each(data, function (key, value) {
@@ -140,4 +142,17 @@ function selectDish() {
         });
         $('#selectDish').modal();
     });
+}
+
+function selectDish(data, type, row) {
+    if (type === 'display') {
+        return '<a class="btn btn-primary" onclick="updateSelectedDish(' + row.id + ');">' +
+            '<span class="glyphicon glyphicon-time"></span></a>';
+    }
+}
+
+function updateSelectedDish(id) {
+    document.getElementById('menuItemName').value = "Новая еда"
+    document.getElementById('id').valueOf(id);
+    $('#selectDish').modal('hide');
 }

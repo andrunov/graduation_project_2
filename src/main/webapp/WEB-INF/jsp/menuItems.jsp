@@ -80,7 +80,7 @@
                                 <span class="glyphicon glyphicon-remove"></span>
                                 <fmt:message key="common.cancel"/>
                             </button>
-                            <a class="btn btn-primary" type="button" onclick="selectDish()">
+                            <a class="btn btn-primary" type="button" onclick="openSelectDishWindow()">
                                 <span class="glyphicon glyphicon-time"></span>
                                 <fmt:message key="dishes.select"/>
                             </a>
