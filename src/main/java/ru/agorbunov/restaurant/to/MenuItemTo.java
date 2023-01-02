@@ -23,6 +23,8 @@ public class MenuItemTo {
     }
 
     private Integer id;
+
+    private Integer dishId;
     private String name;
     private Double price;
 
@@ -32,6 +34,14 @@ public class MenuItemTo {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getDishId() {
+        return dishId;
+    }
+
+    public void setDishId(Integer dishId) {
+        this.dishId = dishId;
     }
 
     public String getName() {

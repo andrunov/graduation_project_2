@@ -53,6 +53,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" method="post" id="detailsForm">
                     <input type="text" hidden="hidden" id="id" name="id">
+                    <input type="text" hidden="hidden" id="dishId" name="dishId">
 
                     <div class="form-group">
                         <label for="menuItemName" class="control-label col-xs-3"><fmt:message
@@ -60,7 +61,7 @@
 
                         <div class="col-xs-9">
                             <input class="form-control" id="menuItemName" name="name" size="15" readonly="readonly"
-                                   placeholder="<fmt:message key="dishes.description"/>">
+                                   onclick="openSelectDishWindow()" placeholder="<fmt:message key="dishes.description"/>">
                         </div>
                     </div>
 
@@ -108,11 +109,11 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" method="post" id="detailsForm2">
-                    <table class="table table-hover table-bordered " id="dishdatatable">
+                    <table width="100%" class="table table-hover table-bordered " id="dishdatatable">
                         <thead>
                         <tr>
-                            <th><fmt:message key="dishes.description"/></th>
-                            <th><fmt:message key="common.select"/></th>
+                            <th width="90%"><fmt:message key="dishes.description"/></th>
+                            <th width="10%"><fmt:message key="common.select"/></th>
                         </tr>
                         </thead>
                     </table>

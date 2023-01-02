@@ -39,6 +39,11 @@ public class MenuItemService {
         repository.save(menuItem, menuListId);
     }
 
+    public void update(MenuItem menuItem, int dishId,  int menuListId) {
+        Assert.notNull(menuItem, "dishDescription must not be null");
+        repository.save(menuItem, dishId, menuListId);
+    }
+
     public void updateList(List<MenuItem> menuItemList, int menuListId) {
         Assert.notNull(menuItemList, "dishDescriptionList must not be null");
         repository.saveList(menuItemList, menuListId);

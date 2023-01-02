@@ -2,6 +2,7 @@ package ru.agorbunov.restaurant.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.agorbunov.restaurant.model.Dish;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
@@ -19,6 +20,18 @@ public class MenuItemRepository {
 
     @Transactional
     public MenuItem save(MenuItem menuItem, int menuListId) {
+        menuItem.setMenuList(em.getReference(MenuList.class, menuListId));
+        if (menuItem.isNew()) {
+            em.persist(menuItem);
+            return menuItem;
+        } else {
+            return em.merge(menuItem);
+        }
+    }
+
+    @Transactional
+    public MenuItem save(MenuItem menuItem, int dishId,  int menuListId) {
+        menuItem.setDish(em.getReference(Dish.class, dishId));
         menuItem.setMenuList(em.getReference(MenuList.class, menuListId));
         if (menuItem.isNew()) {
             em.persist(menuItem);

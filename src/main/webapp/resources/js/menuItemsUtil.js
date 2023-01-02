@@ -152,6 +152,6 @@ function selectDish(data, type, row) {
 
 function updateSelectedDish(id, name) {
     document.getElementById('menuItemName').value = name;
-    document.getElementById('id').value = id;
+    document.getElementById('dishId').value = id;
     $('#selectDish').modal('hide');
 }

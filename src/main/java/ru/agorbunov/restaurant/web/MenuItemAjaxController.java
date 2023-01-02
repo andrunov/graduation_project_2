@@ -65,8 +65,9 @@ public class MenuItemAjaxController {
     /*create new menuList or update if exist*/
     @PostMapping
     public void createOrUpdate(@RequestParam(value = "id", required = false) Integer id,
+                               @RequestParam("dishId") Integer dishId,
                                @RequestParam("price") String price){
-        MenuListTo currentMenuListTo = CurrentEntities.getCurrentMenuListTo();
+        int menuListId = CurrentEntities.getCurrentMenuListTo().getId();
         MenuItemTo menuItemTo = new MenuItemTo();
         menuItemTo.setId(id);
         menuItemTo.setPrice(Double.parseDouble(price));
@@ -76,10 +77,10 @@ public class MenuItemAjaxController {
         if (menuItem.isNew()) {
             ValidationUtil.checkNew(menuItem);
             log.info("create " + menuItem);
-            menuItemService.update(menuItem,currentMenuListTo.getId());
+            menuItemService.update(menuItem, dishId, menuListId);
         } else {
             log.info("update " + menuItem);
-            menuItemService.update(menuItem,currentMenuListTo.getId());
+            menuItemService.update(menuItem, dishId, menuListId);
         }
     }
 
