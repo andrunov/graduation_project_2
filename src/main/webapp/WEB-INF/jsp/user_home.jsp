@@ -26,26 +26,6 @@
                             <fmt:message key="orders.add"/>
                         </a>
                     </td>
-                    <td>
-                        <input name="filter" type="radio" checked="checked" id="GET_ALL" onclick="updateTable('ALL')"/>
-                        <label  for="GET_ALL"><fmt:message key="status.ALL"/></label>
-                    </td>
-                    <td>
-                        <input name="filter" type="radio" id="GET_ACCEPTED" onclick="updateTable('ACCEPTED')"/>
-                        <label  for="GET_ACCEPTED"><fmt:message key="status.ACCEPTED"/></label>
-                    </td>
-                    <td>
-                        <input name="filter" type="radio" id="GET_PREPARING" onclick="updateTable('PREPARING')"/>
-                        <label  for="GET_PREPARING"><fmt:message key="status.PREPARING"/></label>
-                    </td>
-                    <td>
-                        <input name="filter" type="radio" id="GET_READY" onclick="updateTable('READY')"/>
-                        <label  for="GET_READY"><fmt:message key="status.READY"/></label>
-                    </td>
-                    <td>
-                        <input name="filter" type="radio" id="GET_FINISHED" onclick="updateTable('FINISHED')"/>
-                        <label  for="GET_FINISHED"><fmt:message key="status.FINISHED"/></label>
-                    </td>
                     <td class="col-sm-1" align="right">
                         <label for="dateTimeFilter"><fmt:message key="common.dateFilter"/></label>
                     </td>

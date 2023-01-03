@@ -164,7 +164,7 @@ public class RootController {
         return "redirect:/menuItems";
     }
 
-    /*return menuLists.jsp and display menu lists of current restaurant*/
+    /*return menuItems.jsp and display menu lists of current restaurant*/
     @GetMapping(value = "/menuItems")
     public String menuItems(Model model) {
         log.info("get /menuItems");

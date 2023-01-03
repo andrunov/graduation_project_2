@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
@@ -28,6 +29,7 @@ public class UserAjaxController {
     private UserService service;
 
     /*get user by Id */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUser(@PathVariable("id") int id) {
         log.info("get " + id);
@@ -35,6 +37,7 @@ public class UserAjaxController {
     }
 
     /*get all users */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
         log.info("getAll");
@@ -42,6 +45,7 @@ public class UserAjaxController {
     }
 
     /*delete user by Id*/
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
         log.info("delete " + id);
@@ -49,6 +53,7 @@ public class UserAjaxController {
     }
 
     /*create new user or update if exists*/
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public void createOrUpdate(@RequestParam(value = "id", required = false ) Integer id,
                                @RequestParam("name") String name,

@@ -81,18 +81,7 @@
 
                     <table class="table" >
                         <tr>
-                            <td>
-                                <div class="panel panel-info">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">
-                                            <label for="enabled" class="text-right"><fmt:message key="users.enabled"/></label>
-                                        </h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        <input type="checkbox" id="enabled" name="enabled" value="true" checked >
-                                    </div>
-                                </div>
-                            </td>
+                            <td width="30%"></td>
                             <td>
                                 <div class="panel panel-info">
                                     <div class="panel-heading">
@@ -112,6 +101,7 @@
                                     </div>
                                 </div>
                             </td>
+                            <td width="30%"></td>
                         </tr>
                     </table>
                     <div class="form-group">
