@@ -1,8 +1,10 @@
 package ru.agorbunov.restaurant.repository;
 
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.model.Restaurant;
+import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import javax.persistence.EntityManager;
@@ -47,5 +49,13 @@ public class RestaurantRepository {
     public List<Restaurant> getAll() {
         return em.createNamedQuery(Restaurant.ALL_SORTED, Restaurant.class)
                 .getResultList();
+    }
+
+    public Restaurant getByVote(int id) {
+        List<Restaurant> restaurants = em.createNamedQuery(Restaurant.BY_VOTE, Restaurant.class)
+                .setParameter("id", id)
+                .getResultList();
+        return DataAccessUtils.singleResult(restaurants);
+
     }
 }

@@ -20,12 +20,10 @@ import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFou
 public class UserService implements UserDetailsService {
 
     private final UserRepository repository;
-    private final VoteRepository voteRepository;
 
     @Autowired
-    public UserService(UserRepository repository, VoteRepository voteRepository) {
+    public UserService(UserRepository repository) {
         this.repository = repository;
-        this.voteRepository = voteRepository;
     }
 
     public void delete(int id) {

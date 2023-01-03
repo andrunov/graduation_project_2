@@ -30,9 +30,6 @@ public class MenuItemAjaxController {
     @Autowired
     private MenuItemService menuItemService;
 
-    @Autowired
-    private RestaurantService restaurantService;
-
     /*get all menu lists by current restaurant*/
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MenuItemTo> getByMenuList() {

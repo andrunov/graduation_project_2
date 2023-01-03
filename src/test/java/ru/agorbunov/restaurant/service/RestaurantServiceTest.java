@@ -128,5 +128,10 @@ public class RestaurantServiceTest {
         restaurantService.update(null);
     }
 
+    @Test
+    public void getByVote() throws Exception {
+        MATCHER.assertEquals(RESTAURANT_01, restaurantService.getByVote(100023));
+    }
+
 
 }

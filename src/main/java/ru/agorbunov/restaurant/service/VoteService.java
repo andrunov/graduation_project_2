@@ -2,8 +2,8 @@ package ru.agorbunov.restaurant.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
+import ru.agorbunov.restaurant.repository.RestaurantRepository;
 import ru.agorbunov.restaurant.repository.VoteRepository;
 import ru.agorbunov.restaurant.util.DateTimeUtil;
 import ru.agorbunov.restaurant.util.exception.UpdateException;
@@ -20,18 +20,20 @@ public class VoteService {
 
     public static final LocalTime DEADLINE = LocalTime.of(11,0);
 
-    private final VoteRepository repository;
+    private final VoteRepository voteRepository;
+    private final RestaurantRepository restaurantRepository;
 
-    public VoteService(VoteRepository repository) {
-        this.repository = repository;
+    public VoteService(VoteRepository voteRepository, RestaurantRepository restaurantRepository) {
+        this.voteRepository = voteRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     public void delete(int id) {
-        checkNotFoundWithId(repository.delete(id), id);
+        checkNotFoundWithId(voteRepository.delete(id), id);
     }
 
     public Vote get(int id) {
-        return checkNotFoundWithId(repository.get(id), id);
+        return checkNotFoundWithId(voteRepository.get(id), id);
     }
 
 
@@ -44,27 +46,35 @@ public class VoteService {
             if (vote.getDateTime().isAfter(LocalDateTime.now().with(DEADLINE))) {
                 throw new UpdateException("It's too late, " + DateTimeUtil.toString(vote.getDateTime()) + " vote needs to be made before 11:00 o'clock");
             } else {
-                repository.save(vote, userId);
+                voteRepository.save(vote, userId);
             }
         }
     }
 
-    public List<Vote> getAllByUser(int id) {
-        return repository.getAllByUser(id);
+    public List<Vote> getByUser(int id) {
+        return voteRepository.getByUser(id);
+    }
+
+    public List<Vote> getByUserWith(int id) {
+        List<Vote> result = voteRepository.getByUser(id);
+        for (Vote vote : result) {
+            vote.setRestaurant(restaurantRepository.getByVote(vote.getId()));
+        }
+        return result;
     }
 
     public List<Vote> getByRestaurantAndDate(int id, LocalDate date) {
         Assert.notNull(date, "date must not be null");
-        return repository.getByRestaurantAndDate(id, date);
+        return voteRepository.getByRestaurantAndDate(id, date);
     }
 
     public Vote getByUserAndDate(int id, LocalDate date) {
         Assert.notNull(date, "date must not be null");
-        return repository.getByUserAndDate(id, date);
+        return voteRepository.getByUserAndDate(id, date);
     }
 
     public List<Vote> getByUserAndRestaurant(int userId, int restaurantId) {
-        return repository.getByUserAndRestaurant(userId, restaurantId);
+        return voteRepository.getByUserAndRestaurant(userId, restaurantId);
     }
 
 

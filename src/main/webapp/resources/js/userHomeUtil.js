@@ -5,22 +5,22 @@
 
 /*url for exchange JSON data between main form DataTable (id="ordersDT")
  *represents orders and server*/
-var ajaxUrl = '/ajax/orders/';
+var ajaxUrl = 'ajax/votes/';
 
 /*url use only for create new Order*/
-var ajaxUrlCreateNew = '/ajax/orders/create';
+var ajaxUrlCreateNew = 'ajax/orders/create';
 
 /*url for exchange JSON data between restaurant modal window DataTable (id="restaurantDT") and server*/
-var ajaxRestaurantUrl = '/ajax/restaurants/';
+var ajaxRestaurantUrl = 'ajax/restaurants/';
 
 /*url for exchange JSON data between menuList modal window DataTable (id="menuListDT") and server*/
-var ajaxMenuListUrl = '/ajax/menuLists/byRestaurant/';
+var ajaxMenuListUrl = 'ajax/menuLists/byRestaurant/';
 
 /*url for exchange JSON data between dishes modal window DataTable (id="dishDT") and server*/
-var ajaxDishesUrl = '/ajax/dishes/byMenuList/';
+var ajaxDishesUrl = 'ajax/dishes/byMenuList/';
 
 /*url for link to orders_dishes.jsp*/
-var goOrdersDishes = '/orders_dishes/';
+var goOrdersDishes = 'orders_dishes/';
 
 /*url for redirect to orders_dishes.jsp after POST method*/
 var redirectOrdersDishes = 'orders_dishes';
@@ -58,7 +58,7 @@ function updateTableDateFilter(date) {
 
 /*DataTable represents orders in main form initialization*/
 function ordersDataTableInit() {
-    datatableApi = $('#ordersDT').DataTable({
+    datatableApi = $('#votesDT').DataTable({
         "ajax": {
             "url": ajaxUrl,
             "dataSrc": ""
@@ -102,12 +102,6 @@ function ordersDataTableInit() {
                 "data": "restaurant",
                 "render": function (date, type, row) {
                     return (date.name +', '+ date.address);
-                }
-            },
-            {
-                "data": "totalPrice",
-                "render": function (date, type, row) {
-                    return date.toFixed(2);
                 }
             },
             {

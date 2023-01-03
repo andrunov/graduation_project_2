@@ -36,13 +36,12 @@
                 </tr>
             </table>
             <div class="view-box">
-                <table class="table table-hover table-bordered " id="ordersDT">
+                <table class="table table-hover table-bordered " id="votesDT">
                     <thead>
                     <tr>
                         <th></th>
                         <th><fmt:message key="common.dateTime"/></th>
                         <th><fmt:message key="restaurants.nameAndAddress"/></th>
-                        <th><fmt:message key="orders.total"/></th>
                         <th><fmt:message key="orders.content"/></th>
                         <th><fmt:message key="common.delete"/></th>
                     </tr>

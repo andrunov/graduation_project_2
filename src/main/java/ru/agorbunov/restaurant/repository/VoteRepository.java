@@ -43,7 +43,7 @@ public class VoteRepository {
         }
     }
 
-    public List<Vote> getAllByUser(int id) {
+    public List<Vote> getByUser(int id) {
         return em.createNamedQuery(Vote.BY_USER, Vote.class)
                 .setParameter("id", id)
                 .getResultList();

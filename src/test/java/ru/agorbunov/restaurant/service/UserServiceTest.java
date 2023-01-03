@@ -76,7 +76,7 @@ public class UserServiceTest {
                 Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, newUser),
                 userService.getAll());
         User updated = userService.get(newUser.getId());
-        updated.setVotes(voteService.getAllByUser(newUser.getId()));
+        updated.setVotes(voteService.getByUser(newUser.getId()));
         Assert.assertEquals(1, updated.getVotes().size());
     }
 
@@ -145,7 +145,7 @@ public class UserServiceTest {
     @Test
     public void getWith() throws Exception{
         User user = userService.get(USER_02_ID);
-        user.setVotes(voteService.getAllByUser(USER_02_ID));
+        user.setVotes(voteService.getByUser(USER_02_ID));
         Assert.assertEquals(1, user.getVotes().size());
     }
 

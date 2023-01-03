@@ -8,16 +8,21 @@ import java.util.List;
 /**
  * Class represents restaurant
  */
+@NamedNativeQueries({
+        @NamedNativeQuery(name = Restaurant.BY_VOTE, query = "SELECT * FROM RESTAURANTS r LEFT JOIN VOTES v on r.ID = v.RESTAURANT_ID WHERE v.ID=:id", resultClass = Restaurant.class)
+})
 @NamedQueries({
         @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant r WHERE r.id=:id"),
-        @NamedQuery(name = Restaurant.ALL_SORTED, query = "SELECT r FROM Restaurant r ORDER BY r.id asc "),
+        @NamedQuery(name = Restaurant.ALL_SORTED, query = "SELECT r FROM Restaurant r ORDER BY r.id asc ")
 })
+
 @Entity
 @Table(name = "restaurants")
 public class Restaurant extends BaseEntity {
 
     public static final String DELETE = "Restaurant.delete";
     public static final String ALL_SORTED = "Restaurant.getAllSorted";
+    public static final String BY_VOTE = "Restaurant.getByVote";
 
     /*name of restaurant*/
     @NotBlank

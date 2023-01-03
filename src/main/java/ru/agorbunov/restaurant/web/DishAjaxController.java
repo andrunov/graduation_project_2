@@ -53,6 +53,7 @@ public class DishAjaxController {
         Dish dish = new Dish();
         dish.setId(id);
         dish.setName(name);
+        checkEmpty(dish);
         if (dish.isNew()) {
             ValidationUtil.checkNew(dish);
             log.info("create " + dish);

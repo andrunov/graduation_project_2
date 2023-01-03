@@ -51,4 +51,8 @@ public class RestaurantService {
         Assert.notNull(restaurant, "restaurant must not be null");
         restaurantRepository.save(restaurant);
     }
+
+    public Restaurant getByVote(int id) {
+        return restaurantRepository.getByVote(id);
+    }
 }
