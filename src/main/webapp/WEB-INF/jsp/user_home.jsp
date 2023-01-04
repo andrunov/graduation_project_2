@@ -96,8 +96,7 @@
                     <thead>
                     <tr>
                         <th><fmt:message key="menuLists.description"/></th>
-                        <th><fmt:message key="common.dateTime"/></th>
-                        <th><fmt:message key="common.select"/></th>
+                        <th><fmt:message key="dishes.price"/></th>
                     </tr>
                     </thead>
                 </table>
@@ -106,50 +105,10 @@
                         <span class="glyphicon glyphicon-remove"></span>
                         <fmt:message key="common.cancel"/>
                     </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<%--dishes modal window--%>
-<div class="modal fade" id="selectDishes">
-    <div class="container">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h2 class="modal-title"><fmt:message key="dishes.select"/></h2>
-                    <h3 class="modal-title" id="modalTitleRestaurant2"></h3>
-                    <h3 class="modal-title" id="modalTitleMenuList"></h3>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-hover table-bordered " id="dishDT" style="width: 100%">
-                        <thead>
-                        <tr>
-                            <th><fmt:message key="dishes.description"/></th>
-                            <th><fmt:message key="dishes.price"/></th>
-                            <th><fmt:message key="app.select"/></th>
-                        </tr>
-                        </thead>
-                    </table>
-                    <table class="table">
-                        <tr>
-                            <th class="col-sm-2"></th>
-                            <th class="col-sm-1">
-                                <a class="btn btn-success" type="button" onclick="$('#selectDishes').modal('hide')">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                    <fmt:message key="common.cancel"/>
-                                </a>
-                            </th>
-                            <th class="col-sm-1" style="text-align: center">
-                                <a class="btn btn-primary" type="button" onclick="complete()">
-                                    <span class="glyphicon glyphicon-ok"></span>
-                                    <fmt:message key="common.complete"/>
-                                </a>
-                            </th>
-                            <th class="col-sm-2"></th>
-                    </table>
+                    <button type="button" onclick="saveVote()" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        <fmt:message key="common.select"/>
+                    </button>
                 </div>
             </div>
         </div>

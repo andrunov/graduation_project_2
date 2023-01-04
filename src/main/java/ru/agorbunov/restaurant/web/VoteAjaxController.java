@@ -47,12 +47,12 @@ public class VoteAjaxController {
 
     /*create new menuList or update if exist*/
     @PostMapping
-    public void createOrUpdate(@RequestParam(value = "id", required = false) Integer id,
-                               @RequestParam("date")@DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN) LocalDateTime dateTime){
-        int userId = CurrentEntities.getCurrentUser().getId();
+    public void createOrUpdate(@RequestParam(value = "id", required = false) Integer id){
         Vote vote = new Vote();
+        int userId = CurrentEntities.getCurrentUser().getId();
         vote.setId(id);
         vote.setRestaurant(CurrentEntities.getCurrentRestaurant());
+        vote.setDateTime(LocalDateTime.now());
         checkEmpty(vote);
         if (vote.isNew()) {
             ValidationUtil.checkNew(vote);

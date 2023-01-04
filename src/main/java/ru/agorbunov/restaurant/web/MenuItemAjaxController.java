@@ -5,15 +5,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import ru.agorbunov.restaurant.model.Dish;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.model.MenuList;
+import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.service.MenuItemService;
+import ru.agorbunov.restaurant.service.MenuListService;
 import ru.agorbunov.restaurant.service.RestaurantService;
 import ru.agorbunov.restaurant.to.MenuItemTo;
 import ru.agorbunov.restaurant.to.MenuListTo;
 import ru.agorbunov.restaurant.util.ValidationUtil;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,12 @@ public class MenuItemAjaxController {
     @Autowired
     private MenuItemService menuItemService;
 
+    @Autowired
+    private MenuListService menuListService;
+
+    @Autowired
+    private RestaurantService restaurantService;
+
     /*get all menu lists by current restaurant*/
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MenuItemTo> getByMenuList() {
@@ -41,6 +49,14 @@ public class MenuItemAjaxController {
             result.add(MenuItemTo.fromMenuItem(menuItem));
         }
         return result;
+    }
+
+    @GetMapping(value = "/currentByRestaurant/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MenuItem>  getCurrentByRestaurant(@PathVariable("id") int id) {
+        log.info("getCurrentByRestaurant");
+        CurrentEntities.setCurrentRestaurant(restaurantService.get(id));
+        MenuList menuList = menuListService.getByRestaurantIdAndDate(id, LocalDate.now());
+        return menuItemService.getByMenu(menuList.getId());
     }
 
     /*get menuList by Id */

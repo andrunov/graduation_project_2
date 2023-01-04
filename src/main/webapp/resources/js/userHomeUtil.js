@@ -14,7 +14,7 @@ var ajaxUrlCreateNew = 'ajax/orders/create';
 var ajaxRestaurantUrl = 'ajax/restaurants/';
 
 /*url for exchange JSON data between menuList modal window DataTable (id="menuListDT") and server*/
-var ajaxMenuListUrl = 'ajax/menuLists/byRestaurant/';
+var ajaxMenuListUrl = 'ajax/menuItems/currentByRestaurant/';
 
 /*url for exchange JSON data between dishes modal window DataTable (id="dishDT") and server*/
 var ajaxDishesUrl = 'ajax/dishes/byMenuList/';
@@ -163,10 +163,10 @@ function restaurantDataTableInit() {
 }
 
 /*DataTable represents MenuLists in modal window initialization*/
-function menuListDataTableInit(id) {
+function menuItemsDataTableInit(id) {
     $('#menuListDT').DataTable({
         "ajax": {
-            "url": ajaxMenuListUrl + id + '&TRUE',
+            "url": ajaxMenuListUrl + id,
             "dataSrc": ""
         },
         "destroy": true,
@@ -175,22 +175,13 @@ function menuListDataTableInit(id) {
         "info": true,
         "columns": [
             {
-                "data": "description"
-            },
-            {
-                "data": "dateTime",
+                "data": "dish",
                 "render": function (date, type, row) {
-                    if (type == 'display') {
-                        return formatDate(date);
-                    }
-                    return date;
+                    return (date.name);
                 }
             },
             {
-                "orderable": false,
-                "defaultContent": "",
-                "className": "dt-center",
-                "render": selectMenuListBtn
+                "data": "price",
             }
         ],
         "order": [
@@ -199,6 +190,7 @@ function menuListDataTableInit(id) {
                 "asc"
             ]
         ],
+        /*customize row style depending of Enabled*/
         "createdRow": ""
     });
 }
@@ -251,6 +243,8 @@ $(function () {
     /*dataTables initialization*/
     ordersDataTableInit();
     restaurantDataTableInit();
+    dishDataTableInit(id);
+
 
     /*adjust Datetimepicker*/
     $.datetimepicker.setLocale(localeCode);
@@ -310,7 +304,7 @@ function openMenuListWindow(id,restaurantTitle) {
     lastRestaurantTitle = restaurantTitle;
 
     /*dataTable initialization*/
-    menuListDataTableInit(id);
+    menuItemsDataTableInit(id);
 
     /*open modal window for menu list selection
      * hide modal window of restaurant select*/
@@ -338,10 +332,7 @@ function openDishWindow(id,menuListTitle) {
     $('#modalTitleRestaurant2').html(lastRestaurantTitle);
     $('#modalTitleMenuList').html(menuListTitle);
 
-    //DataTable for dishes modal window initialisation
-    dishDataTableInit(id);
-
-    // Handle multiple choice checkbox of dishes
+     // Handle multiple choice checkbox of dishes
     $('#dishDT tbody').on('click', 'input[type="checkbox"]', function(e){
         var $row = $(this).closest('tr');
         if(this.checked){
@@ -396,9 +387,9 @@ function renderDeleteBtn(data, type, row) {
 
 /*method to delete row
  * use in all forms*/
-function deleteRow(id,restaurantId) {
+function deleteRow(id) {
     $.ajax({
-        url: ajaxUrl + id +'&'+ restaurantId,
+        url: ajaxUrl + id ,
         type: 'DELETE',
         success: function () {
             updateTable(currentFilterValue);
@@ -406,3 +397,16 @@ function deleteRow(id,restaurantId) {
     });
 }
 
+function saveVote() {
+    var form = $('#detailsForm');
+    $.ajax({
+        type: "POST",
+        url: ajaxUrl,
+        data: form.serialize(),
+        success: function () {
+            $('#selectMenuList').modal('hide');
+            $('#selectRestaurant').modal('hide');
+            updateTable();
+        }
+    });
+}

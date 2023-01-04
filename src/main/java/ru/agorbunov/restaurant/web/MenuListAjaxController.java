@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.service.MenuListService;
-import ru.agorbunov.restaurant.service.RestaurantService;
 import ru.agorbunov.restaurant.to.MenuListTo;
 import ru.agorbunov.restaurant.util.DateTimeUtil;
 import ru.agorbunov.restaurant.util.ValidationUtil;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +30,6 @@ public class MenuListAjaxController {
     @Autowired
     private MenuListService menuListService;
 
-    @Autowired
-    private RestaurantService restaurantService;
-
     /*get all menu lists by current restaurant*/
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MenuListTo> getByRestaurant() {
@@ -47,6 +42,8 @@ public class MenuListAjaxController {
         }
         return result;
     }
+
+
 
     /*get menuList by Id */
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
