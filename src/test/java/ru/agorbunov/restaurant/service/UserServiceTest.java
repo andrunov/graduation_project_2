@@ -9,10 +9,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.agorbunov.restaurant.RestaurantTestData;
-import ru.agorbunov.restaurant.model.Restaurant;
-import ru.agorbunov.restaurant.model.Role;
-import ru.agorbunov.restaurant.model.User;
-import ru.agorbunov.restaurant.model.Vote;
+import ru.agorbunov.restaurant.model.*;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
@@ -45,6 +42,9 @@ public class UserServiceTest {
     @Autowired
     private RestaurantService restaurantService;
 
+    @Autowired
+    private MenuListService menuListService;
+
     @Test
     public void save() throws Exception {
         User newUser = new User("Созданный пользователь",
@@ -66,7 +66,8 @@ public class UserServiceTest {
         newUser.setVotes(new ArrayList<>());
         LocalDateTime now = LocalDateTime.now().with(LocalTime.of(9,0));
         Restaurant restaurant = restaurantService.get(RestaurantTestData.RESTAURANT_01_ID);
-        Vote vote = new Vote(now, restaurant);
+        MenuList menuList = menuListService.getByRestaurantIdAndDate(restaurant.getId(), now.toLocalDate());
+        Vote vote = new Vote(now, restaurant, menuList);
         newUser.getVotes().add(vote);
         userService.update(newUser);
         for (Vote vote1: newUser.getVotes()) {

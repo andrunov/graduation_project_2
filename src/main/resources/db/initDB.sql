@@ -64,7 +64,9 @@ CREATE TABLE votes
     date_time           TIMESTAMP NOT NULL,
     user_id             INTEGER NOT NULL,
     restaurant_id       INTEGER NOT NULL,
+    menu_list_id             INTEGER NOT NULL,
     FOREIGN KEY         (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY         (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE
+    FOREIGN KEY         (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE,
+    FOREIGN KEY         (menu_list_id) REFERENCES menu_lists(id) ON DELETE CASCADE
 );
 

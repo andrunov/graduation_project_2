@@ -82,7 +82,7 @@
     </div>
 </div>
 
-<%--menuList modal window--%>
+<%--menuList modal select window--%>
 <div class="modal fade" id="selectMenuList">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -109,6 +109,35 @@
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                         <fmt:message key="common.select"/>
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--menuList modal select window--%>
+<div class="modal fade" id="showMenuList">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title"><fmt:message key="menuLists.select"/></h2>
+                <h3 class="modal-title" id="modalTitleRestaurantShow"></h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover table-bordered " id="menuListDTShow" style="width: 100%">
+                    <thead>
+                    <tr>
+                        <th><fmt:message key="menuLists.description"/></th>
+                        <th><fmt:message key="dishes.price"/></th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="span7 text-center">
+                    <a class="btn btn-success" type="button" onclick="$('#showMenuList').modal('hide')">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        <fmt:message key="common.ok"/>
+                    </a>
                 </div>
             </div>
         </div>

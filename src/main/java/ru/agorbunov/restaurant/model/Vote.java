@@ -31,12 +31,17 @@ public class Vote extends BaseEntity {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
+    @OneToOne(targetEntity = MenuList.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "MENU_LIST_ID")
+    private MenuList menuList;
+
     public Vote() {
     }
 
-    public Vote(LocalDateTime dateTime, Restaurant restaurant) {
+    public Vote(LocalDateTime dateTime, Restaurant restaurant, MenuList menuList) {
         this.dateTime = dateTime;
         this.restaurant = restaurant;
+        this.menuList = menuList;
     }
 
     public User getUser() {
@@ -61,5 +66,13 @@ public class Vote extends BaseEntity {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public MenuList getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(MenuList menuList) {
+        this.menuList = menuList;
     }
 }

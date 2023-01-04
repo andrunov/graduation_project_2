@@ -14,7 +14,10 @@ var ajaxUrlCreateNew = 'ajax/orders/create';
 var ajaxRestaurantUrl = 'ajax/restaurants/';
 
 /*url for exchange JSON data between menuList modal window DataTable (id="menuListDT") and server*/
-var ajaxMenuListUrl = 'ajax/menuItems/currentByRestaurant/';
+var ajaxMenuItemsByRestaurantUrl = 'ajax/menuItems/currentByRestaurant/';
+
+/*url for exchange JSON data between menuList modal window DataTable (id="menuListDT") and server*/
+var ajaxMenuItemsByMenuListUrl = 'ajax/menuItems/byMenuList/';
 
 /*url for exchange JSON data between dishes modal window DataTable (id="dishDT") and server*/
 var ajaxDishesUrl = 'ajax/dishes/byMenuList/';
@@ -163,10 +166,10 @@ function restaurantDataTableInit() {
 }
 
 /*DataTable represents MenuLists in modal window initialization*/
-function menuItemsDataTableInit(id) {
+function menuItemsDataTableByRestaurant(id) {
     $('#menuListDT').DataTable({
         "ajax": {
-            "url": ajaxMenuListUrl + id,
+            "url": ajaxMenuItemsByRestaurantUrl + id,
             "dataSrc": ""
         },
         "destroy": true,
@@ -190,16 +193,15 @@ function menuItemsDataTableInit(id) {
                 "asc"
             ]
         ],
-        /*customize row style depending of Enabled*/
         "createdRow": ""
     });
 }
 
-/*DataTable represents dishes in modal window initialization*/
-function dishDataTableInit(id) {
-    dishDTApi = $('#dishDT').DataTable({
+/*DataTable represents MenuLists in modal window initialization*/
+function menuItemsDataTableByMenuList(id) {
+    $('#menuListDTShow').DataTable({
         "ajax": {
-            "url": ajaxDishesUrl+id,
+            "url": ajaxMenuItemsByMenuListUrl + id,
             "dataSrc": ""
         },
         "destroy": true,
@@ -208,20 +210,13 @@ function dishDataTableInit(id) {
         "info": true,
         "columns": [
             {
-                "data": "description"
-            },
-            {
-                "data": "price"
-            },
-            {
-                'targets': 0,
-                'searchable': false,
-                'orderable': false,
-                'width': '1%',
-                'className': 'dt-body-center',
-                'render': function (data, type, full, meta) {
-                    return '<input type="checkbox">';
+                "data": "dish",
+                "render": function (date, type, row) {
+                    return (date.name);
                 }
+            },
+            {
+                "data": "price",
             }
         ],
         "order": [
@@ -229,7 +224,8 @@ function dishDataTableInit(id) {
                 0,
                 "asc"
             ]
-        ]
+        ],
+        "createdRow": ""
     });
 }
 
@@ -243,7 +239,6 @@ $(function () {
     /*dataTables initialization*/
     ordersDataTableInit();
     restaurantDataTableInit();
-    dishDataTableInit(id);
 
 
     /*adjust Datetimepicker*/
@@ -272,7 +267,8 @@ $(function () {
 /*function for link to orders_dishes.jsp*/
 function linkBtn(data, type, row) {
     if (type == 'display') {
-        return '<a class="btn btn-primary" onclick=location.href="' +goOrdersDishes + row.id +'&'+  row.restaurant.id+'">' +
+        restaurantTitle = row.restaurant.name+", "+row.restaurant.address;
+        return '<a class="btn btn-primary" onclick="openMenuItemsByMenuList(' + row.menuList.id +',\''+ restaurantTitle +'\');">' +
             '<span class="glyphicon glyphicon-list-alt"></span></a>';
     }
 }
@@ -288,7 +284,7 @@ function addOrder() {
 function selectRestaurantBtn(data, type, row) {
     if (type == 'display') {
         restaurantTitle = row.name+", "+row.address;
-        return '<a class="btn btn-primary" onclick="openMenuListWindow(' + row.id +',\''+ restaurantTitle +'\');">' +
+        return '<a class="btn btn-primary" onclick="openMenuItemsByRestaurant(' + row.id +',\''+ restaurantTitle +'\');">' +
             '<span class="glyphicon glyphicon-ok"></span></a>';
     }
 }
@@ -297,19 +293,35 @@ function selectRestaurantBtn(data, type, row) {
  * get restaurant by id from server and to memory it in server
  * open modal window for menu list selection
  * hide modal window of restaurant select*/
-function openMenuListWindow(id,restaurantTitle) {
+function openMenuItemsByRestaurant(id, restaurantTitle) {
 
     /*set html titles*/
     $('#modalTitleRestaurant').html(restaurantTitle);
-    lastRestaurantTitle = restaurantTitle;
 
     /*dataTable initialization*/
-    menuItemsDataTableInit(id);
+    menuItemsDataTableByRestaurant(id);
 
     /*open modal window for menu list selection
      * hide modal window of restaurant select*/
     $('#selectMenuList').modal();
     $('#selectRestaurant').modal('hide');
+}
+
+/*function of 2-nd step of order addition
+ * get restaurant by id from server and to memory it in server
+ * open modal window for menu list selection
+ * hide modal window of restaurant select*/
+function openMenuItemsByMenuList(id, restaurantTitle) {
+
+    /*set html titles*/
+    $('#modalTitleRestaurantShow').html(restaurantTitle);
+
+    /*dataTable initialization*/
+    menuItemsDataTableByMenuList(id);
+
+    /*open modal window for menu list selection
+     * hide modal window of restaurant select*/
+    $('#showMenuList').modal();
 }
 
 /*render function draw button for menuList selection

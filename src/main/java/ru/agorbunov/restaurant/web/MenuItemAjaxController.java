@@ -7,7 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.model.MenuList;
-import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.service.MenuItemService;
 import ru.agorbunov.restaurant.service.MenuListService;
 import ru.agorbunov.restaurant.service.RestaurantService;
@@ -38,10 +37,10 @@ public class MenuItemAjaxController {
     @Autowired
     private RestaurantService restaurantService;
 
-    /*get all menu lists by current restaurant*/
+    /*get all menu lists by current menuList*/
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<MenuItemTo> getByMenuList() {
-        log.info("getByMenuList");
+    public List<MenuItemTo> getByCurrentMenuList() {
+        log.info("getByCurrentMenuList");
         MenuListTo currentMenuListTo = CurrentEntities.getCurrentMenuListTo();
         List<MenuItem> menuItems = menuItemService.getByMenu(currentMenuListTo.getId());
         List<MenuItemTo> result = new ArrayList<>();
@@ -49,6 +48,13 @@ public class MenuItemAjaxController {
             result.add(MenuItemTo.fromMenuItem(menuItem));
         }
         return result;
+    }
+
+    /*get all menu lists by current menuList*/
+    @GetMapping(value = "/byMenuList/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MenuItem> getByMenuList(@PathVariable("id") int id) {
+        log.info("getByMenuList");
+        return menuItemService.getByMenu(id);
     }
 
     @GetMapping(value = "/currentByRestaurant/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
