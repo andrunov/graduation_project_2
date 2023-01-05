@@ -315,7 +315,7 @@ function openMenuItemsByMenuList(id, restaurantTitle) {
 /*render function draw button for delete row*/
 function renderDeleteBtn(data, type, row) {
     if (type == 'display') {
-        return '<a class="btn btn-danger" onclick="deleteRow(' + row.id +','+  row.restaurant.id+');">'+
+        return '<a class="btn btn-danger" onclick="deleteRow(' + row.id +');">'+
             '<span class="glyphicon glyphicon-remove-circle"></span></a>';
     }
 }

@@ -34,6 +34,9 @@ public class VoteServiceTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RestaurantService restaurantService;
+
     @Test
     public void delete() throws Exception {
         User user = userService.get(UserTestData.USER_02_ID);
@@ -43,7 +46,8 @@ public class VoteServiceTest {
         }
         User userUpdated = userService.get(UserTestData.USER_02_ID);
         userUpdated.setVotes(voteService.getByUser(UserTestData.USER_02_ID));
-        Assert.assertEquals(userUpdated.getVotes().size(), 0);
+        Assert.assertEquals(4, restaurantService.getAll().size());
+        Assert.assertEquals(0, userUpdated.getVotes().size());
     }
 
     @Test(expected = NotFoundException.class)
