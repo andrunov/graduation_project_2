@@ -21,7 +21,7 @@
             <table class="table" >
                 <tr>
                     <td>
-                        <a class="btn btn-primary" type="button" onclick="addOrder()">
+                        <a class="btn btn-primary" type="button" onclick="addVote()">
                             <span class="glyphicon glyphicon-plus-sign"></span>
                             <fmt:message key="orders.add"/>
                         </a>
