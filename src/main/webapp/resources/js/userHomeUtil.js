@@ -42,7 +42,7 @@ function updateTableDateFilter(date) {
 }
 
 /*DataTable represents orders in main form initialization*/
-function ordersDataTableInit() {
+function votesDataTableInit() {
     datatableApi = $('#votesDT').DataTable({
         "ajax": {
             "url": ajaxUrl,
@@ -55,29 +55,13 @@ function ordersDataTableInit() {
             /*add column with image depending of Status*/
             {
                 "orderable": false,
-                "data": "status",
-                "render": function (data, type, row) {
-                    if (type == 'display') {
-                        if (data=== "ACCEPTED"){
-                            return '<img  src="resources/pictures/accepted.png" />';
-                        }
-                        else if(data=== "PREPARING"){
-                            return '<img  src="resources/pictures/preparing.png" />';
-                        }
-                        else if(data=== "READY"){
-                            return '<img  src="resources/pictures/ready.png" />';
-                        }
-                        else {
-                            return '<img  src="resources/pictures/finished.png" />';
-                        }
-                    }
-                    return null;
-                }
+                "data": "dateTime",
+                "render": renderVoteImage
             },
             {
                 "data": "dateTime",
                 "render": function (date, type, row) {
-                    if (type == 'display') {
+                    if (type === 'display') {
                         return formatDate(date);
                     }
                     return date;
@@ -104,13 +88,35 @@ function ordersDataTableInit() {
         ],
         "order": [
             [
-                0,
-                "asc"
+                1,
+                "desc"
             ]
         ],
         "createdRow": "",
         "initComplete": makeEditable
     });
+}
+
+function renderVoteImage (data, type, row) {
+    voteDateTime = new Date(data);
+    now = new Date();
+    startOfDay = new Date().setHours(0);
+    elevenAM = new Date().setHours(11);
+    thirteenAM = new Date().setHours(13);
+    if (type === 'display') {
+        if (voteDateTime >= startOfDay) {
+            if (now < elevenAM) {
+                return '<img  src="resources/pictures/accepted.png" />';
+            } else if (now >= elevenAM && now < thirteenAM) {
+                return '<img  src="resources/pictures/preparing.png" />';
+            } else {
+                return '<img  src="resources/pictures/ready.png" />';
+            }
+        } else {
+            return '<img  src="resources/pictures/finished.png" />';
+        }
+    }
+    return null;
 }
 
 /*DataTable represents restaurants in modal window initialization*/
@@ -219,7 +225,7 @@ $(function () {
     localStorage.setItem("ordersDishesPostRedirectUrl",'home');
 
     /*dataTables initialization*/
-    ordersDataTableInit();
+    votesDataTableInit();
     restaurantDataTableInit();
 
 
