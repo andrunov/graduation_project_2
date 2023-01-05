@@ -67,7 +67,7 @@ $(function () {
         "order": [
             [
                 0,
-                "asc"
+                "desc"
             ]
         ],
         /*customize row style depending of Enabled*/
