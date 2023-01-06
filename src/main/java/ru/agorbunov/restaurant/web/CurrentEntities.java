@@ -1,54 +1,56 @@
 package ru.agorbunov.restaurant.web;
 
+import org.springframework.stereotype.Component;
 import ru.agorbunov.restaurant.model.*;
 import ru.agorbunov.restaurant.to.MenuListTo;
 
 /**
  * Current entities of session
  */
-class CurrentEntities {
+@Component
+public class CurrentEntities {
 
-    private static User currentUser;
+    private User currentUser;
 
-    private static Restaurant currentRestaurant;
+    private Restaurant currentRestaurant;
 
-    private static MenuListTo currentMenuListTo;
+    private MenuListTo currentMenuListTo;
 
-    private static Dish currentDish;
+    private Dish currentDish;
 
     public CurrentEntities() {
     }
 
-    static Restaurant getCurrentRestaurant() {
+    public Restaurant getCurrentRestaurant() {
         return currentRestaurant;
     }
 
-    static User getCurrentUser() {
+    public User getCurrentUser() {
         return currentUser;
     }
 
-    static void setCurrentUser(User currentUser) {
-        CurrentEntities.currentUser = currentUser;
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 
-    static void setCurrentRestaurant(Restaurant currentRestaurant) {
-        CurrentEntities.currentRestaurant = currentRestaurant;
+    public void setCurrentRestaurant(Restaurant currentRestaurant) {
+        this.currentRestaurant = currentRestaurant;
     }
 
-    static MenuListTo getCurrentMenuListTo() {
+    public MenuListTo getCurrentMenuListTo() {
         return currentMenuListTo;
     }
 
-    static void setCurrentMenuListTo(MenuListTo currentMenuListTo) {
-        CurrentEntities.currentMenuListTo = currentMenuListTo;
+    public void setCurrentMenuListTo(MenuListTo currentMenuListTo) {
+        this.currentMenuListTo = currentMenuListTo;
     }
 
 
-    static Dish getCurrentDish() {
+    public Dish getCurrentDish() {
         return currentDish;
     }
 
-    static void setCurrentDish(Dish currentDish) {
-        CurrentEntities.currentDish = currentDish;
+    public void setCurrentDish(Dish currentDish) {
+        this.currentDish = currentDish;
     }
 }

@@ -37,11 +37,14 @@ public class MenuItemAjaxController {
     @Autowired
     private RestaurantService restaurantService;
 
+    @Autowired
+    CurrentEntities currentEntities;
+
     /*get all menu lists by current menuList*/
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MenuItemTo> getByCurrentMenuList() {
         log.info("getByCurrentMenuList");
-        MenuListTo currentMenuListTo = CurrentEntities.getCurrentMenuListTo();
+        MenuListTo currentMenuListTo = currentEntities.getCurrentMenuListTo();
         List<MenuItem> menuItems = menuItemService.getByMenu(currentMenuListTo.getId());
         List<MenuItemTo> result = new ArrayList<>();
         for (MenuItem menuItem : menuItems) {
@@ -60,7 +63,7 @@ public class MenuItemAjaxController {
     @GetMapping(value = "/currentByRestaurant/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MenuItem>  getCurrentByRestaurant(@PathVariable("id") int id) {
         log.info("getCurrentByRestaurant");
-        CurrentEntities.setCurrentRestaurant(restaurantService.get(id));
+        currentEntities.setCurrentRestaurant(restaurantService.get(id));
         MenuList menuList = menuListService.getByRestaurantIdAndDate(id, LocalDate.now());
         return menuItemService.getByMenu(menuList.getId());
     }
@@ -70,7 +73,7 @@ public class MenuItemAjaxController {
     public MenuItemTo getMenuItem(@PathVariable("id") int id) {
         log.info("get " + id);
         MenuItem menuItem = menuItemService.get(id);
-        CurrentEntities.setCurrentDish(menuItem.getDish());
+        currentEntities.setCurrentDish(menuItem.getDish());
         return MenuItemTo.fromMenuItem(menuItem);
     }
 
@@ -86,13 +89,13 @@ public class MenuItemAjaxController {
     public void createOrUpdate(@RequestParam(value = "id", required = false) Integer id,
                                @RequestParam("dishId") Integer dishId,
                                @RequestParam("price") String price){
-        int menuListId = CurrentEntities.getCurrentMenuListTo().getId();
+        int menuListId = currentEntities.getCurrentMenuListTo().getId();
         MenuItemTo menuItemTo = new MenuItemTo();
         menuItemTo.setId(id);
         menuItemTo.setPrice(Double.parseDouble(price));
         checkEmpty(menuItemTo);
         MenuItem menuItem = MenuItemTo.fromMenuItemTo(menuItemTo);
-        menuItem.setDish(CurrentEntities.getCurrentDish());
+        menuItem.setDish(currentEntities.getCurrentDish());
         if (menuItem.isNew()) {
             ValidationUtil.checkNew(menuItem);
             log.info("create " + menuItem);

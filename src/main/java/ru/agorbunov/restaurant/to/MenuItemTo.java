@@ -7,6 +7,7 @@ public class MenuItemTo {
     public static MenuItemTo fromMenuItem(MenuItem source) {
         MenuItemTo result = new MenuItemTo();
         result.id = source.getId();
+        result.dishId = source.getDish().getId();
         result.name = source.getDish().getName();
         result.price = source.getPrice();
         return result;

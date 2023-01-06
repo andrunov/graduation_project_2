@@ -30,11 +30,14 @@ public class MenuListAjaxController {
     @Autowired
     private MenuListService menuListService;
 
+    @Autowired
+    private CurrentEntities currentEntities;
+
     /*get all menu lists by current restaurant*/
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MenuListTo> getByRestaurant() {
         log.info("getByRestaurant");
-        Restaurant currentRestaurant = CurrentEntities.getCurrentRestaurant();
+        Restaurant currentRestaurant = currentEntities.getCurrentRestaurant();
         List<MenuList> menuLists = menuListService.getByRestaurant(currentRestaurant.getId());
         List<MenuListTo> result = new ArrayList<>();
         for (MenuList menuList : menuLists) {
@@ -63,12 +66,12 @@ public class MenuListAjaxController {
     @PostMapping
     public void createOrUpdate(@RequestParam(value = "id", required = false) Integer id,
                                @RequestParam("date")@DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN) LocalDateTime date){
-        Restaurant currentRestaurant = CurrentEntities.getCurrentRestaurant();
+        Restaurant currentRestaurant = currentEntities.getCurrentRestaurant();
         MenuListTo menuListTo = new MenuListTo();
         menuListTo.setDate(date.toLocalDate());
         menuListTo.setId(id);
         checkEmpty(menuListTo);
-        CurrentEntities.setCurrentMenuListTo(menuListTo);
+        currentEntities.setCurrentMenuListTo(menuListTo);
         MenuList menuList = MenuListTo.toMenuList(menuListTo);
         if (menuList.isNew()) {
             ValidationUtil.checkNew(menuList);

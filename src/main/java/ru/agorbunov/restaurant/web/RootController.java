@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
-import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.model.User;
-import ru.agorbunov.restaurant.service.*;
+import ru.agorbunov.restaurant.service.DishService;
+import ru.agorbunov.restaurant.service.MenuListService;
+import ru.agorbunov.restaurant.service.RestaurantService;
+import ru.agorbunov.restaurant.service.UserService;
 import ru.agorbunov.restaurant.to.MenuListTo;
 import ru.agorbunov.restaurant.to.UserTo;
 import ru.agorbunov.restaurant.util.UserUtil;
@@ -46,6 +48,9 @@ public class RootController {
     @Autowired
     private DishService dishService;
 
+    @Autowired
+    CurrentEntities currentEntities;
+
     /*return admin_home.jsp and display home page*/
     @GetMapping(value = "/")
     public String root() {
@@ -68,11 +73,11 @@ public class RootController {
     @GetMapping(value = "/home")
     public String welcome(HttpServletRequest request, Model model){
         log.info("get/home");
-        CurrentEntities.setCurrentUser(AuthorizedUser.get().getLoggedUser());
+        currentEntities.setCurrentUser(AuthorizedUser.get().getLoggedUser());
         if (request.isUserInRole("ROLE_ADMIN")) {
             return "admin_home";
         }else {
-            model.addAttribute(CurrentEntities.getCurrentUser());
+            model.addAttribute(currentEntities.getCurrentUser());
             return "user_home";
         }
     }
@@ -144,7 +149,7 @@ public class RootController {
     @GetMapping(value = "/menuLists/{id}")
     public String menuLists(@PathVariable("id") int id) {
         log.info("get /menuLists/{id}");
-        CurrentEntities.setCurrentRestaurant(restaurantService.get(id));
+        currentEntities.setCurrentRestaurant(restaurantService.get(id));
         return "redirect:/menuLists";
     }
 
@@ -152,7 +157,7 @@ public class RootController {
     @GetMapping(value = "/menuLists")
     public String menuLists(Model model) {
         log.info("get /menuLists");
-        model.addAttribute(CurrentEntities.getCurrentRestaurant());
+        model.addAttribute(currentEntities.getCurrentRestaurant());
         return "menuLists";
     }
 
@@ -160,7 +165,7 @@ public class RootController {
     @GetMapping(value = "/menuItems/{id}")
     public String menuItems(@PathVariable("id") int id) {
         log.info("get /menuItems/{id}");
-        CurrentEntities.setCurrentMenuListTo(MenuListTo.fromMenuList(menuListService.get(id)));
+        currentEntities.setCurrentMenuListTo(MenuListTo.fromMenuList(menuListService.get(id)));
         return "redirect:/menuItems";
     }
 
@@ -168,8 +173,8 @@ public class RootController {
     @GetMapping(value = "/menuItems")
     public String menuItems(Model model) {
         log.info("get /menuItems");
-        model.addAttribute(CurrentEntities.getCurrentRestaurant());
-        model.addAttribute(CurrentEntities.getCurrentMenuListTo());
+        model.addAttribute(currentEntities.getCurrentRestaurant());
+        model.addAttribute(currentEntities.getCurrentMenuListTo());
         return "menuItems";
     }
 
@@ -182,7 +187,7 @@ public class RootController {
     @GetMapping(value = "/orders/{id}")
     public String orders(@PathVariable("id") int id) {
         log.info("get /orders/{id}");
-        CurrentEntities.setCurrentUser(userService.get(id));
+        currentEntities.setCurrentUser(userService.get(id));
         return "redirect:/orders";
     }
 
@@ -190,7 +195,7 @@ public class RootController {
     @GetMapping(value = "/orders")
     public String orders(Model model) {
         log.info("get /orders");
-        model.addAttribute("currentUser",CurrentEntities.getCurrentUser());
+        model.addAttribute("currentUser",currentEntities.getCurrentUser());
         return "orders";
     }
 
@@ -198,7 +203,7 @@ public class RootController {
     @GetMapping(value = "/dishes/{id}")
     public String dishes(@PathVariable("id") int id) {
         log.info("get /dishes/{id}");
-        Restaurant restaurant = CurrentEntities.getCurrentRestaurant();
+        Restaurant restaurant = currentEntities.getCurrentRestaurant();
      //   CurrentEntities.setCurrentMenuListTo(menuListService.get(id));
         return "redirect:/dishes";
     }
@@ -207,7 +212,7 @@ public class RootController {
     @GetMapping(value = "/dishes")
     public String dishes(Model model) {
         log.info("get /dishes");
-        model.addAttribute("restaurant",CurrentEntities.getCurrentRestaurant());
+        model.addAttribute("restaurant", currentEntities.getCurrentRestaurant());
         //   model.addAttribute("description",CurrentEntities.getCurrentMenuList().getDescription());
         //   model.addAttribute("localDate",CurrentEntities.getCurrentMenuList().getDateTime().toLocalDate().toString());
         return "dishes";
@@ -220,7 +225,7 @@ public class RootController {
     public String ordersByDish(@PathVariable("id") int id){
         log.info("get /orders_by_dish/{id}");
         //MenuList menuList = CurrentEntities.getCurrentMenuListTo();
-        CurrentEntities.setCurrentDish(dishService.get(id));
+        currentEntities.setCurrentDish(dishService.get(id));
         return "redirect:/orders_by_dish";
     }
 

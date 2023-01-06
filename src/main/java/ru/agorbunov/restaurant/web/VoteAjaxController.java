@@ -3,12 +3,10 @@ package ru.agorbunov.restaurant.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.service.VoteService;
-import ru.agorbunov.restaurant.util.DateTimeUtil;
 import ru.agorbunov.restaurant.util.ValidationUtil;
 
 import java.time.LocalDateTime;
@@ -23,11 +21,14 @@ public class VoteAjaxController {
     @Autowired
     private VoteService voteService;
 
+    @Autowired
+    private CurrentEntities currentEntities;
+
     /*get all votes by current user*/
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getByUser() {
         log.info("getByUser");
-        int userId = CurrentEntities.getCurrentUser().getId();
+        int userId = currentEntities.getCurrentUser().getId();
         return voteService.getByUserWith(userId);
     }
 
@@ -49,9 +50,9 @@ public class VoteAjaxController {
     @PostMapping
     public void createOrUpdate(@RequestParam(value = "id", required = false) Integer id){
         Vote vote = new Vote();
-        int userId = CurrentEntities.getCurrentUser().getId();
+        int userId = currentEntities.getCurrentUser().getId();
         vote.setId(id);
-        vote.setRestaurant(CurrentEntities.getCurrentRestaurant());
+        vote.setRestaurant(currentEntities.getCurrentRestaurant());
         vote.setDateTime(LocalDateTime.now());
         checkEmpty(vote);
         if (vote.isNew()) {
