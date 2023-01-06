@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.agorbunov.restaurant.DishDescriptionTestData;
+import ru.agorbunov.restaurant.MenuItemTestData;
 import ru.agorbunov.restaurant.RestaurantTestData;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.model.MenuList;
@@ -33,6 +33,9 @@ public class MenuListServiceTest {
     @Autowired
     private MenuItemService menuItemService;
 
+    @Autowired
+    private DishService dishService;
+
     @Test
     public void getByRestaurant() throws Exception {
         Assert.assertEquals(3, menuListService.getByRestaurant(RestaurantTestData.RESTAURANT_01_ID).size());
@@ -44,11 +47,11 @@ public class MenuListServiceTest {
         MenuList menuList = new MenuList();
         menuList.setDate(now);
         List<MenuItem> dishList = new ArrayList<>();
-        dishList.add(DishDescriptionTestData.DISH_DESCRPT_01);
-        dishList.add(DishDescriptionTestData.DISH_DESCRPT_02);
-        dishList.add(DishDescriptionTestData.DISH_DESCRPT_03);
-        dishList.add(DishDescriptionTestData.DISH_DESCRPT_04);
-        dishList.add(DishDescriptionTestData.DISH_DESCRPT_05);
+        dishList.add(new MenuItem(null, dishService.get(100030), 1.25));
+        dishList.add(new MenuItem(null, dishService.get(100031), 1.26));
+        dishList.add(new MenuItem(null, dishService.get(100032), 3.25));
+        dishList.add(new MenuItem(null, dishService.get(100033), 4.25));
+        dishList.add(new MenuItem(null, dishService.get(100034), 5.25));
         menuList.setItems(dishList);
         menuListService.update(menuList, RestaurantTestData.RESTAURANT_01_ID);
         menuItemService.updateList(menuList.getItems(), menuList.getId());
@@ -67,8 +70,8 @@ public class MenuListServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void delete() throws Exception {
-        menuListService.delete(DishDescriptionTestData.MENU_LIST_01_ID);
-        menuListService.get(DishDescriptionTestData.MENU_LIST_01_ID);
+        menuListService.delete(MenuItemTestData.MENU_LIST_01_ID);
+        menuListService.get(MenuItemTestData.MENU_LIST_01_ID);
     }
 
 
@@ -80,7 +83,7 @@ public class MenuListServiceTest {
 
     @Test
     public void get() throws Exception {
-        MenuList menuList = menuListService.get(DishDescriptionTestData.MENU_LIST_02_ID);
+        MenuList menuList = menuListService.get(MenuItemTestData.MENU_LIST_02_ID);
         Assert.assertEquals(100011, (int) menuList.getId());
     }
 
@@ -92,7 +95,7 @@ public class MenuListServiceTest {
 
     @Test
     public void update() throws Exception{
-        MenuList menuList = menuListService.get(DishDescriptionTestData.MENU_LIST_02_ID);
+        MenuList menuList = menuListService.get(MenuItemTestData.MENU_LIST_02_ID);
         LocalDate date = LocalDate.of(2000, 01, 01);
         menuList.setDate(date);
         menuListService.update(menuList, menuList.getRestaurant().getId());
