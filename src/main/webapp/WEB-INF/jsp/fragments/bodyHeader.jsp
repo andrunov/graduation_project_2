@@ -19,6 +19,7 @@
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                         <li><a class="btn btn-primary" href="users"><fmt:message key="users.title"/></a></li>
                         <li><a class="btn btn-primary" href="restaurants"><fmt:message key="restaurants.title"/></a></li>
+                        <li><a class="btn btn-primary" href="dishes"><fmt:message key="dishes.title"/></a></li>
                     </sec:authorize>
                 </sec:authorize>
             </ul>

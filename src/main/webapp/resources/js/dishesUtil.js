@@ -4,10 +4,7 @@
  */
 
 /*url for exchange JSON data between DataTable and server*/
-var ajaxUrl = '/ajax/dishes/';
-
-/*url for link to order_by_dish.jsp*/
-var goOrdersByDish = '/orders_by_dish/';
+var ajaxUrl = 'ajax/dishes/';
 
 /*variable links to DataTable represents dishes in dishes.jsp*/
 var datatableApi;
@@ -35,16 +32,7 @@ $(function () {
         "info": true,
         "columns": [
             {
-                "data": "description"
-            },
-            {
-                "data": "price"
-            },
-            {
-                "orderable": false,
-                "defaultContent": "",
-                "className": "dt-center",
-                "render": linkBtn
+                "data": "name"
             },
             {
                 "orderable": false,
@@ -69,11 +57,3 @@ $(function () {
         "initComplete": makeEditable
     });
 });
-
-/*function for link to order_by_dish.jsp*/
-function linkBtn(data, type, row) {
-    if (type == 'display') {
-        return '<a class="btn btn-primary" onclick=location.href="' +goOrdersByDish + row.id +'">' +
-            '<span class="glyphicon glyphicon-list-alt"></span></a>';
-    }
-}

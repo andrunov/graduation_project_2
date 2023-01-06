@@ -15,6 +15,7 @@
         <br>
         <p><strong><a href="users"><fmt:message key="users.title"/></a></strong></p>
         <p><strong><a href="restaurants"><fmt:message key="restaurants.title"/></a></strong></p>
+        <p><strong><a href="dishes"><fmt:message key="dishes.title"/></a></strong></p>
     </div>
 </div>
 <jsp:include page="fragments/footer.jsp"/>

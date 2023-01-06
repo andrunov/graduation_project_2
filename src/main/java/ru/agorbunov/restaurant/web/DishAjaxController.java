@@ -7,7 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.agorbunov.restaurant.model.Dish;
 import ru.agorbunov.restaurant.service.DishService;
-import ru.agorbunov.restaurant.service.RestaurantService;
 import ru.agorbunov.restaurant.util.ValidationUtil;
 
 import java.util.List;
