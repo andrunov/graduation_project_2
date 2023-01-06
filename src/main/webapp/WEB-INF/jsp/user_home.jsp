@@ -30,7 +30,7 @@
                         <label for="dateTimeFilter"><fmt:message key="common.dateFilter"/></label>
                     </td>
                     <td class="col-sm-2">
-                        <input class="form-control" type="text" id="dateTimeFilter"
+                        <input class="form-control" type="text" id="dateTimeFilter" onchange="updateTableWithDate()"
                                placeholder="<fmt:message key="common.dateFilter"/>">
                     </td>
                 </tr>

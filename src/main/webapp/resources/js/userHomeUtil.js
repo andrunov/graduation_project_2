@@ -3,7 +3,7 @@
  * works with orders of specify user
  */
 
-/*url for exchange JSON data between main form DataTable (id="ordersDT")
+/*url for exchange JSON data between main form DataTable
  *represents orders and server*/
 var ajaxUrl = 'ajax/votes/';
 
@@ -25,20 +25,21 @@ var editTitleKey ="orders.edit";
 /*variable links to orders.add resource bundle */
 var addTitleKey ="orders.add";
 
-/*variable for save current filter value*/
-var currentFilterValue = "ALL";
+/*function to update DataTable by data from server*/
+function updateTableWithDate() {
+    var date = $('#dateTimeFilter').val();
+    $.get(ajaxUrl + "?dateKey=" + date, updateTableByData);
+}
 
 /*function to update DataTable by data from server*/
-function updateTable(statusKey) {
-    var date = $('#dateTimeFilter').val();
-    $.get(ajaxUrl + "?statusKey=" + statusKey + "&dateKey=" + date, updateTableByData);
-    currentFilterValue = statusKey;
+function updateTable() {
+    $.get(ajaxUrl, updateTableByData);
 }
 
 /*function to update DataTable by data from server
  * with filter by date of orders*/
 function updateTableDateFilter(date) {
-    $.get(ajaxUrl + "?statusKey=" + currentFilterValue + "&dateKey=" + date, updateTableByData);
+    $.get(ajaxUrl + "?dateKey=" + date, updateTableByData);
 }
 
 /*DataTable represents orders in main form initialization*/
@@ -327,7 +328,7 @@ function deleteRow(id) {
         url: ajaxUrl + id ,
         type: 'DELETE',
         success: function () {
-            updateTable(currentFilterValue);
+            updateTableWithDate();
         }
     });
 }

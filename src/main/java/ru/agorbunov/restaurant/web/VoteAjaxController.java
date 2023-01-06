@@ -7,9 +7,12 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.service.VoteService;
+import ru.agorbunov.restaurant.util.DateTimeUtil;
 import ru.agorbunov.restaurant.util.ValidationUtil;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,12 +27,23 @@ public class VoteAjaxController {
     @Autowired
     private CurrentEntities currentEntities;
 
-    /*get all votes by current user*/
+    /*get all votes by current user and dateTime*/
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Vote> getByUser() {
-        log.info("getByUser");
+    public List<Vote> getByUserAndDate(@RequestParam(value = "dateKey",required = false) String date) {
+        log.info("getByUserAndDate");
         int userId = currentEntities.getCurrentUser().getId();
-        return voteService.getByUserWith(userId);
+        List<Vote> result = null;
+        if (ValidationUtil.checkEmpty(date)){
+            LocalDate dateTime = DateTimeUtil.parseLocalDate(date);
+            Vote vote = voteService.getByUserAndDate(userId, dateTime);
+            if (vote != null) {
+                result = new ArrayList<>();
+                result.add(voteService.getByUserAndDate(userId, dateTime));
+            }
+        }else {
+            result = voteService.getByUser(userId);
+        }
+        return result;
     }
 
     /*get menuList by Id */
@@ -38,6 +52,7 @@ public class VoteAjaxController {
         log.info("get " + id);
         return voteService.get(id);
     }
+
 
     /*delete menuList by Id*/
     @DeleteMapping(value = "/{id}")
