@@ -7,7 +7,7 @@
 var ajaxUrl = 'ajax/admin/users/';
 
 /*url for link to orders.jsp*/
-var goOrdersUrl = '/orders/';
+var userVotes = 'user_votes/';
 
 /*variable links to DataTable represents users in users.jsp*/
 var datatableApi;
@@ -81,13 +81,13 @@ $(function () {
                     }
                     return data;
                 }
-            }/*,
+            },
             {
                 "orderable": false,
                 "defaultContent": "",
                 "className": "dt-center",
                 "render": linkBtn
-            }*/,
+            },
             {
                 "orderable": false,
                 "defaultContent": "",
@@ -130,7 +130,7 @@ $(function () {
 /*function for link to orders.jsp*/
 function linkBtn(data, type, row) {
     if (type == 'display') {
-        return '<a class="btn btn-primary" onclick=location.href="'+ goOrdersUrl + row.id +'">' +
+        return '<a class="btn btn-primary" onclick=location.href="'+ userVotes + row.id +'">' +
             '<span class="glyphicon glyphicon-list-alt"></span></a>';
     }
 }

@@ -1,23 +1,23 @@
-<%--home page for users without ROLE_ADMIN--%>
+<%--shows restaurants--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <fmt:setBundle basename="messages.app"/>
 
 <html>
-
 <jsp:include page="fragments/headTag.jsp"/>
-
 <script type="text/javascript" src="resources/js/datatableUtil.js" defer></script>
-<script type="text/javascript" src="resources/js/userHomeUtil.js" defer></script>
+<script type="text/javascript" src="resources/js/userVotesUtil.js" defer></script>
 
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
+
+<%--restaurants datatable--%>
 <div class="container">
     <div class="jumbotron">
         <div class="shadow">
-            <h3><fmt:message key="common.welcome"/>, ${user.name}!</h3>
+            <h3><fmt:message key="orders.ofUser"/>: ${currentUser.name}</h3>
             <table class="table" >
                 <tr>
                     <td>
@@ -52,6 +52,7 @@
     </div>
 </div>
 <jsp:include page="fragments/footer.jsp"/>
+
 
 <%-- restaurant modal window--%>
 <div class="modal fade" id="selectRestaurant">
@@ -143,7 +144,5 @@
         </div>
     </div>
 </div>
-
 </body>
-
 </html>
