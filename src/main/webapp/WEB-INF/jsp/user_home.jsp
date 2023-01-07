@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <fmt:setBundle basename="messages.app"/>
 
@@ -17,7 +18,12 @@
 <div class="container">
     <div class="jumbotron">
         <div class="shadow">
-            <h3><fmt:message key="common.welcome"/>, ${user.name}!</h3>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <h3><fmt:message key="orders.ofUser"/>: ${currentUser.name}</h3>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ADMIN') == false ">
+                <h3><fmt:message key="common.welcome"/>, ${user.name}!</h3>
+            </sec:authorize>
             <table class="table" >
                 <tr>
                     <td>

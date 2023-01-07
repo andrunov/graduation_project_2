@@ -201,7 +201,7 @@ public class RootController {
     public String userVotes(Model model) {
         log.info("get /user_votes");
         model.addAttribute("currentUser", currentEntities.getCurrentUser());
-        return "user_votes";
+        return "user_home";
     }
 
 }
