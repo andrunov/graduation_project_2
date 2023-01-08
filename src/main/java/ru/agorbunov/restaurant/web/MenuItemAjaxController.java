@@ -65,6 +65,7 @@ public class MenuItemAjaxController {
         log.info("getCurrentByRestaurant");
         currentEntities.setCurrentRestaurant(restaurantService.get(id));
         MenuList menuList = menuListService.getByRestaurantIdAndDate(id, LocalDate.now());
+        currentEntities.setCurrentMenuListTo(MenuListTo.fromMenuList(menuList));
         return menuItemService.getByMenu(menuList.getId());
     }
 

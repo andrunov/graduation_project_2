@@ -5,8 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.agorbunov.restaurant.model.MenuList;
+import ru.agorbunov.restaurant.model.Role;
+import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.service.VoteService;
+import ru.agorbunov.restaurant.to.MenuListTo;
 import ru.agorbunov.restaurant.util.DateTimeUtil;
 import ru.agorbunov.restaurant.util.ValidationUtil;
 
@@ -68,15 +72,17 @@ public class VoteAjaxController {
         int userId = currentEntities.getCurrentUser().getId();
         vote.setId(id);
         vote.setRestaurant(currentEntities.getCurrentRestaurant());
+        MenuList menuList = MenuListTo.toMenuList(currentEntities.getCurrentMenuListTo());
+        vote.setMenuList(menuList);
         vote.setDateTime(LocalDateTime.now());
         checkEmpty(vote);
         if (vote.isNew()) {
             ValidationUtil.checkNew(vote);
             log.info("create " + vote);
-            voteService.update(vote, userId);
+            updateVote(vote, userId);
         } else {
             log.info("update " + vote);
-            voteService.update(vote, userId);
+            updateVote(vote, userId);
         }
     }
 
@@ -98,6 +104,15 @@ public class VoteAjaxController {
     /*check menuList for empty fields*/
     private void checkEmpty(Vote vote){
         ValidationUtil.checkEmpty(vote.getDateTime(),"dateTime");
+    }
+
+    private void updateVote(Vote vote, int userId) {
+        User loggedUser = AuthorizedUser.get().getLoggedUser();
+        if (loggedUser.getRoles().contains(Role.ROLE_ADMIN)) {
+            voteService.updateNoRestrictions(vote, userId);
+        } else {
+            voteService.update(vote, userId);
+        }
     }
 
 

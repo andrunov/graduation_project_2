@@ -37,6 +37,8 @@ public class VoteService {
     }
 
 
+    /**
+     * update vote for ordinal users*/
     public void update(Vote vote, int userId) {
         Assert.notNull(vote, "vote must not be null");
         LocalDate voteDate = vote.getDateTime().toLocalDate();
@@ -46,8 +48,26 @@ public class VoteService {
             if (vote.getDateTime().isAfter(LocalDateTime.now().with(DEADLINE))) {
                 throw new UpdateException("It's too late, " + DateTimeUtil.toString(vote.getDateTime()) + " vote needs to be made before 11:00 o'clock");
             } else {
+                Vote saved = voteRepository.getByUserAndDate(userId, voteDate);
+                if (saved != null) {
+                    voteRepository.delete(saved.getId());
+                }
                 voteRepository.save(vote, userId);
             }
+        }
+    }
+
+
+    /**
+     * update vote for admins*/
+    public void updateNoRestrictions(Vote vote, int userId) {
+        Assert.notNull(vote, "vote must not be null");
+        LocalDate voteDate = vote.getDateTime().toLocalDate();
+        Vote saved = voteRepository.getByUserAndDate(userId, voteDate);
+        if (saved != null) {
+            throw new UpdateException("There is already vote for user with ID=" + userId + " and dateTime=" + DateTimeUtil.toString(vote.getDateTime()) + ", please remove it first before add new vote");
+        } else {
+            voteRepository.save(vote, userId);
         }
     }
 
