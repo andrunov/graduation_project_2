@@ -9,6 +9,9 @@ var ajaxUrl = 'ajax/restaurants/';
 /*url for link to menuLists.jsp*/
 var goMenuLists = 'menuLists/';
 
+/*url for link to menuLists.jsp*/
+var restaurantVotes = 'restaurant_votes/';
+
 /*variable links to DataTable represents restaurants in restaurants.jsp*/
 var datatableApi;
 
@@ -44,7 +47,13 @@ $(function () {
                 "orderable": false,
                 "defaultContent": "",
                 "className": "dt-center",
-                "render": linkBtn
+                "render": linkBtnMenu
+            },
+            {
+                "orderable": false,
+                "defaultContent": "",
+                "className": "dt-center",
+                "render": linkBtnOrders
             },
             {
                 "orderable": false,
@@ -71,9 +80,17 @@ $(function () {
 });
 
 /*function for link to menuLists.jsp*/
-function linkBtn(data, type, row) {
+function linkBtnMenu(data, type, row) {
     if (type === 'display') {
         return '<a class="btn btn-primary" onclick=location.href="'+ goMenuLists + row.id +'">' +
+            '<span class="glyphicon glyphicon-list-alt"></span></a>';
+    }
+}
+
+/*function for link to orders.jsp*/
+function linkBtnOrders(data, type, row) {
+    if (type === 'display') {
+        return '<a class="btn btn-primary" onclick=location.href="'+ restaurantVotes + row.id +'">' +
             '<span class="glyphicon glyphicon-list-alt"></span></a>';
     }
 }

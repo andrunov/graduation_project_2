@@ -49,6 +49,12 @@ public class VoteRepository {
                 .getResultList();
     }
 
+    public List<Vote> getByRestaurant(int id) {
+        return em.createNamedQuery(Vote.BY_RESTAURANT, Vote.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
+
     public List<Vote> getByRestaurantAndDate(int id, LocalDate date) {
         LocalDateTime from = date.atStartOfDay();
         LocalDateTime to = date.plusDays(1).atStartOfDay();

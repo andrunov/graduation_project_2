@@ -63,6 +63,10 @@ public class VoteService {
         return result;
     }
 
+    public List<Vote> getByRestaurant(int id) {
+        return voteRepository.getByRestaurant(id);
+    }
+
     public List<Vote> getByRestaurantAndDate(int id, LocalDate date) {
         Assert.notNull(date, "date must not be null");
         return voteRepository.getByRestaurantAndDate(id, date);

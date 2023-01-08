@@ -80,6 +80,21 @@ public class VoteAjaxController {
         }
     }
 
+    /*get all votes by current restaurant and dateTime*/
+    @GetMapping(value = "/restaurant", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Vote> getByRestaurantAndDate(@RequestParam(value = "dateKey",required = false) String date) {
+        log.info("getByRestaurantAndDate");
+        int restaurantId = currentEntities.getCurrentRestaurant().getId();
+        List<Vote> result = null;
+        if (ValidationUtil.checkEmpty(date)){
+            LocalDate dateTime = DateTimeUtil.parseLocalDate(date);
+            result = voteService.getByRestaurantAndDate(restaurantId, dateTime);
+        }else {
+            result = voteService.getByRestaurant(restaurantId);
+        }
+        return result;
+    }
+
     /*check menuList for empty fields*/
     private void checkEmpty(Vote vote){
         ValidationUtil.checkEmpty(vote.getDateTime(),"dateTime");

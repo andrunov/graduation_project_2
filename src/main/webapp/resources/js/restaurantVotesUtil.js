@@ -4,14 +4,10 @@
  */
 
 /*url for exchange JSON data between main form DataTable
- *represents orders and server*/
-var ajaxUrl = 'ajax/votes/';
+ *represents votes and server*/
+var ajaxUrl = 'ajax/votes/restaurant';
 
-/*url for exchange JSON data between restaurant modal window DataTable (id="restaurantDT") and server*/
-var ajaxRestaurantUrl = 'ajax/restaurants/';
-
-/*url for exchange JSON data between menuList modal window DataTable (id="menuListDT") and server*/
-var ajaxMenuItemsByRestaurantUrl = 'ajax/menuItems/currentByRestaurant/';
+var singleAjaxUrl = 'ajax/votes/';
 
 /*url for exchange JSON data between menuList modal window DataTable (id="menuListDT") and server*/
 var ajaxMenuItemsByMenuListUrl = 'ajax/menuItems/byMenuList/';
@@ -69,9 +65,9 @@ function votesDataTableInit() {
                 }
             },
             {
-                "data": "restaurant",
+                "data": "user",
                 "render": function (date, type, row) {
-                    return (date.name +', '+ date.address);
+                    return (date.name +', '+ date.email);
                 }
             },
             {
@@ -120,71 +116,7 @@ function renderVoteImage (data, type, row) {
     return null;
 }
 
-/*DataTable represents restaurants in modal window initialization*/
-function restaurantDataTableInit() {
-    $('#restaurantDT').DataTable({
-        "ajax": {
-            "url": ajaxRestaurantUrl,
-            "dataSrc": ""
-        },
-        "paging": false,
-        "searching": false,
-        "info": true,
-        "columns": [
-            {
-                "data": "name"
-            },
-            {
-                "data": "address"
-            },
-            {
-                "orderable": false,
-                "defaultContent": "",
-                "className": "dt-center",
-                "render": selectRestaurantBtn
-            }
-        ],
-        "order": [
-            [
-                0,
-                "asc"
-            ]
-        ],
-        "createdRow": ""
-    });
-}
 
-/*DataTable represents MenuLists in modal window initialization*/
-function menuItemsDataTableByRestaurant(id) {
-    $('#menuListDT').DataTable({
-        "ajax": {
-            "url": ajaxMenuItemsByRestaurantUrl + id,
-            "dataSrc": ""
-        },
-        "destroy": true,
-        "paging": false,
-        "searching": false,
-        "info": true,
-        "columns": [
-            {
-                "data": "dish",
-                "render": function (date, type, row) {
-                    return (date.name);
-                }
-            },
-            {
-                "data": "price",
-            }
-        ],
-        "order": [
-            [
-                0,
-                "asc"
-            ]
-        ],
-        "createdRow": ""
-    });
-}
 
 /*DataTable represents MenuLists in modal window initialization*/
 function menuItemsDataTableByMenuList(id) {
@@ -227,8 +159,6 @@ $(function () {
 
     /*dataTables initialization*/
     votesDataTableInit();
-    restaurantDataTableInit();
-
 
     /*adjust Datetimepicker*/
     $.datetimepicker.setLocale(localeCode);
@@ -256,8 +186,14 @@ $(function () {
 /*function for link to orders_dishes.jsp*/
 function linkBtn(data, type, row) {
     if (type == 'display') {
-        restaurantTitle = row.restaurant.name+", "+row.restaurant.address;
-        return '<a class="btn btn-primary" onclick="openMenuItemsByMenuList(' + row.menuList.id +',\''+ restaurantTitle +'\');">' +
+        restaurantTitle = row.restaurant.name +", "+ row.restaurant.address;
+        userTitle = row.user.name+", "+row.user.email;
+        dateTimeTitle = row.dateTime;
+        return '<a class="btn btn-primary" onclick="openMenuItemsByMenuList('+ row.menuList.id
+                                                                             +',\''+ restaurantTitle +',\''
+                                                                             + ',\'' + userTitle + ',\''
+                                                                             + ',\'' + dateTimeTitle + ',\''
+                                                                             + ');">' +
             '<span class="glyphicon glyphicon-list-alt"></span></a>';
     }
 }
@@ -300,10 +236,12 @@ function openMenuItemsByRestaurant(id, restaurantTitle) {
  * get restaurant by id from server and to memory it in server
  * open modal window for menu list selection
  * hide modal window of restaurant select*/
-function openMenuItemsByMenuList(id, restaurantTitle) {
+function openMenuItemsByMenuList(id, restaurantTitle, userTitle, dateTimeTitle) {
 
     /*set html titles*/
     $('#modalTitleRestaurantShow').html(restaurantTitle);
+    $('#modalTitleUserShow').html(userTitle);
+    $('#modalTitleDateTime').html(dateTimeTitle);
 
     /*dataTable initialization*/
     menuItemsDataTableByMenuList(id);
@@ -325,7 +263,7 @@ function renderDeleteBtn(data, type, row) {
  * use in all forms*/
 function deleteRow(id) {
     $.ajax({
-        url: ajaxUrl + id ,
+        url: singleAjaxUrl + id ,
         type: 'DELETE',
         success: function () {
             updateTableWithDate();

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.agorbunov.restaurant.model.User;
-import ru.agorbunov.restaurant.service.DishService;
 import ru.agorbunov.restaurant.service.MenuListService;
 import ru.agorbunov.restaurant.service.RestaurantService;
 import ru.agorbunov.restaurant.service.UserService;
@@ -189,7 +188,7 @@ public class RootController {
         return "dishes";
     }
 
-    /*get id parameter to set current restaurant and redirect to menuLists.jsp*/
+    /*get id parameter to set current restaurant and redirect to user_home.jsp*/
     @GetMapping(value = "/user_votes/{id}")
     public String userVotes(@PathVariable("id") int id) {
         log.info("get /user_votes/{id}");
@@ -202,6 +201,21 @@ public class RootController {
         log.info("get /user_votes");
         model.addAttribute("currentUser", currentEntities.getCurrentUser());
         return "user_home";
+    }
+
+    /*get id parameter to set current restaurant and redirect to user_home.jsp*/
+    @GetMapping(value = "/restaurant_votes/{id}")
+    public String restaurantVotes(@PathVariable("id") int id) {
+        log.info("get /restaurant_votes/{id}");
+        currentEntities.setCurrentRestaurant(restaurantService.get(id));
+        return "redirect:/restaurant_votes";
+    }
+
+    @GetMapping(value = "/restaurant_votes")
+    public String restaurantVotes(Model model) {
+        log.info("get /restaurant_votes");
+        model.addAttribute(currentEntities.getCurrentRestaurant());
+        return "restaurant_votes";
     }
 
 }

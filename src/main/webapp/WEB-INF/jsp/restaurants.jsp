@@ -29,6 +29,7 @@
                         <th><fmt:message key="restaurants.name"/></th>
                         <th><fmt:message key="restaurants.address"/></th>
                         <th><fmt:message key="menuLists.list"/></th>
+                        <th><fmt:message key="orders.title"/></th>
                         <th><fmt:message key="common.update"/></th>
                         <th><fmt:message key="common.delete"/></th>
                     </tr>

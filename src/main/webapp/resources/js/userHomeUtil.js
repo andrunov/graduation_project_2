@@ -256,8 +256,14 @@ $(function () {
 /*function for link to orders_dishes.jsp*/
 function linkBtn(data, type, row) {
     if (type == 'display') {
-        restaurantTitle = row.restaurant.name+", "+row.restaurant.address;
-        return '<a class="btn btn-primary" onclick="openMenuItemsByMenuList(' + row.menuList.id +',\''+ restaurantTitle +'\');">' +
+        restaurantTitle = row.restaurant.name +", "+ row.restaurant.address;
+        userTitle = row.user.name+", "+row.user.email;
+        dateTimeTitle = row.dateTime;
+        return '<a class="btn btn-primary" onclick="openMenuItemsByMenuList('+ row.menuList.id
+                                                                            +',\''+ restaurantTitle +',\''
+                                                                            + ',\'' + userTitle + ',\''
+                                                                            + ',\'' + dateTimeTitle + ',\''
+                                                                            + ');">' +
             '<span class="glyphicon glyphicon-list-alt"></span></a>';
     }
 }
@@ -300,10 +306,12 @@ function openMenuItemsByRestaurant(id, restaurantTitle) {
  * get restaurant by id from server and to memory it in server
  * open modal window for menu list selection
  * hide modal window of restaurant select*/
-function openMenuItemsByMenuList(id, restaurantTitle) {
+function openMenuItemsByMenuList(id, restaurantTitle, userTitle, dateTimeTitle) {
 
     /*set html titles*/
     $('#modalTitleRestaurantShow').html(restaurantTitle);
+    $('#modalTitleUserShow').html(userTitle);
+    $('#modalTitleDateTime').html(dateTimeTitle);
 
     /*dataTable initialization*/
     menuItemsDataTableByMenuList(id);

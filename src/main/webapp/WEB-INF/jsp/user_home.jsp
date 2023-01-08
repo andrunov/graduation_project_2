@@ -127,8 +127,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title"><fmt:message key="menuLists.select"/></h2>
-                <h3 class="modal-title" id="modalTitleRestaurantShow"></h3>
+                <h3 class="modal-title"><fmt:message key="menuLists.content"/></h3>
+                <h4 class="modal-title" id="modalTitleRestaurantShow"></h4>
+                <h4 class="modal-title" id="modalTitleUserShow"></h4>
+                <h5 class="modal-title" id="modalTitleDateTime"></h5>
             </div>
             <div class="modal-body">
                 <table class="table table-hover table-bordered " id="menuListDTShow" style="width: 100%">
