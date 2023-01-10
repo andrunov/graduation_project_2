@@ -53,10 +53,10 @@
                     <input type="text" hidden="hidden" id="id" name="id">
 
                     <div class="form-group">
-                        <label for="name" class="control-label col-xs-3"><fmt:message key="restaurants.name"/></label>
+                        <label for="name" class="control-label col-xs-3"><fmt:message key="dishes.description"/></label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="<fmt:message key="restaurants.name"/>">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="<fmt:message key="dishes.description"/>">
                         </div>
                     </div>
 
