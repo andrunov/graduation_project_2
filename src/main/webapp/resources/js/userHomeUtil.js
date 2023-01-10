@@ -101,9 +101,9 @@ function votesDataTableInit() {
 function renderVoteImage (data, type, row) {
     voteDateTime = new Date(data);
     now = new Date();
-    startOfDay = new Date().setHours(0);
-    elevenAM = new Date().setHours(11);
-    thirteenAM = new Date().setHours(13);
+    startOfDay = new Date().setHours(0, 0, 0 , 0);
+    elevenAM = new Date().setHours(11,  0, 0 , 0);
+    thirteenAM = new Date().setHours(13,  0, 0 , 0);
     if (type === 'display') {
         if (voteDateTime >= startOfDay) {
             if (now < elevenAM) {
