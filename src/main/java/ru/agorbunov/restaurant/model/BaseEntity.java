@@ -1,6 +1,9 @@
 package ru.agorbunov.restaurant.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import org.springframework.data.domain.Persistable;
+import ru.agorbunov.restaurant.HasId;
+
 
 /**
  * Class represents base entity.
@@ -8,16 +11,14 @@ import javax.persistence.*;
  */
 @MappedSuperclass
 @Access(AccessType.FIELD)
-public class BaseEntity {
+public class BaseEntity implements Persistable<Integer>, HasId {
 
     /*entities with ids 100000, 100001 use as credentials to login app*/
     public static final int START_SEQ = 100000;
 
     /*identifier of entity in database*/
     @Id
-    @PrimaryKeyJoinColumn
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = START_SEQ)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
     public BaseEntity() {

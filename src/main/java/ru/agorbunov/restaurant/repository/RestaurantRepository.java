@@ -1,61 +1,17 @@
 package ru.agorbunov.restaurant.repository;
 
-import org.springframework.dao.support.DataAccessUtils;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.model.Restaurant;
-import ru.agorbunov.restaurant.model.Vote;
-import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Repository
 @Transactional(readOnly = true)
-public class RestaurantRepository {
+public interface RestaurantRepository extends BaseRepository<Restaurant> {
 
+    @Query("SELECT r FROM Restaurant r ORDER BY r.id asc ")
+    List<Restaurant> getAll();
 
-    @PersistenceContext
-    private EntityManager em;
-
-    @Transactional
-    public Restaurant save(Restaurant restaurant) {
-        if (restaurant.isNew()) {
-            em.persist(restaurant);
-            return restaurant;
-        } else {
-            return em.merge(restaurant);
-        }
-    }
-
-    public Restaurant get(int id) {
-        return em.find(Restaurant.class, id);
-    }
-
-    @Transactional
-    public boolean delete(int id) {
-
-        try {
-            Restaurant ref = em.getReference(Restaurant.class, id);
-            em.remove(ref);
-            return true;
-        } catch (Exception e) {
-            throw new NotFoundException("Restaurant with ID=" + id + " not found");
-        }
-    }
-
-
-    public List<Restaurant> getAll() {
-        return em.createNamedQuery(Restaurant.ALL_SORTED, Restaurant.class)
-                .getResultList();
-    }
-
-    public Restaurant getByVote(int id) {
-        List<Restaurant> restaurants = em.createNamedQuery(Restaurant.BY_VOTE, Restaurant.class)
-                .setParameter("id", id)
-                .getResultList();
-        return DataAccessUtils.singleResult(restaurants);
-
-    }
+    @Query("SELECT r FROM Restaurant r LEFT JOIN Vote v on r.id = v.restaurant.id WHERE v.id=:id")
+    Restaurant getByVote(int id);
 }

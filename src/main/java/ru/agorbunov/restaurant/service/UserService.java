@@ -6,12 +6,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.agorbunov.restaurant.model.User;
-import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.repository.UserRepository;
-import ru.agorbunov.restaurant.repository.VoteRepository;
 import ru.agorbunov.restaurant.web.AuthorizedUser;
 
 import java.util.List;
+import java.util.Optional;
 
 import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFound;
 import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFoundWithId;
@@ -34,9 +33,9 @@ public class UserService implements UserDetailsService {
         return checkNotFoundWithId(repository.get(id), id);
     }
 
-    public User getByEmail(String email) {
+    public Optional<User> getByEmail(String email) {
         Assert.notNull(email, "email must not be null");
-        return checkNotFound(repository.getByEmail(email), "email=" + email);
+        return checkNotFound(repository.findByEmailIgnoreCase(email), "email=" + email);
     }
 
     public List<User> getAll() {
@@ -50,11 +49,11 @@ public class UserService implements UserDetailsService {
 
     @Override
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
-        User u = repository.getByEmail(email.toLowerCase());
-        if (u == null) {
+        Optional<User> u = repository.findByEmailIgnoreCase(email.toLowerCase());
+        if (u.isEmpty()) {
             throw new UsernameNotFoundException("User " + email + " is not found");
         }
-        return new AuthorizedUser(u);
+        return new AuthorizedUser(u.get());
     }
 
 }

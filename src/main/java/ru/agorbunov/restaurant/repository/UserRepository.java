@@ -1,53 +1,25 @@
 package ru.agorbunov.restaurant.repository;
 
-import org.springframework.dao.support.DataAccessUtils;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.model.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
-@Repository
 @Transactional(readOnly = true)
-public class UserRepository {
+public interface UserRepository extends BaseRepository<User> {
 
-    @PersistenceContext
-    private EntityManager em;
+    @Query("SELECT u FROM User u WHERE u.email = LOWER(:email)")
+    Optional<User> findByEmailIgnoreCase(String email);
 
-    @Transactional
-    public User save(User user) {
-        if (user.isNew()) {
-           em.persist(user);
-           return user;
-        }
-        return em.merge(user);
-    }
+    //    https://stackoverflow.com/a/46013654/548473
+    @EntityGraph(attributePaths = {"meals"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT u FROM User u WHERE u.id=?1")
+    Optional<User> getWithMeals(int id);
 
-    public User get(int id) {
-        return em.find(User.class, id);
-    }
-
-
-    @Transactional
-    public boolean delete(int id) {
-        return em.createNamedQuery(User.DELETE)
-                .setParameter("id", id)
-                .executeUpdate() != 0;
-    }
-
-    public User getByEmail(String email) {
-        List<User> users = em.createNamedQuery(User.BY_EMAIL, User.class)
-                .setParameter(1, email)
-                .getResultList();
-        return DataAccessUtils.singleResult(users);
-    }
-
-    public List<User> getAll() {
-        return em.createNamedQuery(User.ALL_SORTED, User.class)
-                .getResultList();
-    }
-
+    @Query("SELECT u FROM User u ORDER BY u.id asc ")
+    List<User> getAll();
 
 }

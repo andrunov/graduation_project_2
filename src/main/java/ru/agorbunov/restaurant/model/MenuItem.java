@@ -1,10 +1,8 @@
 package ru.agorbunov.restaurant.model;
 
-import javax.persistence.*;
 
-@NamedQueries({
-        @NamedQuery(name = MenuItem.BY_MENU_LIST, query = "SELECT mi from MenuItem mi where mi.menuList.id=:id")
-})
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "menu_items")
 public class MenuItem extends BaseEntity{

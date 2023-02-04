@@ -1,9 +1,10 @@
 package ru.agorbunov.restaurant.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -11,11 +12,6 @@ import java.util.Set;
 /**
  * Class represents users
  */
-@NamedQueries({
-        @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
-        @NamedQuery(name = User.BY_EMAIL, query = "SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=?1"),
-        @NamedQuery(name = User.ALL_SORTED, query = "SELECT u FROM User u ORDER BY u.id asc "),
-})
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {

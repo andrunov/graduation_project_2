@@ -2,8 +2,10 @@ package ru.agorbunov.restaurant.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.repository.RestaurantRepository;
+import ru.agorbunov.restaurant.repository.UserRepository;
 import ru.agorbunov.restaurant.repository.VoteRepository;
 import ru.agorbunov.restaurant.util.DateTimeUtil;
 import ru.agorbunov.restaurant.util.exception.UpdateException;
@@ -23,9 +25,12 @@ public class VoteService {
     private final VoteRepository voteRepository;
     private final RestaurantRepository restaurantRepository;
 
-    public VoteService(VoteRepository voteRepository, RestaurantRepository restaurantRepository) {
+    private final UserRepository userRepository;
+
+    public VoteService(VoteRepository voteRepository, RestaurantRepository restaurantRepository, UserRepository userRepository) {
         this.voteRepository = voteRepository;
         this.restaurantRepository = restaurantRepository;
+        this.userRepository = userRepository;
     }
 
     public void delete(int id) {
@@ -48,11 +53,13 @@ public class VoteService {
             if (vote.getDateTime().isAfter(LocalDateTime.now().with(DEADLINE))) {
                 throw new UpdateException("It's too late, " + DateTimeUtil.toString(vote.getDateTime()) + " vote needs to be made before 11:00 o'clock");
             } else {
-                Vote saved = voteRepository.getByUserAndDate(userId, voteDate);
-                if (saved != null) {
+                Vote saved = getByUserAndDate(userId, voteDate);
+                if (saved != null && saved.getId() != null) {
                     voteRepository.delete(saved.getId());
                 }
-                voteRepository.save(vote, userId);
+                User user = userRepository.get(userId);
+                vote.setUser(user);
+                voteRepository.save(vote);
             }
         }
     }
@@ -63,11 +70,13 @@ public class VoteService {
     public void updateNoRestrictions(Vote vote, int userId) {
         Assert.notNull(vote, "vote must not be null");
         LocalDate voteDate = vote.getDateTime().toLocalDate();
-        Vote saved = voteRepository.getByUserAndDate(userId, voteDate);
+        Vote saved = getByUserAndDate(userId, voteDate);
         if (saved != null) {
             throw new UpdateException("There is already vote for user with ID=" + userId + " and dateTime=" + DateTimeUtil.toString(vote.getDateTime()) + ", please remove it first before add new vote");
         } else {
-            voteRepository.save(vote, userId);
+            User user = userRepository.get(userId);
+            vote.setUser(user);
+            voteRepository.save(vote);
         }
     }
 
@@ -89,12 +98,16 @@ public class VoteService {
 
     public List<Vote> getByRestaurantAndDate(int id, LocalDate date) {
         Assert.notNull(date, "date must not be null");
-        return voteRepository.getByRestaurantAndDate(id, date);
+        LocalDateTime from = date.atStartOfDay();
+        LocalDateTime to = date.plusDays(1).atStartOfDay();
+        return voteRepository.getByRestaurantAndDate(id, from, to);
     }
 
     public Vote getByUserAndDate(int id, LocalDate date) {
         Assert.notNull(date, "date must not be null");
-        return voteRepository.getByUserAndDate(id, date);
+        LocalDateTime from = date.atStartOfDay();
+        LocalDateTime to = date.plusDays(1).atStartOfDay();
+        return voteRepository.getByUserAndDate(id, from, to);
     }
 
     public List<Vote> getByUserAndRestaurant(int userId, int restaurantId) {

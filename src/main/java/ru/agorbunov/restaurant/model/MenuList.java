@@ -1,6 +1,7 @@
 package ru.agorbunov.restaurant.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -8,10 +9,6 @@ import java.util.List;
  * Class represents menu list
  */
 
-@NamedQueries({
-        @NamedQuery(name = MenuList.BY_RESTAURANT, query = "select ml from MenuList ml where ml.restaurant.id=:id"),
-        @NamedQuery(name = MenuList.BY_RESTAURANT_AND_DATE, query = "select ml from MenuList ml where ml.restaurant.id=:id and ml.date=:date")
-})
 @Entity
 @Table(name = "menu_lists")
 public class MenuList extends BaseEntity {

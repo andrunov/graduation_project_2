@@ -1,21 +1,17 @@
 package ru.agorbunov.restaurant.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
 
 /**
  * Class represents restaurant
  */
-@NamedNativeQueries({
-        @NamedNativeQuery(name = Restaurant.BY_VOTE, query = "SELECT * FROM RESTAURANTS r LEFT JOIN VOTES v on r.ID = v.RESTAURANT_ID WHERE v.ID=:id", resultClass = Restaurant.class)
-})
-@NamedQueries({
-        @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant r WHERE r.id=:id"),
-        @NamedQuery(name = Restaurant.ALL_SORTED, query = "SELECT r FROM Restaurant r ORDER BY r.id asc ")
-})
-
 @Entity
 @Table(name = "restaurants")
 public class Restaurant extends BaseEntity {

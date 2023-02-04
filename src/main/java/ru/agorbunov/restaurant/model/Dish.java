@@ -1,15 +1,15 @@
 package ru.agorbunov.restaurant.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 
 /**
  * Class represents dish
  */
-@NamedQueries({
-        @NamedQuery(name = Dish.ALL_SORTED, query = "SELECT d FROM Dish d ORDER BY d.id asc "),
-})
 @Entity
 @Table(name = "dishes")
 public class Dish extends BaseEntity {

@@ -1,6 +1,6 @@
 package ru.agorbunov.restaurant.to;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 /**

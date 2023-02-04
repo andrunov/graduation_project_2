@@ -53,6 +53,8 @@ public class MenuListService {
                                         " for date " + DateTimeUtil.toString(menuList.getDate()) +
                                         " has already present, saving operation of new menu list impossible");
         }
-        menuListRepository.save(menuList, restaurantId);
+        Restaurant restaurant = restaurantRepository.get(restaurantId);
+        menuList.setRestaurant(restaurant);
+        menuListRepository.save(menuList);
     }
 }

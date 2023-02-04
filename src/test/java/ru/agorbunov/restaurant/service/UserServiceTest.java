@@ -17,6 +17,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 
 import static ru.agorbunov.restaurant.UserTestData.*;
 
@@ -119,8 +120,8 @@ public class UserServiceTest {
 
     @Test
     public void getByEmail() throws Exception {
-        User user = userService.getByEmail("jbj@gmail.com");
-        MATCHER.assertEquals(USER_04, user);
+        Optional<User> user = userService.getByEmail("jbj@gmail.com");
+        MATCHER.assertEquals(USER_04, user.get());
     }
 
     @Test(expected = NotFoundException.class)
