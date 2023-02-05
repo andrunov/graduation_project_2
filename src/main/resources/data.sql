@@ -4,7 +4,6 @@ DELETE FROM restaurants;
 DELETE FROM menu_items;
 DELETE FROM dishes;
 DELETE FROM menu_lists;
-ALTER SEQUENCE GLOBAL_SEQ RESTART WITH 100000;
 
 INSERT INTO users(name,email,password) VALUES
   ('Алексей Иванов','ivanov.alexey@gmail.com','111222'),
@@ -15,12 +14,12 @@ INSERT INTO users(name,email,password) VALUES
   ('Didier Maoruani','dmauruani@gmail.com','666777');
 
 INSERT INTO roles(user_id, role) VALUES
-  (100000,'ROLE_USER'),
-  (100001,'ROLE_ADMIN'),
-  (100002,'ROLE_USER'),
-  (100003,'ROLE_USER'),
-  (100004,'ROLE_USER'),
-  (100005,'ROLE_USER');
+  (100000,'USER'),
+  (100001,'ADMIN'),
+  (100002,'USER'),
+  (100003,'USER'),
+  (100004,'USER'),
+  (100005,'USER');
 
 INSERT INTO restaurants(name, address) VALUES
   ('Ёлки-палки','ул. Некрасова, 14'),

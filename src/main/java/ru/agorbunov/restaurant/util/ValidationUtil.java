@@ -1,7 +1,11 @@
 package ru.agorbunov.restaurant.util;
 
+import org.springframework.core.NestedExceptionUtils;
+import org.springframework.lang.NonNull;
+import ru.agorbunov.restaurant.HasId;
 import ru.agorbunov.restaurant.model.BaseEntity;
 import ru.agorbunov.restaurant.util.exception.EmptyListException;
+import ru.agorbunov.restaurant.util.exception.IllegalRequestDataException;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDate;
@@ -42,9 +46,18 @@ public class ValidationUtil {
     }
 
     /*check that entity is new*/
-    public static void checkNew(BaseEntity entity) {
+    public static void checkNew(HasId entity) {
         if (!entity.isNew()) {
             throw new IllegalArgumentException(entity + " must be new (id=null)");
+        }
+    }
+
+    //  Conservative when you reply, but accept liberally (http://stackoverflow.com/a/32728226/548473)
+    public static void assureIdConsistent(HasId bean, int id) {
+        if (bean.isNew()) {
+            bean.setId(id);
+        } else if (bean.id() != id) {
+            throw new IllegalRequestDataException(bean.getClass().getSimpleName() + " must has id=" + id);
         }
     }
 
@@ -102,4 +115,10 @@ public class ValidationUtil {
         if ((stringArray == null)&&(stringArray.length==0)) throw  new EmptyListException("empty String array: " + stringArray);
     }
 
+    //  https://stackoverflow.com/a/65442410/548473
+    @NonNull
+    public static Throwable getRootCause(@NonNull Throwable t) {
+        Throwable rootCause = NestedExceptionUtils.getRootCause(t);
+        return rootCause != null ? rootCause : t;
+    }
 }

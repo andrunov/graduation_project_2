@@ -22,7 +22,7 @@ public interface VoteRepository extends BaseRepository<Vote> {
     @Query("select v from Vote v where v.user.id = :id and v.dateTime >= :from and v.dateTime < :to")
     Vote getByUserAndDate(int id, LocalDateTime from, LocalDateTime to);
 
-    @Query("select v from Vote v where v.user.id = :user_id and v.restaurant.id = :restaurant_id ")
+    @Query("select v from Vote v where v.user.id = :userId and v.restaurant.id = :restaurantId ")
     List<Vote> getByUserAndRestaurant(int userId, int restaurantId);
 
 }

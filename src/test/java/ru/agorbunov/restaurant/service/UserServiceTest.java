@@ -51,7 +51,7 @@ public class UserServiceTest {
         User newUser = new User("Созданный пользователь",
                             "created@yandex.ru",
                             "12340Gsdf",
-                            Role.ROLE_USER);
+                            Role.USER);
         userService.update(newUser);
         MATCHER.assertCollectionEquals(
                 Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, newUser),
@@ -63,7 +63,7 @@ public class UserServiceTest {
         User newUser = new User("Созданный пользователь",
                             "created@yandex.ru",
                             "12340Gsdf",
-                             Role.ROLE_USER);
+                             Role.USER);
         newUser.setVotes(new ArrayList<>());
         LocalDateTime now = LocalDateTime.now().with(LocalTime.of(9,0));
         Restaurant restaurant = restaurantService.get(RestaurantTestData.RESTAURANT_01_ID);

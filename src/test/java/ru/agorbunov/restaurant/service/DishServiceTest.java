@@ -2,23 +2,13 @@ package ru.agorbunov.restaurant.service;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
 import ru.agorbunov.restaurant.model.Dish;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import static ru.agorbunov.restaurant.DishTestData.*;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB_test.sql", config = @SqlConfig(encoding = "UTF-8"))
+
 public class DishServiceTest {
 
     @Autowired

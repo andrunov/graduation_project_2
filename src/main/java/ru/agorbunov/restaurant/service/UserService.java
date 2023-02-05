@@ -1,13 +1,10 @@
 package ru.agorbunov.restaurant.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.repository.UserRepository;
-import ru.agorbunov.restaurant.web.AuthorizedUser;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +13,7 @@ import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFou
 import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFoundWithId;
 
 @Service("userService")
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository repository;
 
@@ -46,14 +43,4 @@ public class UserService implements UserDetailsService {
         Assert.notNull(user, "user must not be null");
         repository.save(user);
     }
-
-    @Override
-    public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> u = repository.findByEmailIgnoreCase(email.toLowerCase());
-        if (u.isEmpty()) {
-            throw new UsernameNotFoundException("User " + email + " is not found");
-        }
-        return new AuthorizedUser(u.get());
-    }
-
 }
