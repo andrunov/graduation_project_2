@@ -26,8 +26,8 @@ spring:
     # Relative path from home
     #    url: jdbc:h2:~/topjava
     #    tcp: jdbc:h2:tcp://localhost:9092/~/topjava
-    username: user
-    password: password
+    username: sa
+    password:
 
 # Jackson Serialization Issue Resolver
   jackson.visibility:
