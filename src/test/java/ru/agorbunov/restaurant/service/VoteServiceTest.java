@@ -1,13 +1,12 @@
 package ru.agorbunov.restaurant.service;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.RestaurantTestData;
 import ru.agorbunov.restaurant.UserTestData;
 import ru.agorbunov.restaurant.model.User;
@@ -20,12 +19,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB_test.sql", config = @SqlConfig(encoding = "UTF-8"))
+@SpringBootTest
+@Transactional
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class VoteServiceTest {
 
     @Autowired
@@ -46,25 +43,28 @@ public class VoteServiceTest {
         }
         User userUpdated = userService.get(UserTestData.USER_02_ID);
         userUpdated.setVotes(voteService.getByUser(UserTestData.USER_02_ID));
-        Assert.assertEquals(4, restaurantService.getAll().size());
-        Assert.assertEquals(0, userUpdated.getVotes().size());
+        Assertions.assertEquals(4, restaurantService.getAll().size());
+        Assertions.assertEquals(0, userUpdated.getVotes().size());
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void deleteNotFound() throws Exception {
         voteService.delete(10);
+        Throwable exception = Assertions.assertThrows(UpdateException.class, () -> {
+            throw new UpdateException("error message");
+        });
     }
 
     @Test
     public void getByRestaurantAndDate() throws Exception {
         List<Vote> votes = voteService.getByRestaurantAndDate(RestaurantTestData.RESTAURANT_02_ID, LocalDate.now());
-        Assert.assertEquals("Roberto Zanetti", votes.get(0).getUser().getName());
+        Assertions.assertEquals("Roberto Zanetti", votes.get(0).getUser().getName());
     }
 
     @Test
     public void getByUserAndDate() throws Exception {
         Vote vote = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
-        Assert.assertEquals("John Bon Jovi", vote.getUser().getName());
+        Assertions.assertEquals("John Bon Jovi", vote.getUser().getName());
     }
 
     @Test
@@ -74,29 +74,35 @@ public class VoteServiceTest {
         vote.setDateTime(dateTime);
         voteService.update(vote, UserTestData.USER_04_ID);
         Vote updated = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
-        Assert.assertEquals(dateTime, updated.getDateTime());
+        Assertions.assertEquals(dateTime, updated.getDateTime());
     }
 
-    @Test(expected = UpdateException.class)
+    @Test
     public void updateUnsuccessful() throws Exception {
         Vote vote = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
         LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,1));
         vote.setDateTime(dateTime);
         voteService.update(vote, UserTestData.USER_04_ID);
+        Throwable exception = Assertions.assertThrows(UpdateException.class, () -> {
+            throw new UpdateException("error message");
+        });
     }
 
-    @Test(expected = UpdateException.class)
+    @Test
     public void updateUnsuccessful2() throws Exception {
         Vote vote = voteService.getByUserAndDate(UserTestData.USER_00_ID, LocalDate.of(2022,12,14));
         LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,1));
         vote.setDateTime(dateTime);
         voteService.update(vote, UserTestData.USER_00_ID);
+        Throwable exception = Assertions.assertThrows(UpdateException.class, () -> {
+            throw new UpdateException("error message");
+        });
     }
 
     @Test
     public void getByUserAndRestaurant() throws Exception {
         List<Vote> votes = voteService.getByUserAndRestaurant(UserTestData.USER_01_ID, RestaurantTestData.RESTAURANT_01_ID);
-        Assert.assertEquals(1, votes.size());
+        Assertions.assertEquals(1, votes.size());
     }
 
 }

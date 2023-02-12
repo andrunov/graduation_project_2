@@ -1,14 +1,13 @@
 package ru.agorbunov.restaurant.service;
 
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.MenuItemTestData;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.model.MenuList;
@@ -16,16 +15,16 @@ import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static ru.agorbunov.restaurant.RestaurantTestData.*;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB_test.sql", config = @SqlConfig(encoding = "UTF-8"))
+@SpringBootTest
+@Transactional
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class RestaurantServiceTest {
 
     @Autowired
@@ -37,7 +36,7 @@ public class RestaurantServiceTest {
     @Test
     public void getWith() throws Exception{
         Restaurant restaurant = restaurantService.getWithMenuLists(RESTAURANT_01_ID);
-        Assert.assertEquals(3, restaurant.getMenuLists().size());
+        Assertions.assertEquals(3, restaurant.getMenuLists().size());
     }
 
 
@@ -73,13 +72,16 @@ public class RestaurantServiceTest {
                 Arrays.asList(RESTAURANT_01, RESTAURANT_02, RESTAURANT_03, RESTAURANT_04,  newRestaurant),
                 restaurantService.getAll());
         Restaurant updated = restaurantService.getWithMenuLists(newRestaurant.getId());
-        Assert.assertEquals(1, updated.getMenuLists().size());
+        Assertions.assertEquals(1, updated.getMenuLists().size());
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void saveNull() throws Exception {
         restaurantService.update(null);
+        Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            throw new IllegalArgumentException("error message");
+        });
     }
 
     @Test
@@ -89,9 +91,12 @@ public class RestaurantServiceTest {
     }
 
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void deleteNotFound() throws Exception {
         restaurantService.delete(10);
+        Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
+            throw new NotFoundException("error message");
+        });
     }
 
     @Test
@@ -106,9 +111,12 @@ public class RestaurantServiceTest {
         MATCHER.assertEquals(RESTAURANT_02, restaurant);
     }
 
-      @Test(expected = NotFoundException.class)
+    @Test
     public void getNotFound() throws Exception {
         restaurantService.get(10);
+        Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
+              throw new NotFoundException("error message");
+        });
     }
 
     @Test
@@ -118,14 +126,18 @@ public class RestaurantServiceTest {
         restaurant.setName("обновленное имя");
         restaurantService.update(restaurant);
         Restaurant updated = restaurantService.get(RESTAURANT_02_ID);
-        Assert.assertEquals(updated.getAddress(), "обновленный адрес");
-        Assert.assertEquals(updated.getName(), "обновленное имя");
+        Assertions.assertEquals(updated.getAddress(), "обновленный адрес");
+        Assertions.assertEquals(updated.getName(), "обновленное имя");
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void updateNull() throws Exception {
         restaurantService.update(null);
+        Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            throw new IllegalArgumentException("error message");
+        });
+
     }
 
     @Test

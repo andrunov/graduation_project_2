@@ -1,5 +1,6 @@
 package ru.agorbunov.restaurant.user;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,8 +11,6 @@ import ru.agorbunov.restaurant.AbstractControllerTest;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.repository.UserRepository;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,7 +58,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + USER_ID))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertFalse(userRepository.findById(USER_ID).isPresent());
+        Assertions.assertFalse(userRepository.findById(USER_ID).isPresent());
     }
 
     @Test

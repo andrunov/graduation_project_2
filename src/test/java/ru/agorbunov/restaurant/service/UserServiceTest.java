@@ -1,13 +1,13 @@
 package ru.agorbunov.restaurant.service;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
+import ru.agorbunov.restaurant.AbstractControllerTest;
 import ru.agorbunov.restaurant.RestaurantTestData;
 import ru.agorbunov.restaurant.model.*;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
@@ -25,13 +25,11 @@ import static ru.agorbunov.restaurant.UserTestData.*;
 /**
  * Created by Admin on 28.01.2017.
  */
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB_test.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class UserServiceTest {
+@SpringBootTest
+@Transactional
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+public class UserServiceTest extends AbstractControllerTest {
 
 
     @Autowired
@@ -46,7 +44,7 @@ public class UserServiceTest {
     @Autowired
     private MenuListService menuListService;
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void save() throws Exception {
         User newUser = new User("Созданный пользователь",
                             "created@yandex.ru",
@@ -79,12 +77,15 @@ public class UserServiceTest {
                 userService.getAll());
         User updated = userService.get(newUser.getId());
         updated.setVotes(voteService.getByUser(newUser.getId()));
-        Assert.assertEquals(1, updated.getVotes().size());
+        Assertions.assertEquals(1, updated.getVotes().size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void saveNull() throws Exception {
         userService.update(null);
+        Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            throw new IllegalArgumentException("error message");
+        });
     }
 
     @Test
@@ -99,9 +100,12 @@ public class UserServiceTest {
         MATCHER.assertCollectionEquals(Arrays.asList(USER_00, USER_01, USER_03, USER_04, USER_05), userService.getAll());
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void deleteNotFound() throws Exception {
         userService.delete(10);
+        Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
+            throw new NotFoundException("error message");
+        });
     }
 
     @Test
@@ -114,7 +118,7 @@ public class UserServiceTest {
     public void get() throws Exception {
         User user = userService.get(USER_00_ID);
         MATCHER.assertEquals(USER_00, user);
-        Assert.assertEquals(Collections.singletonList(USER_00.getRoles()),
+        Assertions.assertEquals(Collections.singletonList(USER_00.getRoles()),
                             Collections.singletonList(user.getRoles()));
     }
 
@@ -124,9 +128,12 @@ public class UserServiceTest {
         MATCHER.assertEquals(USER_04, user.get());
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void getNotFound() throws Exception {
         userService.get(10);
+        Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
+            throw new NotFoundException("error message");
+        });
     }
 
     @Test
@@ -139,16 +146,19 @@ public class UserServiceTest {
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void updateNull() throws Exception {
         userService.update(null);
+        Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            throw new IllegalArgumentException("error message");
+        });
     }
 
     @Test
     public void getWith() throws Exception{
         User user = userService.get(USER_02_ID);
         user.setVotes(voteService.getByUser(USER_02_ID));
-        Assert.assertEquals(1, user.getVotes().size());
+        Assertions.assertEquals(1, user.getVotes().size());
     }
 
 

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -45,6 +47,8 @@ public class User extends BaseEntity {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "uk_user_roles")})
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
+    @JoinColumn
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
     /*orders has made by the user */
@@ -57,6 +61,14 @@ public class User extends BaseEntity {
     }
 
     public User(String name, String email, String password, Role role, Role... roles) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = EnumSet.of(role, roles);
+    }
+
+    public User(int id, String name, String email, String password, Role role, Role... roles) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;

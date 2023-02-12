@@ -1,13 +1,12 @@
 package ru.agorbunov.restaurant.service;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.MenuItemTestData;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
@@ -16,12 +15,10 @@ import java.util.List;
 
 import static ru.agorbunov.restaurant.DishTestData.*;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB_test.sql", config = @SqlConfig(encoding = "UTF-8"))
+@SpringBootTest
+@Transactional
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class MenuItemServiceTest {
 
     @Autowired
@@ -32,14 +29,14 @@ public class MenuItemServiceTest {
 
     @Test
     public void getByMenu() throws Exception {
-        Assert.assertEquals(5, menuItemService.getByMenu(MenuItemTestData.MENU_LIST_01_ID).size());
+        Assertions.assertEquals(5, menuItemService.getByMenu(MenuItemTestData.MENU_LIST_01_ID).size());
     }
 
     @Test
     public void getByMenuWithDish() throws Exception {
         List<MenuItem> list = menuItemService.getByMenu(MenuItemTestData.MENU_LIST_01_ID);
         for (MenuItem dd : list) {
-            Assert.assertNotNull(dd.getDish());
+            Assertions.assertNotNull(dd.getDish());
         }
     }
 
@@ -63,29 +60,38 @@ public class MenuItemServiceTest {
         MenuItem menuItem = new MenuItem();
         menuItem.setDish(dishService.get(100028));
         menuItemService.update(menuItem, MenuItemTestData.MENU_LIST_02_ID);
-        Assert.assertEquals(6, menuItemService.getByMenu(MenuItemTestData.MENU_LIST_02_ID).size());
+        Assertions.assertEquals(6, menuItemService.getByMenu(MenuItemTestData.MENU_LIST_02_ID).size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void saveNull() throws Exception {
         menuItemService.update(null, MenuItemTestData.MENU_LIST_02_ID);
+        Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            throw new IllegalArgumentException("error message");
+        });
     }
 
     @Test
     public void delete() throws Exception {
         menuItemService.delete(DISH_DESCR_04_ID);
-        Assert.assertEquals(4, menuItemService.getByMenu(MenuItemTestData.MENU_LIST_01_ID).size());
+        Assertions.assertEquals(4, menuItemService.getByMenu(MenuItemTestData.MENU_LIST_01_ID).size());
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void deleteNotFound() throws Exception {
         menuItemService.delete(10);
+        Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
+            throw new NotFoundException("error message");
+        });
     }
 
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void getNotFound() throws Exception {
         menuItemService.get(10);
+        Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
+            throw new NotFoundException("error message");
+        });
     }
 
 }

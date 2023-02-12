@@ -7,14 +7,20 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.AbstractControllerTest;
+import ru.agorbunov.restaurant.model.Role;
+import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.repository.UserRepository;
+import ru.agorbunov.restaurant.service.UserService;
 import ru.agorbunov.restaurant.to.UserTo;
 import ru.agorbunov.restaurant.util.JsonUtil;
+
+import java.util.Arrays;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.agorbunov.restaurant.UserTestData.*;
 import static ru.agorbunov.restaurant.user.UserTestData.*;
 import static ru.agorbunov.restaurant.web.user.ProfileController.REST_URL;
 
@@ -23,6 +29,9 @@ class ProfileControllerTest extends AbstractControllerTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Test
     @WithUserDetails(value = USER_MAIL)
@@ -46,7 +55,20 @@ class ProfileControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
         USER_MATCHER.assertMatch(userRepository.findAll(), admin, guest);
     }
-/*
+
+    @Test
+    public void save() throws Exception {
+        User newUser = new User("Созданный пользователь",
+                "created@yandex.ru",
+                "12340Gsdf",
+                Role.USER);
+        userService.update(newUser);
+        MATCHER.assertCollectionEquals(
+                Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, newUser),
+                userService.getAll());
+    }
+
+   /*
     @Test
     @WithUserDetails(value = USER_MAIL)
     void update() throws Exception {

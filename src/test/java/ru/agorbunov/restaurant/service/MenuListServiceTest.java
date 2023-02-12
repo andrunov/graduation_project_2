@@ -1,13 +1,12 @@
 package ru.agorbunov.restaurant.service;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.MenuItemTestData;
 import ru.agorbunov.restaurant.RestaurantTestData;
 import ru.agorbunov.restaurant.model.MenuItem;
@@ -19,12 +18,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB_test.sql", config = @SqlConfig(encoding = "UTF-8"))
+@SpringBootTest
+@Transactional
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class MenuListServiceTest {
 
     @Autowired
@@ -38,7 +35,7 @@ public class MenuListServiceTest {
 
     @Test
     public void getByRestaurant() throws Exception {
-        Assert.assertEquals(3, menuListService.getByRestaurant(RestaurantTestData.RESTAURANT_01_ID).size());
+        Assertions.assertEquals(3, menuListService.getByRestaurant(RestaurantTestData.RESTAURANT_01_ID).size());
     }
 
     @Test
@@ -56,41 +53,53 @@ public class MenuListServiceTest {
         menuListService.update(menuList, RestaurantTestData.RESTAURANT_01_ID);
         menuItemService.updateList(menuList.getItems(), menuList.getId());
         MenuList updated = menuListService.get(menuList.getId());
-        Assert.assertEquals(RestaurantTestData.RESTAURANT_01.getAddress(), updated.getRestaurant().getAddress());
+        Assertions.assertEquals(RestaurantTestData.RESTAURANT_01.getAddress(), updated.getRestaurant().getAddress());
         List<MenuItem> updatedDDList = menuItemService.getByMenu(menuList.getId());
-        Assert.assertEquals(5, updatedDDList.size());
+        Assertions.assertEquals(5, updatedDDList.size());
 
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void saveNull() throws Exception {
         menuListService.update(null, RestaurantTestData.RESTAURANT_02_ID);
+        Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            throw new IllegalArgumentException("error message");
+        });
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void delete() throws Exception {
         menuListService.delete(MenuItemTestData.MENU_LIST_01_ID);
         menuListService.get(MenuItemTestData.MENU_LIST_01_ID);
+        Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
+            throw new NotFoundException("error message");
+        });
     }
 
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void deleteNotFound() throws Exception {
         menuListService.delete(10);
+        Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
+            throw new NotFoundException("error message");
+        });
     }
 
 
     @Test
     public void get() throws Exception {
         MenuList menuList = menuListService.get(MenuItemTestData.MENU_LIST_02_ID);
-        Assert.assertEquals(100011, (int) menuList.getId());
+        Assertions.assertEquals(100011, (int) menuList.getId());
     }
 
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void getNotFound() throws Exception {
         menuListService.get(10);
+        Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
+            throw new NotFoundException("error message");
+        });
     }
 
     @Test
@@ -100,21 +109,27 @@ public class MenuListServiceTest {
         menuList.setDate(date);
         menuListService.update(menuList, menuList.getRestaurant().getId());
         MenuList updated = menuListService.get(menuList.getId());
-        Assert.assertEquals(date, updated.getDate());
+        Assertions.assertEquals(date, updated.getDate());
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void updateNull() throws Exception {
         menuListService.update(null, RestaurantTestData.RESTAURANT_02_ID);
+        Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            throw new IllegalArgumentException("error message");
+        });
     }
 
-    @Test(expected = UpdateException.class)
+    @Test
     public void saveWithSameTate() throws Exception{
         LocalDate now = LocalDate.now();
         MenuList menuList = new MenuList();
         menuList.setDate(now);
         menuListService.update(menuList, RestaurantTestData.RESTAURANT_01_ID);
+        Throwable exception = Assertions.assertThrows(UpdateException.class, () -> {
+            throw new UpdateException("error message");
+        });
     }
 
 

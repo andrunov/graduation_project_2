@@ -1,7 +1,8 @@
 package ru.agorbunov.restaurant.matcher;
 
-import org.junit.Assert;
 
+
+import org.junit.jupiter.api.Assertions;
 
 import java.util.Collection;
 import java.util.List;
@@ -50,11 +51,11 @@ public class ModelMatcher<T> {
     }
 
     public void assertEquals(T expected, T actual) {
-        Assert.assertEquals(wrap(expected), wrap(actual));
+        Assertions.assertEquals(wrap(expected), wrap(actual));
     }
 
     public void assertCollectionEquals(Collection<T> expected, Collection<T> actual) {
-        Assert.assertEquals(wrap(expected), wrap(actual));
+        Assertions.assertEquals(wrap(expected), wrap(actual));
     }
 
     public Wrapper wrap(T entity) {

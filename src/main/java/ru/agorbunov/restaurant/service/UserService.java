@@ -12,7 +12,7 @@ import java.util.Optional;
 import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFound;
 import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFoundWithId;
 
-@Service("userService")
+@Service
 public class UserService {
 
     private final UserRepository repository;

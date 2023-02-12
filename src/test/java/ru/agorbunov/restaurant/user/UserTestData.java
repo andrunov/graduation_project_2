@@ -32,9 +32,9 @@ public class UserTestData {
     public static final String ADMIN_MAIL = "andrunov@gmail.com";
     public static final String GUEST_MAIL = "sidor@gmail.com";
 
-    public static final User user = new User("Алексей Иванов", "ivanov.alexey@gmail.com", "111222",  Role.USER);
-    public static final User admin = new User("Андрей Горбунов", "andrunov@gmail.com", "222333",  Role.ADMIN);
-    public static final User guest = new User( "Павел Сидоров", "sidor@gmail.com", "333444",  Role.ADMIN);
+    public static final User user = new User(100000, "Алексей Иванов", "ivanov.alexey@gmail.com", "111222",  Role.USER);
+    public static final User admin = new User(100001, "Андрей Горбунов", "andrunov@gmail.com", "222333",  Role.ADMIN);
+    public static final User guest = new User( 100002, "Павел Сидоров", "sidor@gmail.com", "333444",  Role.ADMIN);
 
     public static User getNew() {
         return new User("New", "new@gmail.com", "newPass", Role.USER);
