@@ -53,7 +53,8 @@ public class User extends BaseEntity {
 
     /*orders has made by the user */
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Vote> votes;
 
 
