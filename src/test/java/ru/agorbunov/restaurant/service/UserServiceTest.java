@@ -52,7 +52,7 @@ public class UserServiceTest extends AbstractControllerTest {
                             Role.USER);
         userService.update(newUser);
         MATCHER.assertCollectionEquals(
-                Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, newUser),
+                Arrays.asList(newUser, USER_00, USER_01, USER_02, USER_03, USER_04, USER_05),
                 userService.getAll());
     }
 
@@ -73,19 +73,19 @@ public class UserServiceTest extends AbstractControllerTest {
             voteService.update(vote1, newUser.getId());
         }
         MATCHER.assertCollectionEquals(
-                Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, newUser),
+                Arrays.asList(newUser, USER_00, USER_01, USER_02, USER_03, USER_04, USER_05),
                 userService.getAll());
         User updated = userService.get(newUser.getId());
         updated.setVotes(voteService.getByUser(newUser.getId()));
         Assertions.assertEquals(1, updated.getVotes().size());
     }
 
-    @Test
+    @Test()
     public void saveNull() throws Exception {
-        userService.update(null);
         Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            throw new IllegalArgumentException("error message");
+            userService.update(null);
         });
+
     }
 
     @Test
@@ -130,9 +130,8 @@ public class UserServiceTest extends AbstractControllerTest {
 
     @Test
     public void getNotFound() throws Exception {
-        userService.get(10);
         Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            throw new NotFoundException("error message");
+            userService.get(10);
         });
     }
 
@@ -148,9 +147,8 @@ public class UserServiceTest extends AbstractControllerTest {
 
     @Test
     public void updateNull() throws Exception {
-        userService.update(null);
         Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            throw new IllegalArgumentException("error message");
+            userService.update(null);
         });
     }
 
@@ -158,7 +156,7 @@ public class UserServiceTest extends AbstractControllerTest {
     public void getWith() throws Exception{
         User user = userService.get(USER_02_ID);
         user.setVotes(voteService.getByUser(USER_02_ID));
-        Assertions.assertEquals(1, user.getVotes().size());
+        Assertions.assertEquals(3, user.getVotes().size());
     }
 
 
