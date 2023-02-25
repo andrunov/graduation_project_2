@@ -31,6 +31,7 @@ public class Vote extends BaseEntity {
 
     @OneToOne(targetEntity = MenuList.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "MENU_LIST_ID")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MenuList menuList;
 
     public Vote() {

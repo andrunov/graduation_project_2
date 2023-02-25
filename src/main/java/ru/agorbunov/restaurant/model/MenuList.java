@@ -1,6 +1,8 @@
 package ru.agorbunov.restaurant.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,7 +23,8 @@ public class MenuList extends BaseEntity {
     private Restaurant restaurant;
 
     /*List of dishes that were include in menuList*/
-    @OneToMany(mappedBy = "menuList")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "menuList")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<MenuItem> items;
 
     /*Date and Time when menuList was made*/

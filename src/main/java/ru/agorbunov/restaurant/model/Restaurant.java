@@ -1,11 +1,10 @@
 package ru.agorbunov.restaurant.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -33,7 +32,8 @@ public class Restaurant extends BaseEntity {
     private String address;
 
     /*menuLists of restaurant*/
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<MenuList> menuLists;
 
     public Restaurant() {

@@ -45,7 +45,7 @@ public class RestaurantServiceTest {
         Restaurant newRestaurant = new Restaurant("Созданный ресторант","ул. Новая, 1");
         restaurantService.update(newRestaurant);
         MATCHER.assertCollectionEquals(
-                Arrays.asList(RESTAURANT_01, RESTAURANT_02, RESTAURANT_03, RESTAURANT_04,  newRestaurant),
+                Arrays.asList(newRestaurant, RESTAURANT_01, RESTAURANT_02, RESTAURANT_03, RESTAURANT_04),
                 restaurantService.getAll());
     }
 
@@ -69,7 +69,7 @@ public class RestaurantServiceTest {
         restaurantService.update(newRestaurant);
         menuListService.update(menuList, newRestaurant.getId());
         MATCHER.assertCollectionEquals(
-                Arrays.asList(RESTAURANT_01, RESTAURANT_02, RESTAURANT_03, RESTAURANT_04,  newRestaurant),
+                Arrays.asList(newRestaurant, RESTAURANT_01, RESTAURANT_02, RESTAURANT_03, RESTAURANT_04),
                 restaurantService.getAll());
         Restaurant updated = restaurantService.getWithMenuLists(newRestaurant.getId());
         Assertions.assertEquals(1, updated.getMenuLists().size());
@@ -78,9 +78,8 @@ public class RestaurantServiceTest {
 
     @Test
     public void saveNull() throws Exception {
-        restaurantService.update(null);
         Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            throw new IllegalArgumentException("error message");
+            restaurantService.update(null);
         });
     }
 
@@ -113,9 +112,8 @@ public class RestaurantServiceTest {
 
     @Test
     public void getNotFound() throws Exception {
-        restaurantService.get(10);
         Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
-              throw new NotFoundException("error message");
+            restaurantService.get(10);
         });
     }
 
@@ -133,16 +131,15 @@ public class RestaurantServiceTest {
 
     @Test
     public void updateNull() throws Exception {
-        restaurantService.update(null);
         Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            throw new IllegalArgumentException("error message");
+            restaurantService.update(null);
         });
 
     }
 
     @Test
     public void getByVote() throws Exception {
-        MATCHER.assertEquals(RESTAURANT_01, restaurantService.getByVote(100023));
+        MATCHER.assertEquals(RESTAURANT_01, restaurantService.getByVote(1));
     }
 
 
