@@ -2,6 +2,8 @@ package ru.agorbunov.restaurant.model;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "menu_items")
@@ -20,6 +22,7 @@ public class MenuItem extends BaseEntity{
 
     @OneToOne(targetEntity = Dish.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "dish_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Dish dish;
 
     public MenuItem() {

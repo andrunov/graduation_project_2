@@ -19,9 +19,9 @@ public class DishTestData {
 
 
     public static final Dish DISH_CREATED = new Dish("Созданная еда");
-    public static final int DISH_01_ID = 100028;
-    public static final int DISH_02_ID = 100029;
-    public static final int DISH_03_ID = 100030;
+    public static final int DISH_01_ID = 100022;
+    public static final int DISH_02_ID = 100023;
+    public static final int DISH_03_ID = 100024;
     public static final int DISH_04_ID = 100031;
     public static final int DISH_05_ID = 100032;
     public static final int DISH_DESCR_01_ID = 100048;

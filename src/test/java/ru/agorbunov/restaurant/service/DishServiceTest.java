@@ -31,18 +31,16 @@ public class DishServiceTest {
 
     @Test
     public void saveNull() throws Exception {
-        service.update(null);
         Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            throw new IllegalArgumentException("error message");
+            service.update(null);
         });
     }
 
     @Test
     public void delete() throws Exception {
         service.delete(DISH_03_ID);
-        service.get(DISH_03_ID);
         Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            throw new NotFoundException("error message");
+            service.get(DISH_03_ID);
         });
     }
 
@@ -69,9 +67,8 @@ public class DishServiceTest {
 
     @Test
     public void getNotFound() throws Exception {
-        service.get(10);
         Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            throw new NotFoundException("error message");
+            service.get(10);
         });
     }
 
@@ -85,9 +82,8 @@ public class DishServiceTest {
 
     @Test
     public void updateNull() throws Exception {
-        service.update(null);
         Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            throw new IllegalArgumentException("error message");
+            service.update(null);
         });
     }
 
