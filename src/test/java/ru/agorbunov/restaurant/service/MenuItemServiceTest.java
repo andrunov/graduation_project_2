@@ -7,13 +7,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import ru.agorbunov.restaurant.MenuItemTestData;
+import ru.agorbunov.restaurant.service.testdata.MenuItemTestData;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.util.List;
 
-import static ru.agorbunov.restaurant.DishTestData.*;
+import static ru.agorbunov.restaurant.service.testdata.DishTestData.*;
 
 @SpringBootTest
 @Transactional

@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import ru.agorbunov.restaurant.MenuItemTestData;
+import ru.agorbunov.restaurant.service.testdata.MenuItemTestData;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.model.Restaurant;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static ru.agorbunov.restaurant.RestaurantTestData.*;
+import static ru.agorbunov.restaurant.service.testdata.RestaurantTestData.*;
 
 @SpringBootTest
 @Transactional

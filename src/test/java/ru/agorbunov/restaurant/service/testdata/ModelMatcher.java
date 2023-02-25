@@ -1,4 +1,4 @@
-package ru.agorbunov.restaurant.service;
+package ru.agorbunov.restaurant.service.testdata;
 
 
 

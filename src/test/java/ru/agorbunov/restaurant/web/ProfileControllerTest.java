@@ -9,14 +9,15 @@ import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.repository.UserRepository;
 import ru.agorbunov.restaurant.service.UserService;
+import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
 
 import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.UserTestData.*;
-import static ru.agorbunov.restaurant.web.UserTestData.*;
+import static ru.agorbunov.restaurant.service.testdata.UserTestData.*;
+import static ru.agorbunov.restaurant.web.testdata.UserTestData.*;
 import static ru.agorbunov.restaurant.web.user.ProfileController.REST_URL;
 
 

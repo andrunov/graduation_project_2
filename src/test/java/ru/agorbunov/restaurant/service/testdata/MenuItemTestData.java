@@ -1,6 +1,5 @@
-package ru.agorbunov.restaurant;
+package ru.agorbunov.restaurant.service.testdata;
 
-import ru.agorbunov.restaurant.service.ModelMatcher;
 import ru.agorbunov.restaurant.model.MenuItem;
 
 public class MenuItemTestData {

@@ -9,13 +9,14 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.repository.UserRepository;
+import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.UserTestData.*;
-import static ru.agorbunov.restaurant.UserTestData.USER_05;
-import static ru.agorbunov.restaurant.web.UserTestData.*;
+import static ru.agorbunov.restaurant.service.testdata.UserTestData.*;
+import static ru.agorbunov.restaurant.service.testdata.UserTestData.USER_05;
+import static ru.agorbunov.restaurant.web.testdata.UserTestData.*;
 import static ru.agorbunov.restaurant.web.user.AdminUserController.REST_URL;
 
 class AdminUserControllerTest extends AbstractControllerTest {

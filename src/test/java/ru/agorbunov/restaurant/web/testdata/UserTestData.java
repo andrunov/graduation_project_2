@@ -1,4 +1,4 @@
-package ru.agorbunov.restaurant.web;
+package ru.agorbunov.restaurant.web.testdata;
 
 
 import ru.agorbunov.restaurant.model.Role;

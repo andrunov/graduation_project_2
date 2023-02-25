@@ -7,8 +7,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import ru.agorbunov.restaurant.web.AbstractControllerTest;
-import ru.agorbunov.restaurant.RestaurantTestData;
+import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
+import ru.agorbunov.restaurant.service.testdata.RestaurantTestData;
 import ru.agorbunov.restaurant.model.*;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
-import static ru.agorbunov.restaurant.UserTestData.*;
+import static ru.agorbunov.restaurant.service.testdata.UserTestData.*;
 
 
 /**

@@ -1,4 +1,4 @@
-package ru.agorbunov.restaurant.web;
+package ru.agorbunov.restaurant.web.testdata;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.model.Dish;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
-import static ru.agorbunov.restaurant.DishTestData.*;
+import static ru.agorbunov.restaurant.service.testdata.DishTestData.*;
 
 @SpringBootTest
 @Transactional

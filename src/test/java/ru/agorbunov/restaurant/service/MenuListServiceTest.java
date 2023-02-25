@@ -7,8 +7,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import ru.agorbunov.restaurant.MenuItemTestData;
-import ru.agorbunov.restaurant.RestaurantTestData;
+import ru.agorbunov.restaurant.service.testdata.MenuItemTestData;
+import ru.agorbunov.restaurant.service.testdata.RestaurantTestData;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
