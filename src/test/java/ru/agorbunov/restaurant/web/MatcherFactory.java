@@ -1,4 +1,4 @@
-package ru.agorbunov.restaurant;
+package ru.agorbunov.restaurant.web;
 
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;

@@ -1,4 +1,4 @@
-package ru.agorbunov.restaurant.matcher;
+package ru.agorbunov.restaurant.service;
 
 
 

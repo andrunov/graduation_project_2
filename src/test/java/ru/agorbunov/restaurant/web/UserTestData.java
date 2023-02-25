@@ -1,7 +1,6 @@
 package ru.agorbunov.restaurant.web;
 
 
-import ru.agorbunov.restaurant.MatcherFactory;
 import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.util.JsonUtil;
@@ -10,7 +9,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
 public class UserTestData {
-    public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "registered", "meals", "password");
+    public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "password", "roles", "votes");
     public static MatcherFactory.Matcher<User> USER_WITH_MEALS_MATCHER =
             MatcherFactory.usingAssertions(User.class,
                     //     No need use ignoringAllOverriddenEquals, see https://assertj.github.io/doc/#breaking-changes
