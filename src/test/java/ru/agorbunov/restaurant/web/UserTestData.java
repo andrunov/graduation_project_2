@@ -1,14 +1,10 @@
-package ru.agorbunov.restaurant.user;
+package ru.agorbunov.restaurant.web;
 
 
 import ru.agorbunov.restaurant.MatcherFactory;
 import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.util.JsonUtil;
-
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

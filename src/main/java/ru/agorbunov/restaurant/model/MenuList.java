@@ -15,9 +15,6 @@ import java.util.List;
 @Table(name = "menu_lists")
 public class MenuList extends BaseEntity {
 
-    public static final String BY_RESTAURANT = "MenuList.byRestaurant";
-    public static final String BY_RESTAURANT_AND_DATE = "MenuList.byRestaurantAndDate";
-
     @ManyToOne(targetEntity = Restaurant.class)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private Restaurant restaurant;

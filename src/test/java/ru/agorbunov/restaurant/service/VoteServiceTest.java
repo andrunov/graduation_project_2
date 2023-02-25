@@ -70,11 +70,9 @@ public class VoteServiceTest {
     @Test
     public void updateSuccessful() throws Exception {
         Vote vote = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
-        System.out.println("### USER_04_ID: " + voteService.getByUser(UserTestData.USER_04_ID));
         LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,0));
         vote.setDateTime(dateTime);
         voteService.update(vote, UserTestData.USER_04_ID);
-        System.out.println("### USER_04_ID: " + voteService.getByUser(UserTestData.USER_04_ID));
         Vote updated = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
         Assertions.assertEquals(dateTime, updated.getDateTime());
     }

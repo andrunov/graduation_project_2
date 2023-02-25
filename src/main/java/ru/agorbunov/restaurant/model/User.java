@@ -18,10 +18,6 @@ import java.util.Set;
 @Table(name = "users")
 public class User extends BaseEntity {
 
-    public static final String DELETE = "User.delete";
-    public static final String BY_EMAIL = "User.getByEmail";
-    public static final String ALL_SORTED = "User.getAllSorted";
-
     /*user's name*/
     @NotBlank
     @Size(min = 2, max = 128)

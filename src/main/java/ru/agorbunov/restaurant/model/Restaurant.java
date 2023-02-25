@@ -15,10 +15,6 @@ import java.util.List;
 @Table(name = "restaurants")
 public class Restaurant extends BaseEntity {
 
-    public static final String DELETE = "Restaurant.delete";
-    public static final String ALL_SORTED = "Restaurant.getAllSorted";
-    public static final String BY_VOTE = "Restaurant.getByVote";
-
     /*name of restaurant*/
     @NotBlank
     @Size(min = 2, max = 128)

@@ -1,27 +1,23 @@
-package ru.agorbunov.restaurant.user;
+package ru.agorbunov.restaurant.web;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.AbstractControllerTest;
 import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.repository.UserRepository;
 import ru.agorbunov.restaurant.service.UserService;
-import ru.agorbunov.restaurant.to.UserTo;
-import ru.agorbunov.restaurant.util.JsonUtil;
 
 import java.util.Arrays;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.agorbunov.restaurant.UserTestData.*;
-import static ru.agorbunov.restaurant.user.UserTestData.*;
+import static ru.agorbunov.restaurant.web.UserTestData.*;
 import static ru.agorbunov.restaurant.web.user.ProfileController.REST_URL;
 
 

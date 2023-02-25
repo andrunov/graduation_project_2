@@ -10,8 +10,6 @@ import org.hibernate.annotations.OnDeleteAction;
 public class MenuItem extends BaseEntity{
 
 
-    public static final String BY_MENU_LIST = "DishDescription.byMenuList";
-
     /*price of dish*/
     @Column(name = "price", nullable = false)
     private Double price;

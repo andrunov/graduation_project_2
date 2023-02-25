@@ -14,8 +14,6 @@ import jakarta.validation.constraints.Size;
 @Table(name = "dishes")
 public class Dish extends BaseEntity {
 
-    public static final String ALL_SORTED = "Dish.getAllSorted";
-
     /*Name of dish*/
     @NotBlank
     @Size(min = 2, max = 128)

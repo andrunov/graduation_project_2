@@ -12,12 +12,6 @@ import java.time.LocalDateTime;
 @Table(name = "votes")
 public class Vote extends BaseEntity {
 
-    public static final String BY_USER = "Vote.getByUser";
-    public static final String BY_RESTAURANT = "Vote.getByRestaurant";
-    public static final String BY_RESTAURANT_DATE = "Vote.getByRestaurantAndDate";
-    public static final String BY_USER_DATE = "Vote.getByUserAndDate";
-    public static final String BY_USER_RESTAURANT = "Vote.getByUserAndRestaurant";
-
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

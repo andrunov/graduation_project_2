@@ -1,4 +1,4 @@
-package ru.agorbunov.restaurant.user;
+package ru.agorbunov.restaurant.web;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,9 @@ import ru.agorbunov.restaurant.repository.UserRepository;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.user.UserTestData.*;
+import static ru.agorbunov.restaurant.UserTestData.*;
+import static ru.agorbunov.restaurant.UserTestData.USER_05;
+import static ru.agorbunov.restaurant.web.UserTestData.*;
 import static ru.agorbunov.restaurant.web.user.AdminUserController.REST_URL;
 
 class AdminUserControllerTest extends AbstractControllerTest {
@@ -128,7 +130,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(admin, guest, user));
+                .andExpect(USER_MATCHER.contentJson(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05));
     }
 
     @Test
