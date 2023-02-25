@@ -49,7 +49,7 @@ public class MenuItemServiceTest {
     @Test
     public void update() throws Exception{
         MenuItem dishDescr = menuItemService.get(DISH_DESCR_01_ID);
-        dishDescr.setDish(dishService.get(100032));
+        dishDescr.setDish(dishService.get(DISH_05_ID));
         menuItemService.update(dishDescr, MenuItemTestData.MENU_LIST_02_ID);
         MenuItem dishDescrUpdated = menuItemService.get(DISH_DESCR_01_ID);
         MATCHER.assertEquals(DISH_05, dishDescrUpdated.getDish());
@@ -59,15 +59,15 @@ public class MenuItemServiceTest {
     public void create() throws Exception{
         MenuItem menuItem = new MenuItem();
         menuItem.setDish(dishService.get(100028));
+        menuItem.setPrice(2.5);
         menuItemService.update(menuItem, MenuItemTestData.MENU_LIST_02_ID);
         Assertions.assertEquals(6, menuItemService.getByMenu(MenuItemTestData.MENU_LIST_02_ID).size());
     }
 
     @Test
     public void saveNull() throws Exception {
-        menuItemService.update(null, MenuItemTestData.MENU_LIST_02_ID);
         Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            throw new IllegalArgumentException("error message");
+            menuItemService.update(null, MenuItemTestData.MENU_LIST_02_ID);
         });
     }
 
