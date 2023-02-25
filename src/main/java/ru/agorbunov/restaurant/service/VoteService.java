@@ -53,10 +53,6 @@ public class VoteService {
             if (vote.getDateTime().isAfter(LocalDateTime.now().with(DEADLINE))) {
                 throw new UpdateException("It's too late, " + DateTimeUtil.toString(vote.getDateTime()) + " vote needs to be made before 11:00 o'clock");
             } else {
-                Vote saved = getByUserAndDate(userId, voteDate);
-                if (saved != null && saved.getId() != null) {
-                    voteRepository.delete(saved.getId());
-                }
                 User user = userRepository.get(userId);
                 vote.setUser(user);
                 voteRepository.save(vote);

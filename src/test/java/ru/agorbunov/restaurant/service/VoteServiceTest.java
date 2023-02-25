@@ -58,7 +58,7 @@ public class VoteServiceTest {
     @Test
     public void getByRestaurantAndDate() throws Exception {
         List<Vote> votes = voteService.getByRestaurantAndDate(RestaurantTestData.RESTAURANT_02_ID, LocalDate.now());
-        Assertions.assertEquals("Roberto Zanetti", votes.get(0).getUser().getName());
+        Assertions.assertEquals(3, votes.size());
     }
 
     @Test
@@ -70,9 +70,11 @@ public class VoteServiceTest {
     @Test
     public void updateSuccessful() throws Exception {
         Vote vote = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
+        System.out.println("### USER_04_ID: " + voteService.getByUser(UserTestData.USER_04_ID));
         LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,0));
         vote.setDateTime(dateTime);
         voteService.update(vote, UserTestData.USER_04_ID);
+        System.out.println("### USER_04_ID: " + voteService.getByUser(UserTestData.USER_04_ID));
         Vote updated = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
         Assertions.assertEquals(dateTime, updated.getDateTime());
     }
@@ -82,9 +84,8 @@ public class VoteServiceTest {
         Vote vote = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
         LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,1));
         vote.setDateTime(dateTime);
-        voteService.update(vote, UserTestData.USER_04_ID);
         Throwable exception = Assertions.assertThrows(UpdateException.class, () -> {
-            throw new UpdateException("error message");
+            voteService.update(vote, UserTestData.USER_04_ID);
         });
     }
 
@@ -93,16 +94,15 @@ public class VoteServiceTest {
         Vote vote = voteService.getByUserAndDate(UserTestData.USER_00_ID, LocalDate.of(2022,12,14));
         LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,1));
         vote.setDateTime(dateTime);
-        voteService.update(vote, UserTestData.USER_00_ID);
         Throwable exception = Assertions.assertThrows(UpdateException.class, () -> {
-            throw new UpdateException("error message");
+            voteService.update(vote, UserTestData.USER_00_ID);
         });
     }
 
     @Test
     public void getByUserAndRestaurant() throws Exception {
         List<Vote> votes = voteService.getByUserAndRestaurant(UserTestData.USER_01_ID, RestaurantTestData.RESTAURANT_01_ID);
-        Assertions.assertEquals(1, votes.size());
+        Assertions.assertEquals(2, votes.size());
     }
 
 }
