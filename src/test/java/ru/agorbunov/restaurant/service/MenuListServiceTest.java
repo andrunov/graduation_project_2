@@ -62,18 +62,16 @@ public class MenuListServiceTest {
 
     @Test
     public void saveNull() throws Exception {
-        menuListService.update(null, RestaurantTestData.RESTAURANT_02_ID);
         Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            throw new IllegalArgumentException("error message");
+            menuListService.update(null, RestaurantTestData.RESTAURANT_02_ID);
         });
     }
 
     @Test
     public void delete() throws Exception {
         menuListService.delete(MenuItemTestData.MENU_LIST_01_ID);
-        menuListService.get(MenuItemTestData.MENU_LIST_01_ID);
         Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            throw new NotFoundException("error message");
+            menuListService.get(MenuItemTestData.MENU_LIST_01_ID);
         });
     }
 
@@ -96,9 +94,8 @@ public class MenuListServiceTest {
 
     @Test
     public void getNotFound() throws Exception {
-        menuListService.get(10);
         Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            throw new NotFoundException("error message");
+            menuListService.get(10);
         });
     }
 
@@ -115,9 +112,8 @@ public class MenuListServiceTest {
 
     @Test
     public void updateNull() throws Exception {
-        menuListService.update(null, RestaurantTestData.RESTAURANT_02_ID);
         Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            throw new IllegalArgumentException("error message");
+            menuListService.update(null, RestaurantTestData.RESTAURANT_02_ID);
         });
     }
 
@@ -126,9 +122,8 @@ public class MenuListServiceTest {
         LocalDate now = LocalDate.now();
         MenuList menuList = new MenuList();
         menuList.setDate(now);
-        menuListService.update(menuList, RestaurantTestData.RESTAURANT_01_ID);
         Throwable exception = Assertions.assertThrows(UpdateException.class, () -> {
-            throw new UpdateException("error message");
+            menuListService.update(menuList, RestaurantTestData.RESTAURANT_01_ID);
         });
     }
 
