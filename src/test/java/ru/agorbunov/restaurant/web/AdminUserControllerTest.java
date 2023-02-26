@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.repository.UserRepository;
 import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
@@ -108,7 +109,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void createWithLocation() throws Exception {
+    void create() throws Exception {
         User newUser = getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -152,18 +153,17 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andExpect(USER_WITH_MEALS_MATCHER.contentJson(admin));
     }
 
-    /*
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {
-        User invalid = new User(null, null, "", "newPass", 7300, Role.USER, Role.ADMIN);
+        User invalid = new User(1, null, "", "newPass", Role.USER, Role.ADMIN);
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonWithPassword(invalid, "newPass")))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
-
+/*
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateInvalid() throws Exception {
@@ -213,5 +213,6 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andExpect(content().string(containsString(EXCEPTION_DUPLICATE_EMAIL)));
     }
 
-     */
+ */
+
 }

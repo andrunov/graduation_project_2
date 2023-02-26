@@ -1,4 +1,4 @@
-package ru.agorbunov.restaurant.web.handlers;
+package ru.agorbunov.restaurant.web;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;

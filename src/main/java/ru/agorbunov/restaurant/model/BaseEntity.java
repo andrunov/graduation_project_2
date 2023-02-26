@@ -1,5 +1,6 @@
 package ru.agorbunov.restaurant.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import org.springframework.data.domain.Persistable;
 import ru.agorbunov.restaurant.HasId;
@@ -19,6 +20,7 @@ public class BaseEntity implements Persistable<Integer>, HasId {
     /*identifier of entity in database*/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(hidden = true)
     protected Integer id;
 
     public BaseEntity() {
