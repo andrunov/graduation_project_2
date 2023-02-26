@@ -14,8 +14,6 @@ import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.service.testdata.UserTestData.*;
-import static ru.agorbunov.restaurant.service.testdata.UserTestData.USER_05;
 import static ru.agorbunov.restaurant.web.testdata.UserTestData.*;
 import static ru.agorbunov.restaurant.web.user.AdminUserController.REST_URL;
 
@@ -75,7 +73,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void enableNotFound() throws Exception {
         perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + NOT_FOUND)
-                .param("enabled", "false")
+                .param("newPassword", "123456789")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
@@ -130,14 +128,14 @@ class AdminUserControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05));
+                .andExpect(USER_MATCHER.contentJson(user, admin, guest_1, guest_2, guest_3, guest_4));
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void enable() throws Exception {
+    void setNewPassword() throws Exception {
         perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + USER_ID)
-                .param("enabled", "false")
+                .param("newPassword", "123456789")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNoContent());
@@ -146,8 +144,8 @@ class AdminUserControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void getWithMeals() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + ADMIN_ID + "/with-meals"))
+    void getWithVotes() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + ADMIN_ID + "/with-votes"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

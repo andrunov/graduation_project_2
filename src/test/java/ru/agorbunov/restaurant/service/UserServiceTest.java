@@ -44,7 +44,7 @@ public class UserServiceTest extends AbstractControllerTest {
     @Autowired
     private MenuListService menuListService;
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void save() throws Exception {
         User newUser = new User("Созданный пользователь",
                             "created@yandex.ru",

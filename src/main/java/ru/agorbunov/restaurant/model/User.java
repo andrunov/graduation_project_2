@@ -1,5 +1,6 @@
 package ru.agorbunov.restaurant.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -17,6 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
+
 
     /*user's name*/
     @NotBlank
@@ -51,6 +53,7 @@ public class User extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @Schema(hidden = true)
     private List<Vote> votes;
 
 

@@ -13,10 +13,8 @@ import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
 
 import java.util.Arrays;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.service.testdata.UserTestData.*;
 import static ru.agorbunov.restaurant.web.testdata.UserTestData.*;
 import static ru.agorbunov.restaurant.web.user.ProfileController.REST_URL;
 
@@ -49,7 +47,7 @@ class ProfileControllerTest extends AbstractControllerTest {
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL))
                 .andExpect(status().isNoContent());
-        USER_MATCHER.assertMatch(userRepository.findAll(), admin, guest);
+        USER_MATCHER.assertMatch(userRepository.findAll(), admin, guest_1, guest_2, guest_3, guest_4);
     }
 
     @Test
@@ -59,8 +57,8 @@ class ProfileControllerTest extends AbstractControllerTest {
                 "12340Gsdf",
                 Role.USER);
         userService.update(newUser);
-        MATCHER.assertCollectionEquals(
-                Arrays.asList(USER_00, USER_01, USER_02, USER_03, USER_04, USER_05, newUser),
+        USER_MATCHER.assertMatch(
+                Arrays.asList(newUser, user, admin, guest_1, guest_2, guest_3, guest_4),
                 userService.getAll());
     }
 

@@ -1,5 +1,6 @@
 package ru.agorbunov.restaurant.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,6 +15,7 @@ public class Vote extends BaseEntity {
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
     private User user;
 
     @Column(name = "date_time", nullable = false)

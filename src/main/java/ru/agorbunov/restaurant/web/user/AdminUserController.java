@@ -29,9 +29,9 @@ public class AdminUserController extends AbstractUserController {
         return super.get(id);
     }
 
-    @GetMapping("/{id}/with-meals")
-    public ResponseEntity<User> getWithMeals(@PathVariable int id) {
-        return super.getWithMeals(id);
+    @GetMapping("/{id}/with-votes")
+    public ResponseEntity<User> getWithVotes(@PathVariable int id) {
+        return super.getWithVotes(id);
     }
 
     @Override
@@ -72,15 +72,13 @@ public class AdminUserController extends AbstractUserController {
         return ResponseEntity.of(repository.findByEmailIgnoreCase(email));
     }
 
-    /*
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    public void enable(@PathVariable int id, @RequestParam boolean enabled) {
-        log.info(enabled ? "enable {}" : "disable {}", id);
+    public void enable(@PathVariable int id, @RequestParam String newPassword) {
+        log.info("newPassword {}" , id);
         User user = repository.getExisted(id);
-        user.setEnabled(enabled);
+        user.setPassword(newPassword);
     }
 
-     */
 }
