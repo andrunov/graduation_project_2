@@ -9,8 +9,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
+import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.repository.UserRepository;
 import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
+import ru.agorbunov.restaurant.web.testdata.VoteTestData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -146,11 +151,16 @@ class AdminUserControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getWithVotes() throws Exception {
+        List<Vote> votes = new ArrayList<>();
+        votes.add(VoteTestData.VOTE_01);
+        votes.add(VoteTestData.VOTE_02);
+        votes.add(VoteTestData.VOTE_03);
+        admin.setVotes(votes);
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + ADMIN_ID + "/with-votes"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_WITH_MEALS_MATCHER.contentJson(admin));
+                .andExpect(USER_WITH_VOTES_MATCHER.contentJson(admin));
     }
 
     @Test

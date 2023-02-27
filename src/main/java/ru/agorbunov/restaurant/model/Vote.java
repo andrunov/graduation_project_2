@@ -21,7 +21,7 @@ public class Vote extends BaseEntity {
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
 
-    @ManyToOne(targetEntity = Restaurant.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Restaurant.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 

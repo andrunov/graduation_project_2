@@ -10,11 +10,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class UserTestData {
     public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "password", "votes");
-    public static MatcherFactory.Matcher<User> USER_WITH_MEALS_MATCHER =
+    public static MatcherFactory.Matcher<User> USER_WITH_VOTES_MATCHER =
             MatcherFactory.usingAssertions(User.class,
                     //     No need use ignoringAllOverriddenEquals, see https://assertj.github.io/doc/#breaking-changes
                     (a, e) -> assertThat(a).usingRecursiveComparison()
-                            .ignoringFields("password", "votes.user", "votes").isEqualTo(e),
+                            .ignoringFields("password", "votes.id" ).isEqualTo(e),
                     (a, e) -> {
                         throw new UnsupportedOperationException();
                     });
@@ -30,9 +30,9 @@ public class UserTestData {
     public static final User user = new User(100000, "Алексей Иванов", "ivanov.alexey@gmail.com", "111222",  Role.USER);
     public static final User admin = new User(100001, "Андрей Горбунов", "andrunov@gmail.com", "222333",  Role.ADMIN);
     public static final User guest_1 = new User( 100002, "Павел Сидоров", "sidor@gmail.com", "333444",  Role.ADMIN);
-    public static final User guest_2 = new User("Roberto Zanetti","rzanetti@gmail.com","444555", Role.USER);
-    public static final User guest_3 = new User("John Bon Jovi","jbj@gmail.com","555666", Role.USER);
-    public static final User guest_4 = new User("Didier Maoruani","dmauruani@gmail.com","666777", Role.USER);
+    public static final User guest_2 = new User(100003, "Roberto Zanetti","rzanetti@gmail.com","444555", Role.USER);
+    public static final User guest_3 = new User(100004, "John Bon Jovi","jbj@gmail.com","555666", Role.USER);
+    public static final User guest_4 = new User(100005, "Didier Maoruani","dmauruani@gmail.com","666777", Role.USER);
 
     public static User getNew() {
         return new User("New", "new@gmail.com", "newPass", Role.USER);
