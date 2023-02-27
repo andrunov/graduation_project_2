@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import ru.agorbunov.restaurant.HasIdAndEmail;
 
+import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +26,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseEntity {
+public class User extends BaseEntity implements HasIdAndEmail, Serializable {
 
 
     /*user's name*/
