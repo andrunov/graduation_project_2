@@ -1,6 +1,7 @@
 package ru.agorbunov.restaurant.to;
 
 import jakarta.validation.constraints.Size;
+import ru.agorbunov.restaurant.HasIdAndEmail;
 import ru.agorbunov.restaurant.model.BaseEntity;
 
 import java.io.Serializable;
@@ -8,7 +9,7 @@ import java.io.Serializable;
 /**
  * class for works with User entity in some web forms
  */
-public class UserTo extends BaseTo implements Serializable{
+public class UserTo extends BaseTo implements HasIdAndEmail, Serializable {
 
     private static final long serialVersionUID = 1L;
 
