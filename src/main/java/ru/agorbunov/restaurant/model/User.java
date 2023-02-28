@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ru.agorbunov.restaurant.HasIdAndEmail;
+import ru.agorbunov.restaurant.util.validation.NoHtml;
 
 import java.io.Serializable;
 import java.util.EnumSet;
@@ -33,6 +34,7 @@ public class User extends BaseEntity implements HasIdAndEmail, Serializable {
     @NotBlank
     @Size(min = 2, max = 128)
     @Column(name = "name", nullable = false)
+    @NoHtml
     private String name;
 
     /*users e-mail*/
@@ -79,6 +81,14 @@ public class User extends BaseEntity implements HasIdAndEmail, Serializable {
         this.email = email;
         this.password = password;
         this.roles = EnumSet.of(role, roles);
+    }
+
+    public User(User user) {
+        this.id = user.id;
+        this.name = user.name;
+        this.email = user.email;
+        this.password = user.password;
+        this.roles = user.roles;
     }
 
     @Override

@@ -11,17 +11,20 @@ import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.repository.UserRepository;
+import ru.agorbunov.restaurant.repository.VoteRepository;
 import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
 import ru.agorbunov.restaurant.web.testdata.VoteTestData;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.agorbunov.restaurant.web.testdata.UserTestData.*;
 import static ru.agorbunov.restaurant.web.user.AdminUserController.REST_URL;
+import static ru.agorbunov.restaurant.web.user.UniqueMailValidator.EXCEPTION_DUPLICATE_EMAIL;
 
 class AdminUserControllerTest extends AbstractControllerTest {
 
@@ -29,6 +32,9 @@ class AdminUserControllerTest extends AbstractControllerTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private VoteRepository voteRepository;
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
@@ -173,7 +179,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
-/*
+
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateInvalid() throws Exception {
@@ -214,7 +220,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createDuplicate() throws Exception {
-        User expected = new User(null, "New", USER_MAIL, "newPass", 2300, Role.USER, Role.ADMIN);
+        User expected = new User("New", USER_MAIL, "newPass", Role.USER, Role.ADMIN);
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonWithPassword(expected, "newPass")))
@@ -222,7 +228,5 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(content().string(containsString(EXCEPTION_DUPLICATE_EMAIL)));
     }
-
- */
 
 }
