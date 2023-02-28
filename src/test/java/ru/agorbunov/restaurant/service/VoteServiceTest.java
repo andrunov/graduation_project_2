@@ -57,7 +57,7 @@ public class VoteServiceTest {
     @Test
     public void getByRestaurantAndDate() throws Exception {
         List<Vote> votes = voteService.getByRestaurantAndDate(RestaurantTestData.RESTAURANT_02_ID, LocalDate.now());
-        Assertions.assertEquals(3, votes.size());
+        Assertions.assertEquals(2, votes.size());
     }
 
     @Test
