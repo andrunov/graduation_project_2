@@ -8,14 +8,18 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
+import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.repository.UserRepository;
 import ru.agorbunov.restaurant.service.UserService;
 import ru.agorbunov.restaurant.to.UserTo;
 import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.util.UserUtil;
 import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
+import ru.agorbunov.restaurant.web.testdata.VoteTestData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -105,8 +109,13 @@ class ProfileControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void getWithMeals() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "/with-meals"))
+    void getWithVotes() throws Exception {
+        List<Vote> votes = new ArrayList<>();
+        votes.add(VoteTestData.VOTE_01);
+        votes.add(VoteTestData.VOTE_02);
+        votes.add(VoteTestData.VOTE_03);
+        user.setVotes(votes);
+        perform(MockMvcRequestBuilders.get(REST_URL + "/with-votes"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

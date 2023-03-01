@@ -1,8 +1,12 @@
 package ru.agorbunov.restaurant.to;
 
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import ru.agorbunov.restaurant.HasIdAndEmail;
 import ru.agorbunov.restaurant.model.BaseEntity;
+import ru.agorbunov.restaurant.util.validation.NoHtml;
 
 import java.io.Serializable;
 
@@ -13,10 +17,18 @@ public class UserTo extends BaseTo implements HasIdAndEmail, Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @NotBlank
+    @Size(min = 2, max = 128)
+    @NoHtml
     private String name;
 
+    @Email
+    @NotBlank
+    @Size(max = 128)
+    @NoHtml
     private String email;
 
+    @NotBlank
     @Size(min = 5, max = 20, message = "error.password")
     private String password;
 

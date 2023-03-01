@@ -158,9 +158,9 @@ class AdminUserControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void getWithVotes() throws Exception {
         List<Vote> votes = new ArrayList<>();
-        votes.add(VoteTestData.VOTE_01);
-        votes.add(VoteTestData.VOTE_02);
-        votes.add(VoteTestData.VOTE_03);
+        votes.add(VoteTestData.VOTE_04);
+        votes.add(VoteTestData.VOTE_05);
+        votes.add(VoteTestData.VOTE_06);
         admin.setVotes(votes);
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + ADMIN_ID + "/with-votes"))
                 .andExpect(status().isOk())

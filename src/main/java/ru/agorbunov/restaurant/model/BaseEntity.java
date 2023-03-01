@@ -14,9 +14,6 @@ import ru.agorbunov.restaurant.HasId;
 @Access(AccessType.FIELD)
 public class BaseEntity implements Persistable<Integer>, HasId {
 
-    /*entities with ids 100000, 100001 use as credentials to login app*/
-    public static final int START_SEQ = 100000;
-
     /*identifier of entity in database*/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

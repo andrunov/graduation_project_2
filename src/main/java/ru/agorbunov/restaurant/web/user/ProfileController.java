@@ -58,7 +58,7 @@ public class ProfileController extends AbstractUserController {
     }
 
     @GetMapping("/with-votes")
-    public ResponseEntity<User> getWithMeals(@AuthenticationPrincipal AuthUser authUser) {
+    public ResponseEntity<User> getWithVotes(@AuthenticationPrincipal AuthUser authUser) {
         return super.getWithVotes(authUser.id());
     }
 }
