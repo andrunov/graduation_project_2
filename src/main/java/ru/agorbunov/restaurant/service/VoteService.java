@@ -61,21 +61,6 @@ public class VoteService {
     }
 
 
-    /**
-     * update vote for admins*/
-    public void updateNoRestrictions(Vote vote, int userId) {
-        Assert.notNull(vote, "vote must not be null");
-        LocalDate voteDate = vote.getDateTime().toLocalDate();
-        Vote saved = getByUserAndDate(userId, voteDate);
-        if (saved != null) {
-            throw new UpdateException("There is already vote for user with ID=" + userId + " and dateTime=" + DateTimeUtil.toString(vote.getDateTime()) + ", please remove it first before add new vote");
-        } else {
-            User user = userRepository.get(userId);
-            vote.setUser(user);
-            voteRepository.save(vote);
-        }
-    }
-
     public List<Vote> getByUser(int id) {
         return voteRepository.getByUser(id);
     }

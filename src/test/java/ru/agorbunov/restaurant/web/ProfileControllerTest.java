@@ -10,7 +10,6 @@ import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.repository.UserRepository;
-import ru.agorbunov.restaurant.service.UserService;
 import ru.agorbunov.restaurant.to.UserTo;
 import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.util.UserUtil;
@@ -34,9 +33,6 @@ class ProfileControllerTest extends AbstractControllerTest {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private UserService userService;
 
     @Test
     @WithUserDetails(value = USER_MAIL)
@@ -67,10 +63,10 @@ class ProfileControllerTest extends AbstractControllerTest {
                 "created@yandex.ru",
                 "12340Gsdf",
                 Role.USER);
-        userService.update(newUser);
+        userRepository.save(newUser);
         USER_MATCHER.assertMatch(
                 Arrays.asList(newUser, user, admin, guest_1, guest_2, guest_3, guest_4),
-                userService.getAll());
+                userRepository.getAll());
     }
 
     @Test
