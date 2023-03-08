@@ -1,5 +1,6 @@
 package ru.agorbunov.restaurant.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -17,6 +18,7 @@ public class MenuList extends BaseEntity {
 
     @ManyToOne(targetEntity = Restaurant.class)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+    @JsonIgnore
     private Restaurant restaurant;
 
     /*List of dishes that were include in menuList*/
@@ -30,6 +32,11 @@ public class MenuList extends BaseEntity {
 
 
     public MenuList() {
+    }
+
+    public MenuList(int id, LocalDate date) {
+        this.id = id;
+        this.date = date;
     }
 
     public Restaurant getRestaurant() {

@@ -40,6 +40,12 @@ public class Restaurant extends BaseEntity {
         this.address = address;
     }
 
+    public Restaurant(int id, String name, String address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
+
     public String getName() {
         return name;
     }

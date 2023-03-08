@@ -43,13 +43,13 @@ public class AdminUserController extends AbstractUserController {
 
     @GetMapping
     public List<User> getAll() {
-        log.info("getAll");
+        log.info("getAll users");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
-        log.info("create {}", user);
+        log.info("create user {}", user);
         checkNew(user);
         User created = prepareAndSave(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -68,7 +68,7 @@ public class AdminUserController extends AbstractUserController {
 
     @GetMapping("/by-email")
     public ResponseEntity<User> getByEmail(@RequestParam String email) {
-        log.info("getByEmail {}", email);
+        log.info("user getByEmail {}", email);
         return ResponseEntity.of(repository.findByEmailIgnoreCase(email));
     }
 
@@ -76,7 +76,7 @@ public class AdminUserController extends AbstractUserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void enable(@PathVariable int id, @RequestParam String newPassword) {
-        log.info("newPassword {}" , id);
+        log.info("newPassword user id={}" , id);
         User user = repository.getExisted(id);
         user.setPassword(newPassword);
     }

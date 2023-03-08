@@ -34,8 +34,6 @@ public class RestaurantService {
         return checkNotFoundWithId(restaurantRepository.get(id), id);
     }
 
-
-
     public Restaurant getWithMenuLists(int id) {
         Restaurant restaurant = this.get(id);
         List<MenuList> votes = menuListRepository.getByRestaurant(id);
@@ -47,9 +45,9 @@ public class RestaurantService {
         return restaurantRepository.getAll();
     }
 
-    public void update(Restaurant restaurant) {
+    public Restaurant update(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
-        restaurantRepository.save(restaurant);
+        return restaurantRepository.save(restaurant);
     }
 
     public Restaurant getByVote(int id) {

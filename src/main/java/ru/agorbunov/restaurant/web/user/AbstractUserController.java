@@ -27,17 +27,17 @@ public abstract class AbstractUserController {
     }
 
     public ResponseEntity<User> get(int id) {
-        log.info("get {}", id);
+        log.info("get user id={}", id);
         return ResponseEntity.of(repository.findById(id));
     }
 
     public void delete(int id) {
-        log.info("delete {}", id);
+        log.info("delete user id={}", id);
         repository.deleteExisted(id);
     }
 
     public ResponseEntity<User> getWithVotes(int id) {
-        log.info("getWithVotes {}", id);
+        log.info("getWithVotes user id={}", id);
         return ResponseEntity.of(repository.getWithVotes(id));
     }
 
