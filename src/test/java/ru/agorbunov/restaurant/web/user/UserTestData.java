@@ -1,9 +1,10 @@
-package ru.agorbunov.restaurant.web.testdata;
+package ru.agorbunov.restaurant.web.user;
 
 
 import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.util.JsonUtil;
+import ru.agorbunov.restaurant.web.testdata.MatcherFactory;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -35,12 +36,12 @@ public class UserTestData {
     public static final User guest_4 = new User(100005, "Didier Maoruani","dmauruani@gmail.com","666777", Role.USER);
 
     //TODO rename
-    public static User getNew() {
+    public static User getNewUser() {
         return new User("New", "new@gmail.com", "newPass", Role.USER);
     }
 
     //TODO rename
-    public static User getUpdated() {
+    public static User getUpdatedUser() {
         return new User(100000, "UpdatedName", "ivanov.alexey@gmail.com", "newPass",   Role.ADMIN);
     }
 

@@ -1,4 +1,4 @@
-package ru.agorbunov.restaurant.web;
+package ru.agorbunov.restaurant.web.user;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.web.testdata.UserTestData.*;
+import static ru.agorbunov.restaurant.web.user.UserTestData.*;
 import static ru.agorbunov.restaurant.web.user.AdminUserController.REST_URL;
 import static ru.agorbunov.restaurant.web.user.UniqueMailValidator.EXCEPTION_DUPLICATE_EMAIL;
 
@@ -107,7 +107,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
-        User updated = getUpdated();
+        User updated = getUpdatedUser();
         updated.setId(null);
         perform(MockMvcRequestBuilders.put(REST_URL_SLASH + USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -115,13 +115,13 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), getUpdated());
+        USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), getUpdatedUser());
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        User newUser = getNew();
+        User newUser = getNewUser();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonWithPassword(newUser, "newPass")))

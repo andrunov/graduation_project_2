@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.agorbunov.restaurant.web.restaurant.UserRestaurantController.REST_URL;
 import static ru.agorbunov.restaurant.web.testdata.MenuListTestData.*;
 import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.*;
-import static ru.agorbunov.restaurant.web.testdata.UserTestData.USER_MAIL;
+import static ru.agorbunov.restaurant.web.user.UserTestData.USER_MAIL;
 
 public class UserRestaurantControllerTest extends AbstractControllerTest {
 

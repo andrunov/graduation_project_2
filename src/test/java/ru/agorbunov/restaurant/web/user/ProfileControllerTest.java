@@ -1,4 +1,4 @@
-package ru.agorbunov.restaurant.web;
+package ru.agorbunov.restaurant.web.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.web.testdata.UserTestData.*;
+import static ru.agorbunov.restaurant.web.user.UserTestData.*;
 import static ru.agorbunov.restaurant.web.user.ProfileController.REST_URL;
 import static ru.agorbunov.restaurant.web.user.UniqueMailValidator.EXCEPTION_DUPLICATE_EMAIL;
 
