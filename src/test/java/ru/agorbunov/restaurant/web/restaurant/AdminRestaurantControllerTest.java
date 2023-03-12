@@ -108,6 +108,16 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
         RESTAURANT_MATCHER.assertMatch(restaurantService.get(RESTAURANT_01_ID), getUpdatedRestaurant());
     }
 
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void updateForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_01_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonWithName(RESTAURANT_01, "Новое название")))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
 
 
     @Test
@@ -126,6 +136,16 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
         RESTAURANT_MATCHER.assertMatch(restaurantService.getExisted(newId), newRestaurant);
     }
 
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void createForbidden() throws Exception {
+        Restaurant newRestaurant = getNewRestaurant();
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(newRestaurant)))
+                .andExpect(status().isForbidden());
+    }
+
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
@@ -136,6 +156,16 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void setNewPasswordForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + RESTAURANT_01_ID)
+                .param("newAddress", "Новый адрес")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isForbidden());
     }
 
     @Test
