@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.service.RestaurantService;
-import ru.agorbunov.restaurant.util.exception.IllegalRequestDataException;
+import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
 
@@ -17,8 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.agorbunov.restaurant.web.restaurant.AdminRestaurantController.REST_URL;
 import static ru.agorbunov.restaurant.web.testdata.RestaurantTestData.*;
-import static ru.agorbunov.restaurant.web.testdata.UserTestData.ADMIN_MAIL;
-import static ru.agorbunov.restaurant.web.testdata.UserTestData.USER_MAIL;
+import static ru.agorbunov.restaurant.web.testdata.UserTestData.*;
 
 
 public class AdminRestaurantControllerTest extends AbstractControllerTest {
@@ -105,43 +105,33 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        RESTAURANT_MATCHER.assertMatch(restaurantService.get(RESTAURANT_01_ID), getUpdated());
+        RESTAURANT_MATCHER.assertMatch(restaurantService.get(RESTAURANT_01_ID), getUpdatedRestaurant());
     }
-
-    /*
 
 
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        User newUser = getNew();
+        Restaurant newRestaurant = getNewRestaurant();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithPassword(newUser, "newPass")))
+                .content(JsonUtil.writeValue(newRestaurant)))
                 .andExpect(status().isCreated());
 
-        User created = USER_MATCHER.readFromJson(action);
+        Restaurant created = RESTAURANT_MATCHER.readFromJson(action);
         int newId = created.id();
-        newUser.setId(newId);
-        USER_MATCHER.assertMatch(created, newUser);
-        USER_MATCHER.assertMatch(userRepository.getExisted(newId), newUser);
+        newRestaurant.setId(newId);
+        RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
+        RESTAURANT_MATCHER.assertMatch(restaurantService.getExisted(newId), newRestaurant);
     }
 
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(user, admin, guest_1, guest_2, guest_3, guest_4));
-    }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void setNewPassword() throws Exception {
-        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + USER_ID)
-                .param("newPassword", "123456789")
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + RESTAURANT_01_ID)
+                .param("newAddress", "Новый адрес")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNoContent());
@@ -150,26 +140,11 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void getWithVotes() throws Exception {
-        List<Vote> votes = new ArrayList<>();
-        votes.add(VoteTestData.VOTE_04);
-        votes.add(VoteTestData.VOTE_05);
-        votes.add(VoteTestData.VOTE_06);
-        admin.setVotes(votes);
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + ADMIN_ID + "/with-votes"))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_WITH_VOTES_MATCHER.contentJson(admin));
-    }
-
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {
-        User invalid = new User(1, null, "", "newPass", Role.USER, Role.ADMIN);
+        Restaurant invalid = new Restaurant(  null, "" );
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithPassword(invalid, "newPass")))
+                .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -177,11 +152,11 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateInvalid() throws Exception {
-        User invalid = new User(user);
+        Restaurant invalid = getUpdatedRestaurant();
         invalid.setName("");
         perform(MockMvcRequestBuilders.put(REST_URL_SLASH + USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithPassword(invalid, "password")))
+                .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -189,41 +164,13 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateHtmlUnsafe() throws Exception {
-        User updated = new User(user);
-        updated.setName("<script>alert(123)</script>");
+        Restaurant updated = getUpdatedRestaurant();
+        updated.setName("<script>name(123)</script>");
         perform(MockMvcRequestBuilders.put(REST_URL_SLASH + USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithPassword(updated, "password")))
+                .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
-
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void updateDuplicate() throws Exception {
-        User updated = new User(user);
-        updated.setEmail(ADMIN_MAIL);
-        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + USER_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithPassword(updated, "password")))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(content().string(containsString(EXCEPTION_DUPLICATE_EMAIL)));
-    }
-
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void createDuplicate() throws Exception {
-        User expected = new User("New", USER_MAIL, "newPass", Role.USER, Role.ADMIN);
-        perform(MockMvcRequestBuilders.post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithPassword(expected, "newPass")))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(content().string(containsString(EXCEPTION_DUPLICATE_EMAIL)));
-    }
-     */
-
-
 
 }

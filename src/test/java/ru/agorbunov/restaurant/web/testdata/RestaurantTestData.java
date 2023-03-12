@@ -31,9 +31,14 @@ public class RestaurantTestData {
     public static final int RESTAURANT_03_ID = 100008;
     public static final int NOT_FOUND_ID = 100;
 
-    public static Restaurant getUpdated() {
+    public static Restaurant getUpdatedRestaurant() {
         return new Restaurant(100006, "Новое название","ул. Некрасова, 14");
     }
+
+    public static Restaurant getNewRestaurant() {
+        return new Restaurant("Некоторый ресторан","Некоторый адрес");
+    }
+
 
     public static String jsonWithName(Restaurant restaurant, String name) {
         return JsonUtil.writeAdditionProps(restaurant, "name", name);

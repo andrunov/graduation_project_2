@@ -34,10 +34,12 @@ public class UserTestData {
     public static final User guest_3 = new User(100004, "John Bon Jovi","jbj@gmail.com","555666", Role.USER);
     public static final User guest_4 = new User(100005, "Didier Maoruani","dmauruani@gmail.com","666777", Role.USER);
 
+    //TODO rename
     public static User getNew() {
         return new User("New", "new@gmail.com", "newPass", Role.USER);
     }
 
+    //TODO rename
     public static User getUpdated() {
         return new User(100000, "UpdatedName", "ivanov.alexey@gmail.com", "newPass",   Role.ADMIN);
     }

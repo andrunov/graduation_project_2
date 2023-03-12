@@ -114,7 +114,7 @@ public class RestaurantServiceTest {
 
     @Test
     public void getNotFound() throws Exception {
-        Throwable exception = Assertions.assertThrows(IllegalRequestDataException.class, () -> {
+        Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
             restaurantService.get(10);
         });
     }
