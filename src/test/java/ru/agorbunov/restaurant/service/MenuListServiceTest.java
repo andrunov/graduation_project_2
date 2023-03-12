@@ -118,12 +118,12 @@ public class MenuListServiceTest {
     }
 
     @Test
-    public void saveWithSameTate() throws Exception{
+    public void saveWithSameDate() throws Exception{
         LocalDate now = LocalDate.now();
         MenuList menuList = new MenuList();
         menuList.setDate(now);
         Throwable exception = Assertions.assertThrows(UpdateException.class, () -> {
-            menuListService.update(menuList, RestaurantTestData.RESTAURANT_01_ID);
+            menuListService.update(menuList, RestaurantTestData.RESTAURANT_02_ID);
         });
     }
 
