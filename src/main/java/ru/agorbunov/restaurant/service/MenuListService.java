@@ -28,7 +28,7 @@ public class MenuListService {
         this.restaurantRepository = restaurantRepository;
     }
 
-     public void delete(int id) {
+    public void delete(int id) {
         checkNotFoundWithId(menuListRepository.delete(id), id);
     }
 
