@@ -30,6 +30,11 @@ public class UserService {
         return checkNotFoundWithId(repository.get(id), id);
     }
 
+
+    public User getExisted(int userId) {
+        return repository.getExisted(userId);
+    }
+
     public Optional<User> getByEmail(String email) {
         Assert.notNull(email, "email must not be null");
         return checkNotFound(repository.findByEmailIgnoreCase(email), "email=" + email);
@@ -43,4 +48,5 @@ public class UserService {
         Assert.notNull(user, "user must not be null");
         repository.save(user);
     }
+
 }

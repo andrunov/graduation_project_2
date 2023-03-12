@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
-import ru.agorbunov.restaurant.repository.UserRepository;
+import ru.agorbunov.restaurant.service.UserService;
 import ru.agorbunov.restaurant.to.UserTo;
 import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.util.UserUtil;
@@ -32,7 +32,7 @@ import static ru.agorbunov.restaurant.web.user.UniqueMailValidator.EXCEPTION_DUP
 class ProfileControllerTest extends AbstractControllerTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Test
     @WithUserDetails(value = USER_MAIL)
@@ -54,7 +54,7 @@ class ProfileControllerTest extends AbstractControllerTest {
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL))
                 .andExpect(status().isNoContent());
-        USER_MATCHER.assertMatch(userRepository.findAll(), admin, guest_1, guest_2, guest_3, guest_4);
+        USER_MATCHER.assertMatch(userService.getAll(), admin, guest_1, guest_2, guest_3, guest_4);
     }
 
     @Test
@@ -63,10 +63,10 @@ class ProfileControllerTest extends AbstractControllerTest {
                 "created@yandex.ru",
                 "12340Gsdf",
                 Role.USER);
-        userRepository.save(newUser);
+        userService.update(newUser);
         USER_MATCHER.assertMatch(
                 Arrays.asList(newUser, user, admin, guest_1, guest_2, guest_3, guest_4),
-                userRepository.getAll());
+                userService.getAll());
     }
 
     @Test
@@ -78,7 +78,7 @@ class ProfileControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), UserUtil.updateFromTo(new User(user), updatedTo));
+        USER_MATCHER.assertMatch(userService.getExisted(USER_ID), UserUtil.updateFromTo(new User(user), updatedTo));
     }
 
     @Test
@@ -132,7 +132,7 @@ class ProfileControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newUser.setId(newId);
         USER_MATCHER.assertMatch(created, newUser);
-        USER_MATCHER.assertMatch(userRepository.getExisted(newId), newUser);
+        USER_MATCHER.assertMatch(userService.getExisted(newId), newUser);
     }
 
     @Test

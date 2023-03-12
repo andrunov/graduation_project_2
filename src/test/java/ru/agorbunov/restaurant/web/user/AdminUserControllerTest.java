@@ -10,8 +10,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
-import ru.agorbunov.restaurant.repository.UserRepository;
-import ru.agorbunov.restaurant.repository.VoteRepository;
+import ru.agorbunov.restaurant.service.UserService;
+import ru.agorbunov.restaurant.util.exception.NotFoundException;
 import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
 import ru.agorbunov.restaurant.web.testdata.VoteTestData;
 
@@ -22,19 +22,16 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.web.user.UserTestData.*;
 import static ru.agorbunov.restaurant.web.user.AdminUserController.REST_URL;
 import static ru.agorbunov.restaurant.web.user.UniqueMailValidator.EXCEPTION_DUPLICATE_EMAIL;
+import static ru.agorbunov.restaurant.web.user.UserTestData.*;
 
 class AdminUserControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL_SLASH = REST_URL + '/';
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private VoteRepository voteRepository;
+    private UserService userService;
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
@@ -70,7 +67,9 @@ class AdminUserControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + USER_ID))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        Assertions.assertFalse(userRepository.findById(USER_ID).isPresent());
+        Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
+            userService.get(USER_ID);
+        });
     }
 
     @Test
@@ -115,7 +114,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        USER_MATCHER.assertMatch(userRepository.getExisted(USER_ID), getUpdatedUser());
+        USER_MATCHER.assertMatch(userService.getExisted(USER_ID), getUpdatedUser());
     }
 
     @Test
@@ -131,7 +130,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newUser.setId(newId);
         USER_MATCHER.assertMatch(created, newUser);
-        USER_MATCHER.assertMatch(userRepository.getExisted(newId), newUser);
+        USER_MATCHER.assertMatch(userService.getExisted(newId), newUser);
     }
 
     @Test
