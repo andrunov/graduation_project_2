@@ -1,9 +1,10 @@
-package ru.agorbunov.restaurant.web.testdata;
+package ru.agorbunov.restaurant.web.restaurant;
 
 import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.service.testdata.ModelMatcher;
 import ru.agorbunov.restaurant.util.JsonUtil;
+import ru.agorbunov.restaurant.web.testdata.MatcherFactory;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

@@ -22,7 +22,7 @@ INSERT INTO restaurants(name, address, ID) VALUES
 
 
 INSERT INTO menu_lists(ID,  date, restaurant_id) VALUES
-  (100010, curdate(), 100006),
+  (100010, '2023-03-08', 100006),
   (100011, curdate(), 100007),
   (100012, curdate(), 100008),
   (100013, curdate(), 100009),

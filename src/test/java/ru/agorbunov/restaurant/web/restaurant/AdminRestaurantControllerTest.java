@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.agorbunov.restaurant.web.restaurant.AdminRestaurantController.REST_URL;
-import static ru.agorbunov.restaurant.web.testdata.RestaurantTestData.*;
+import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.*;
 import static ru.agorbunov.restaurant.web.testdata.UserTestData.*;
 
 
