@@ -27,11 +27,15 @@ public class RestaurantService {
 
 
     public void delete(int id) {
-        checkNotFoundWithId(restaurantRepository.delete(id), id);
+        restaurantRepository.deleteExisted(id);
     }
 
     public Restaurant get(int id) {
         return checkNotFoundWithId(restaurantRepository.get(id), id);
+    }
+
+    public Restaurant getExisted(int id) {
+        return restaurantRepository.getExisted(id);
     }
 
     public Restaurant getWithMenuLists(int id) {

@@ -44,7 +44,7 @@ public class AdminUserController extends AbstractUserController {
     @GetMapping
     public List<User> getAll() {
         log.info("getAll users");
-        return repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return repository.getAll();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -12,6 +12,7 @@ import ru.agorbunov.restaurant.service.testdata.MenuItemTestData;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.model.Restaurant;
+import ru.agorbunov.restaurant.util.exception.IllegalRequestDataException;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDate;
@@ -86,15 +87,16 @@ public class RestaurantServiceTest {
     @Test
     public void delete() throws Exception {
         restaurantService.delete(RESTAURANT_02_ID);
-        MATCHER.assertCollectionEquals(Arrays.asList(RESTAURANT_01, RESTAURANT_03, RESTAURANT_04), restaurantService.getAll());
+        MATCHER.assertCollectionEquals(
+                    Arrays.asList(RESTAURANT_01, RESTAURANT_03, RESTAURANT_04),
+                    restaurantService.getAll());
     }
 
 
     @Test
     public void deleteNotFound() throws Exception {
-        restaurantService.delete(10);
         Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            throw new NotFoundException("error message");
+            restaurantService.delete(10);
         });
     }
 
@@ -112,7 +114,7 @@ public class RestaurantServiceTest {
 
     @Test
     public void getNotFound() throws Exception {
-        Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
+        Throwable exception = Assertions.assertThrows(IllegalRequestDataException.class, () -> {
             restaurantService.get(10);
         });
     }

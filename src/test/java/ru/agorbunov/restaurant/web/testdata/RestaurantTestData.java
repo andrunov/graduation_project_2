@@ -3,6 +3,7 @@ package ru.agorbunov.restaurant.web.testdata;
 import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.service.testdata.ModelMatcher;
+import ru.agorbunov.restaurant.util.JsonUtil;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -28,6 +29,14 @@ public class RestaurantTestData {
     public static final int RESTAURANT_01_ID = 100006;
     public static final int RESTAURANT_02_ID = 100007;
     public static final int RESTAURANT_03_ID = 100008;
+    public static final int NOT_FOUND_ID = 100;
 
+    public static Restaurant getUpdated() {
+        return new Restaurant(100006, "Новое название","ул. Некрасова, 14");
+    }
+
+    public static String jsonWithName(Restaurant restaurant, String name) {
+        return JsonUtil.writeAdditionProps(restaurant, "name", name);
+    }
 
 }

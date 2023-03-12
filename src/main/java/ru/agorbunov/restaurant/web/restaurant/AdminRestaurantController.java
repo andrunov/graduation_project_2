@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.service.RestaurantService;
-import ru.agorbunov.restaurant.web.user.AdminUserController;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static ru.agorbunov.restaurant.util.ValidationUtil.assureIdConsistent;
@@ -37,7 +37,7 @@ public class AdminRestaurantController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(int id) {
+    public void delete(@PathVariable int id) {
         log.info("delete restaurant id={}", id);
         service.delete(id);
     }
@@ -64,16 +64,22 @@ public class AdminRestaurantController {
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    public void enable(@PathVariable int id, @RequestParam String address) {
+    public void enable(@PathVariable int id, @RequestParam String newAddress) {
         log.info("newAddress restaurant id={}" , id);
-        Restaurant restaurant = service.get(id);
-        restaurant.setAddress(address);
+        Restaurant restaurant = service.getExisted(id);
+        restaurant.setAddress(newAddress);
     }
 
     @GetMapping
     public List<Restaurant> getAll() {
         log.info("getAll restaurants");
         return service.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Restaurant> get(@PathVariable int id) {
+        log.info("get restaurant id={}", id);
+        return ResponseEntity.of(Optional.of(service.get(id)));
     }
 
 }
