@@ -28,13 +28,13 @@ public class UserMenuListController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MenuList> get(@PathVariable int id) {
-        log.info("get restaurant id={}", id);
+        log.info("get menuList id={}", id);
         return ResponseEntity.of(Optional.of(service.get(id)));
     }
 
     @GetMapping("/byRestaurantToday/{restaurantId}")
     public ResponseEntity<MenuList> getByRestaurantToday(@PathVariable int restaurantId) {
-        log.info("get restaurant id={}", restaurantId);
+        log.info("get menuList by restaurant id={} for today", restaurantId);
         return ResponseEntity.of(Optional.of(service.getByRestaurantIdAndDate(restaurantId, LocalDate.now())));
     }
 }

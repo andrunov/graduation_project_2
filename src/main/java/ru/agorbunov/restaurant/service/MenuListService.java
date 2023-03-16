@@ -44,7 +44,7 @@ public class MenuListService {
         return menuListRepository.getByRestaurantIdAndDate(id, date);
     }
 
-    public void update(MenuList menuList, int restaurantId) {
+    public MenuList update(MenuList menuList, int restaurantId) {
         Assert.notNull(menuList, "menuList must not be null");
         MenuList saved = getByRestaurantIdAndDate(restaurantId, menuList.getDate());
         if ((saved != null) && (!saved.getId().equals(menuList.getId())) ) {
@@ -55,6 +55,6 @@ public class MenuListService {
         }
         Restaurant restaurant = restaurantRepository.get(restaurantId);
         menuList.setRestaurant(restaurant);
-        menuListRepository.save(menuList);
+        return menuListRepository.save(menuList);
     }
 }
