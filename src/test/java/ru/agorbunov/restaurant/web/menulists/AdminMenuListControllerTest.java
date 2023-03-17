@@ -4,9 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.service.MenuListService;
+import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
 
 import java.time.LocalDate;
@@ -64,7 +66,7 @@ public class AdminMenuListControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .param("restaurantId", "100006")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithName(MENU_LIST_01,  LocalDate.of(2023, Month.MARCH, 10))))
+                .content(jsonWithDate(MENU_LIST_01,  LocalDate.of(2023, Month.MARCH, 10))))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
@@ -73,73 +75,53 @@ public class AdminMenuListControllerTest extends AbstractControllerTest {
         MENULIST_MATCHER.assertMatch(menuListService.get(MENU_LIST_01_ID), updated);
     }
 
-    /*
-
     @Test
     @WithUserDetails(value = USER_MAIL)
     void updateForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_01_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL)
+                .param("restaurantId", "100006")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithName(RESTAURANT_01, "Новое название")))
+                .content(jsonWithDate(MENU_LIST_01,  LocalDate.of(2023, Month.MARCH, 10))))
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
-
-
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        Restaurant newRestaurant = getNewRestaurant();
+        MenuList menuList = new MenuList();
+        menuList.setDate(LocalDate.now());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+                .param("restaurantId", "100006")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newRestaurant)))
+                .content(JsonUtil.writeValue(menuList)))
                 .andExpect(status().isCreated());
 
-        Restaurant created = RESTAURANT_MATCHER.readFromJson(action);
+        MenuList created = MENULIST_MATCHER.readFromJson(action);
         int newId = created.id();
-        newRestaurant.setId(newId);
-        RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
-        RESTAURANT_MATCHER.assertMatch(restaurantService.getExisted(newId), newRestaurant);
+        menuList.setId(newId);
+        menuList.setRestaurant(RESTAURANT_01);
+        MENULIST_MATCHER.assertMatch(menuListService.getExisted(newId), menuList);
     }
 
     @Test
     @WithUserDetails(value = USER_MAIL)
     void createForbidden() throws Exception {
-        Restaurant newRestaurant = getNewRestaurant();
+        MenuList menuList = new MenuList();
+        menuList.setDate(LocalDate.now());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+                .param("restaurantId", "100006")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newRestaurant)))
-                .andExpect(status().isForbidden());
-    }
-
-
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void setNewPassword() throws Exception {
-        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + RESTAURANT_01_ID)
-                .param("newAddress", "Новый адрес")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-
-    }
-
-    @Test
-    @WithUserDetails(value = USER_MAIL)
-    void setNewPasswordForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + RESTAURANT_01_ID)
-                .param("newAddress", "Новый адрес")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
+                .content(JsonUtil.writeValue(menuList)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {
-        Restaurant invalid = new Restaurant(  null, "" );
+        MenuList invalid = new MenuList( );
         perform(MockMvcRequestBuilders.post(REST_URL)
+                .param("restaurantId", "1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
@@ -149,26 +131,13 @@ public class AdminMenuListControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateInvalid() throws Exception {
-        Restaurant invalid = getUpdatedRestaurant();
-        invalid.setName("");
-        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + USER_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL)
+                .param("restaurantId", "1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(invalid)))
+                .content(jsonWithDate(MENU_LIST_01,  LocalDate.of(2023, Month.MARCH, 10))))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
 
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void updateHtmlUnsafe() throws Exception {
-        Restaurant updated = getUpdatedRestaurant();
-        updated.setName("<script>name(123)</script>");
-        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + USER_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated)))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
-    }
-     */
 
 }

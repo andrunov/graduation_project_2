@@ -1,7 +1,6 @@
 package ru.agorbunov.restaurant.web.menulists;
 
 import ru.agorbunov.restaurant.model.MenuList;
-import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.web.testdata.MatcherFactory;
 
@@ -25,7 +24,7 @@ public class MenuListTestData {
     public static final int MENU_LIST_02_ID = 100014;
     public static final int MENU_LIST_03_ID = 100018;
 
-    public static String jsonWithName(MenuList menuList, LocalDate date) {
+    public static String jsonWithDate(MenuList menuList, LocalDate date) {
         return JsonUtil.writeAdditionProps(menuList, "date", date);
     }
 }

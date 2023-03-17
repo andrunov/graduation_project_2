@@ -54,7 +54,14 @@ public class MenuListService {
                                         " has already present, saving operation of new menu list impossible");
         }
         Restaurant restaurant = restaurantRepository.get(restaurantId);
+        if (restaurant == null) {
+            throw new org.springframework.dao.DataIntegrityViolationException("Noe exist restaurant with ID=" + restaurantId);
+        }
         menuList.setRestaurant(restaurant);
         return menuListRepository.save(menuList);
+    }
+
+    public MenuList getExisted(int id) {
+        return menuListRepository.getExisted(id);
     }
 }
