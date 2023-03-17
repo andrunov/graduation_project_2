@@ -29,6 +29,11 @@ public class Dish extends BaseEntity {
         this.name = name;
     }
 
+    public Dish(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

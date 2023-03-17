@@ -34,8 +34,12 @@ public class DishService {
     }
 
 
-    public void update(Dish dish) {
+    public Dish update(Dish dish) {
         Assert.notNull(dish, "dish must not be null");
-        repository.save(dish);
+        return repository.save(dish);
+    }
+
+    public Dish getExisted(int id) {
+        return repository.getExisted(id);
     }
 }

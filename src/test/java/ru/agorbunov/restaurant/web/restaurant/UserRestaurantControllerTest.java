@@ -2,12 +2,10 @@ package ru.agorbunov.restaurant.web.restaurant;
 
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.model.MenuList;
-import ru.agorbunov.restaurant.service.RestaurantService;
 import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
 
 import java.util.ArrayList;
@@ -16,9 +14,9 @@ import java.util.List;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.web.restaurant.UserRestaurantController.REST_URL;
 import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.*;
 import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.*;
+import static ru.agorbunov.restaurant.web.restaurant.UserRestaurantController.REST_URL;
 import static ru.agorbunov.restaurant.web.user.UserTestData.USER_MAIL;
 
 public class UserRestaurantControllerTest extends AbstractControllerTest {
@@ -49,8 +47,4 @@ public class UserRestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(RESTAURANT_WITH_MENU_MATCHER.contentJson(RESTAURANT_01));
     }
-
-
-
-
 }
