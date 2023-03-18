@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import ru.agorbunov.restaurant.util.validation.NoHtml;
 
 
 /**
@@ -18,6 +19,7 @@ public class Dish extends BaseEntity {
     @NotBlank
     @Size(min = 2, max = 128)
     @Column(name = "name", nullable = false)
+    @NoHtml
     private String name;
 
     public Dish() {

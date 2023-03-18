@@ -41,19 +41,18 @@ public class AdminDishController {
         service.delete(id);
     }
 
-    //TODO REST_URL + "/{id}" - is there need?
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> create(@Valid @RequestBody Dish dish) {
         log.info("create dish {}", dish);
         checkNew(dish);
         Dish created = prepareAndSave(dish);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path(REST_URL)
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody Dish dish) {
         log.info("update dish {}", dish);
@@ -63,10 +62,10 @@ public class AdminDishController {
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    public void enable(@PathVariable int id, @RequestParam String newAddress) {
+    public void enable(@PathVariable int id, @RequestParam String newName) {
         log.info("newAddress dish id={}" , id);
         Dish dish = service.getExisted(id);
-        dish.setName(newAddress);
+        dish.setName(newName);
     }
 
     @GetMapping

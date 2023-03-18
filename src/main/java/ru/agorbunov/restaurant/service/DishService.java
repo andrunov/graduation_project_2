@@ -22,7 +22,7 @@ public class DishService {
     }
 
     public void delete(int id) {
-        checkNotFoundWithId(repository.delete(id), id);
+        repository.deleteExisted(id);
     }
 
     public Dish get(int id) {
