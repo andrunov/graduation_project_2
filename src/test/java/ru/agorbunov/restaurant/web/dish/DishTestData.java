@@ -13,7 +13,6 @@ import java.util.List;
 public class DishTestData {
 
     public static final MatcherFactory.Matcher<Dish> DISH_MATCHER = MatcherFactory.usingEqualsComparator(Dish.class);
-    public static final MatcherFactory.Matcher<List> DISHLIST_MATCHER = MatcherFactory.usingEqualsComparator(List.class);
 
 
     public static final Dish DISH_01 = new Dish(100022, "Каша овсяная");

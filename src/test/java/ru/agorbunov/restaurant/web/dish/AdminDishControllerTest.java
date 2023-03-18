@@ -45,7 +45,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-        Assertions.assertEquals(DISHLIST_MATCHER.readFromJson(result).size(), 20);
+        Assertions.assertEquals(LIST_MATCHER.readFromJson(result).size(), 20);
     }
 
     @Test

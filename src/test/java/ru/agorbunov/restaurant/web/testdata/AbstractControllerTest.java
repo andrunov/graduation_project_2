@@ -9,6 +9,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 //https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-testing-spring-boot-applications
 @SpringBootTest
 @Transactional
@@ -16,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 @ActiveProfiles("test")
 //https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-testing-spring-boot-applications-testing-with-mock-environment
 public abstract class AbstractControllerTest {
+
+    protected static final MatcherFactory.Matcher<List> LIST_MATCHER = MatcherFactory.usingEqualsComparator(List.class);
+
 
     @Autowired
     private MockMvc mockMvc;

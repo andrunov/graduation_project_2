@@ -47,9 +47,8 @@ public class DishServiceTest {
 
     @Test
     public void deleteNotFound() throws Exception {
-        service.delete(10);
         Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            throw new NotFoundException("error message");
+            service.delete(10);
         });
     }
 
