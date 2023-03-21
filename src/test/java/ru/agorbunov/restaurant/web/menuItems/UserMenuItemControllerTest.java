@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.agorbunov.restaurant.web.menuItems.MenuItemTestData.*;
 import static ru.agorbunov.restaurant.web.menuitem.UserMenuItemController.REST_URL;
-import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.MENU_LIST_01;
 import static ru.agorbunov.restaurant.web.user.UserTestData.USER_MAIL;
 
 public class UserMenuItemControllerTest extends AbstractControllerTest {
