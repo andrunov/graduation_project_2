@@ -23,6 +23,7 @@ import static ru.agorbunov.restaurant.util.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = AdminMenuListController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminMenuListController {
+
     public static final String REST_URL = "/api/admin/menulists";
 
     protected final Logger log = getLogger(getClass());

@@ -56,6 +56,19 @@ public class MenuItemServiceTest {
     }
 
     @Test
+    public void updateList() throws Exception {
+        List<MenuItem> list = menuItemService.getByMenu(MenuItemTestData.MENU_LIST_01_ID);
+        for (MenuItem dd : list) {
+            dd.setPrice(1.25);
+        }
+        menuItemService.updateList(list, MenuItemTestData.MENU_LIST_01_ID);
+        List<MenuItem> updated = menuItemService.getByMenu(MenuItemTestData.MENU_LIST_01_ID);
+        for (MenuItem dd : updated) {
+            Assertions.assertEquals(1.25, dd.getPrice());
+        }
+    }
+
+    @Test
     public void create() throws Exception{
         MenuItem menuItem = new MenuItem();
         menuItem.setDish(dishService.get(100028));

@@ -45,20 +45,20 @@ public class MenuItemService {
         return menuItemRepository.getByMenu(id);
     }
 
-    public void update(MenuItem menuItem, int menuListId) {
+    public MenuItem update(MenuItem menuItem, int menuListId) {
         Assert.notNull(menuItem, "dishDescription must not be null");
         MenuList menuList = menuListRepository.get(menuListId);
         menuItem.setMenuList(menuList);
-        menuItemRepository.save(menuItem);
+        return menuItemRepository.save(menuItem);
     }
 
-    public void update(MenuItem menuItem, int dishId,  int menuListId) {
+    public MenuItem update(MenuItem menuItem, int dishId,  int menuListId) {
         Assert.notNull(menuItem, "dishDescription must not be null");
         MenuList menuList = menuListRepository.get(menuListId);
         menuItem.setMenuList(menuList);
         Dish dish = dishRepository.get(dishId);
         menuItem.setDish(dish);
-        menuItemRepository.save(menuItem);
+        return menuItemRepository.save(menuItem);
     }
 
     @Transactional
@@ -67,7 +67,7 @@ public class MenuItemService {
         MenuList menuList = menuListRepository.get(menuListId);
         for (MenuItem menuItem : menuItemList) {
             menuItem.setMenuList(menuList);
-            menuItemRepository.save(menuItem);
         }
+        menuItemRepository.saveAll(menuItemList);
     }
 }
