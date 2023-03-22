@@ -12,6 +12,7 @@ import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.service.MenuItemService;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -42,6 +43,12 @@ public class AdminMenuItemController {
         return ResponseEntity.of(Optional.of(service.get(id)));
     }
 
+
+    @GetMapping("/byMenu/{menuId}")
+    public List<MenuItem> getByMenu(@PathVariable int menuId) {
+        log.info("get menuItems by menulist id={}", menuId);
+        return service.getByMenu(menuId);
+    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -15,9 +15,7 @@ import static ru.agorbunov.restaurant.web.menuitem.UserMenuItemController.REST_U
 import static ru.agorbunov.restaurant.web.user.UserTestData.USER_MAIL;
 
 public class UserMenuItemControllerTest extends AbstractControllerTest {
-
     private static final String REST_URL_SLASH = REST_URL + '/';
-
 
     @Test
     @WithUserDetails(value = USER_MAIL)

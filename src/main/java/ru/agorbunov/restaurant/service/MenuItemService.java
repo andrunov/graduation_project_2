@@ -48,6 +48,9 @@ public class MenuItemService {
     public MenuItem update(MenuItem menuItem, int menuListId) {
         Assert.notNull(menuItem, "dishDescription must not be null");
         MenuList menuList = menuListRepository.get(menuListId);
+        if (menuList == null) {
+            throw new org.springframework.dao.DataIntegrityViolationException("menuList is null!");
+        }
         menuItem.setMenuList(menuList);
         return menuItemRepository.save(menuItem);
     }
@@ -69,5 +72,9 @@ public class MenuItemService {
             menuItem.setMenuList(menuList);
         }
         menuItemRepository.saveAll(menuItemList);
+    }
+
+    public MenuItem getExisted(int newId) {
+        return menuItemRepository.getExisted(newId);
     }
 }
