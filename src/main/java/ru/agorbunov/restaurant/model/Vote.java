@@ -43,4 +43,11 @@ public class Vote extends BaseEntity {
         this.menuList = menuList;
     }
 
+    public Vote(int id, LocalDateTime dateTime, Restaurant restaurant, MenuList menuList) {
+        this.id = id;
+        this.dateTime = dateTime;
+        this.restaurant = restaurant;
+        this.menuList = menuList;
+    }
+
 }

@@ -20,13 +20,10 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
 
     public static final LocalTime DEADLINE = LocalTime.of(11,0);
 
-    private final RestaurantRepository restaurantRepository;
-
     private final UserRepository userRepository;
 
     public VoteService(VoteRepository voteRepository, RestaurantRepository restaurantRepository, UserRepository userRepository) {
         super(voteRepository);
-        this.restaurantRepository = restaurantRepository;
         this.userRepository = userRepository;
     }
 
@@ -53,14 +50,6 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
         return repository.getByUser(id);
     }
 
-    public List<Vote> getByUserWith(int id) {
-        List<Vote> result = repository.getByUser(id);
-        for (Vote vote : result) {
-            vote.setRestaurant(restaurantRepository.getByVote(vote.getId()));
-        }
-        return result;
-    }
-
     public List<Vote> getByRestaurant(int id) {
         return repository.getByRestaurant(id);
     }
@@ -82,6 +71,4 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
     public List<Vote> getByUserAndRestaurant(int userId, int restaurantId) {
         return repository.getByUserAndRestaurant(userId, restaurantId);
     }
-
-
 }

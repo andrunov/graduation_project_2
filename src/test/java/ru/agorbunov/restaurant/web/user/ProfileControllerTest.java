@@ -15,10 +15,9 @@ import ru.agorbunov.restaurant.to.UserTo;
 import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.util.UserUtil;
 import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
-import ru.agorbunov.restaurant.web.testdata.VoteTestData;
+import ru.agorbunov.restaurant.web.vote.VoteTestData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
