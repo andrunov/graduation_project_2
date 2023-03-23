@@ -4,7 +4,7 @@ package ru.agorbunov.restaurant.web.user;
 import ru.agorbunov.restaurant.model.Role;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.util.JsonUtil;
-import ru.agorbunov.restaurant.web.testdata.MatcherFactory;
+import ru.agorbunov.restaurant.web.MatcherFactory;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

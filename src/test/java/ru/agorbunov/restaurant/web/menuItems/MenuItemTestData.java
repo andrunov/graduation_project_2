@@ -3,7 +3,7 @@ package ru.agorbunov.restaurant.web.menuItems;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.service.testdata.DishTestData;
 import ru.agorbunov.restaurant.util.JsonUtil;
-import ru.agorbunov.restaurant.web.testdata.MatcherFactory;
+import ru.agorbunov.restaurant.web.MatcherFactory;
 
 public class MenuItemTestData {
 

@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.service.MenuListService;
 import ru.agorbunov.restaurant.util.JsonUtil;
-import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
+import ru.agorbunov.restaurant.web.AbstractControllerTest;
 
 import java.time.LocalDate;
 import java.time.Month;

@@ -2,9 +2,7 @@ package ru.agorbunov.restaurant.web.dish;
 
 import ru.agorbunov.restaurant.model.Dish;
 import ru.agorbunov.restaurant.util.JsonUtil;
-import ru.agorbunov.restaurant.web.testdata.MatcherFactory;
-
-import java.util.List;
+import ru.agorbunov.restaurant.web.MatcherFactory;
 
 
 /**

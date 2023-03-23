@@ -1,9 +1,7 @@
 package ru.agorbunov.restaurant.web.vote;
 
-import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.model.Vote;
-import ru.agorbunov.restaurant.service.testdata.ModelMatcher;
-import ru.agorbunov.restaurant.web.testdata.MatcherFactory;
+import ru.agorbunov.restaurant.web.MatcherFactory;
 
 import java.time.LocalDateTime;
 import java.time.Month;

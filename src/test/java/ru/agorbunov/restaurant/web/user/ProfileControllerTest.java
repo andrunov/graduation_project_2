@@ -14,7 +14,7 @@ import ru.agorbunov.restaurant.service.UserService;
 import ru.agorbunov.restaurant.to.UserTo;
 import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.util.UserUtil;
-import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
+import ru.agorbunov.restaurant.web.AbstractControllerTest;
 import ru.agorbunov.restaurant.web.vote.VoteTestData;
 
 import java.util.ArrayList;

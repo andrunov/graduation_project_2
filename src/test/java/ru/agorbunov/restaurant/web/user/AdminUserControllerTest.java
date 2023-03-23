@@ -12,7 +12,7 @@ import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.service.UserService;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
-import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
+import ru.agorbunov.restaurant.web.AbstractControllerTest;
 import ru.agorbunov.restaurant.web.vote.VoteTestData;
 
 import java.util.ArrayList;

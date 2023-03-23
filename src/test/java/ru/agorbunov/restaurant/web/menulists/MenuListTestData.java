@@ -2,7 +2,7 @@ package ru.agorbunov.restaurant.web.menulists;
 
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.util.JsonUtil;
-import ru.agorbunov.restaurant.web.testdata.MatcherFactory;
+import ru.agorbunov.restaurant.web.MatcherFactory;
 
 import java.time.LocalDate;
 import java.time.Month;

@@ -11,7 +11,7 @@ import ru.agorbunov.restaurant.model.Dish;
 import ru.agorbunov.restaurant.service.DishService;
 import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
-import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
+import ru.agorbunov.restaurant.web.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;

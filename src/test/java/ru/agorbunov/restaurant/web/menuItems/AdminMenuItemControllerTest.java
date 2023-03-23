@@ -10,7 +10,7 @@ import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.service.MenuItemService;
 import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.web.menuitem.AdminMenuItemController;
-import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
+import ru.agorbunov.restaurant.web.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;

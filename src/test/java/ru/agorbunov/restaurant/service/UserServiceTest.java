@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import ru.agorbunov.restaurant.web.testdata.AbstractControllerTest;
+import ru.agorbunov.restaurant.web.AbstractControllerTest;
 import ru.agorbunov.restaurant.service.testdata.RestaurantTestData;
 import ru.agorbunov.restaurant.model.*;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
