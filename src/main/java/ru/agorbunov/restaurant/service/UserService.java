@@ -10,29 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFound;
-import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFoundWithId;
 
 @Service
-public class UserService {
-
-    private final UserRepository repository;
+public class UserService extends BaseService<UserRepository, User> {
 
     @Autowired
     public UserService(UserRepository repository) {
-        this.repository = repository;
-    }
-
-    public void delete(int id) {
-        checkNotFoundWithId(repository.delete(id), id);
-    }
-
-    public User get(int id) {
-        return checkNotFoundWithId(repository.get(id), id);
-    }
-
-
-    public User getExisted(int userId) {
-        return repository.getExisted(userId);
+       super(repository);
     }
 
     public Optional<User> getByEmail(String email) {

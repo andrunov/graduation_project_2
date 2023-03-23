@@ -13,12 +13,8 @@ import ru.agorbunov.restaurant.repository.MenuListRepository;
 
 import java.util.List;
 
-import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFoundWithId;
-
 @Service("DishDescriptionService")
-public class MenuItemService {
-
-    private final MenuItemRepository menuItemRepository;
+public class MenuItemService extends BaseService<MenuItemRepository, MenuItem> {
 
     private final MenuListRepository menuListRepository;
 
@@ -27,22 +23,13 @@ public class MenuItemService {
 
     @Autowired
     public MenuItemService(MenuItemRepository menuItemRepository, MenuListRepository menuListRepository, DishRepository dishRepository) {
-        this.menuItemRepository = menuItemRepository;
+        super(menuItemRepository);
         this.menuListRepository = menuListRepository;
         this.dishRepository = dishRepository;
     }
 
-
-    public void delete(int id) {
-        checkNotFoundWithId(menuItemRepository.delete(id), id);
-    }
-
-    public MenuItem get(int id) {
-        return checkNotFoundWithId(menuItemRepository.get(id), id);
-    }
-
     public List<MenuItem> getByMenu(int id) {
-        return menuItemRepository.getByMenu(id);
+        return repository.getByMenu(id);
     }
 
     public MenuItem update(MenuItem menuItem, int menuListId) {
@@ -52,7 +39,7 @@ public class MenuItemService {
             throw new org.springframework.dao.DataIntegrityViolationException("menuList is null!");
         }
         menuItem.setMenuList(menuList);
-        return menuItemRepository.save(menuItem);
+        return repository.save(menuItem);
     }
 
     public MenuItem update(MenuItem menuItem, int dishId,  int menuListId) {
@@ -61,7 +48,7 @@ public class MenuItemService {
         menuItem.setMenuList(menuList);
         Dish dish = dishRepository.get(dishId);
         menuItem.setDish(dish);
-        return menuItemRepository.save(menuItem);
+        return repository.save(menuItem);
     }
 
     @Transactional
@@ -71,10 +58,6 @@ public class MenuItemService {
         for (MenuItem menuItem : menuItemList) {
             menuItem.setMenuList(menuList);
         }
-        menuItemRepository.saveAll(menuItemList);
-    }
-
-    public MenuItem getExisted(int newId) {
-        return menuItemRepository.getExisted(newId);
+        repository.saveAll(menuItemList);
     }
 }

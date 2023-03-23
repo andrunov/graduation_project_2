@@ -15,32 +15,20 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFoundWithId;
-
 @Service("voteService")
-public class VoteService {
+public class VoteService extends BaseService<VoteRepository, Vote> {
 
     public static final LocalTime DEADLINE = LocalTime.of(11,0);
 
-    private final VoteRepository voteRepository;
     private final RestaurantRepository restaurantRepository;
 
     private final UserRepository userRepository;
 
     public VoteService(VoteRepository voteRepository, RestaurantRepository restaurantRepository, UserRepository userRepository) {
-        this.voteRepository = voteRepository;
+        super(voteRepository);
         this.restaurantRepository = restaurantRepository;
         this.userRepository = userRepository;
     }
-
-    public void delete(int id) {
-        checkNotFoundWithId(voteRepository.delete(id), id);
-    }
-
-    public Vote get(int id) {
-        return checkNotFoundWithId(voteRepository.get(id), id);
-    }
-
 
     /**
      * update vote for ordinal users*/
@@ -55,18 +43,18 @@ public class VoteService {
             } else {
                 User user = userRepository.get(userId);
                 vote.setUser(user);
-                voteRepository.save(vote);
+                repository.save(vote);
             }
         }
     }
 
 
     public List<Vote> getByUser(int id) {
-        return voteRepository.getByUser(id);
+        return repository.getByUser(id);
     }
 
     public List<Vote> getByUserWith(int id) {
-        List<Vote> result = voteRepository.getByUser(id);
+        List<Vote> result = repository.getByUser(id);
         for (Vote vote : result) {
             vote.setRestaurant(restaurantRepository.getByVote(vote.getId()));
         }
@@ -74,25 +62,25 @@ public class VoteService {
     }
 
     public List<Vote> getByRestaurant(int id) {
-        return voteRepository.getByRestaurant(id);
+        return repository.getByRestaurant(id);
     }
 
     public List<Vote> getByRestaurantAndDate(int id, LocalDate date) {
         Assert.notNull(date, "date must not be null");
         LocalDateTime from = date.atStartOfDay();
         LocalDateTime to = date.plusDays(1).atStartOfDay();
-        return voteRepository.getByRestaurantAndDate(id, from, to);
+        return repository.getByRestaurantAndDate(id, from, to);
     }
 
     public Vote getByUserAndDate(int id, LocalDate date) {
         Assert.notNull(date, "date must not be null");
         LocalDateTime from = date.atStartOfDay();
         LocalDateTime to = date.plusDays(1).atStartOfDay();
-        return voteRepository.getByUserAndDate(id, from, to);
+        return repository.getByUserAndDate(id, from, to);
     }
 
     public List<Vote> getByUserAndRestaurant(int userId, int restaurantId) {
-        return voteRepository.getByUserAndRestaurant(userId, restaurantId);
+        return repository.getByUserAndRestaurant(userId, restaurantId);
     }
 
 

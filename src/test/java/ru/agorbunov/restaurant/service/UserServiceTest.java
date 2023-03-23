@@ -102,9 +102,8 @@ public class UserServiceTest extends AbstractControllerTest {
 
     @Test
     public void deleteNotFound() throws Exception {
-        userService.delete(10);
         Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            throw new NotFoundException("error message");
+            userService.delete(10);
         });
     }
 

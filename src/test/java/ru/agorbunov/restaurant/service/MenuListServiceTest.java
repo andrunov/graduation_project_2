@@ -78,9 +78,8 @@ public class MenuListServiceTest {
 
     @Test
     public void deleteNotFound() throws Exception {
-        menuListService.delete(10);
         Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            throw new NotFoundException("error message");
+            menuListService.delete(10);
         });
     }
 

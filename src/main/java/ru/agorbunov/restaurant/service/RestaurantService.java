@@ -10,32 +10,15 @@ import ru.agorbunov.restaurant.repository.RestaurantRepository;
 
 import java.util.List;
 
-import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFoundWithId;
-
 @Service("restaurantService")
-public class RestaurantService {
-
-    private final RestaurantRepository restaurantRepository;
+public class RestaurantService extends BaseService<RestaurantRepository, Restaurant> {
 
     private final MenuListRepository menuListRepository;
 
     @Autowired
     public RestaurantService(RestaurantRepository restaurantRepository, MenuListRepository menuListRepository) {
-        this.restaurantRepository = restaurantRepository;
+        super(restaurantRepository);
         this.menuListRepository = menuListRepository;
-    }
-
-
-    public void delete(int id) {
-        restaurantRepository.deleteExisted(id);
-    }
-
-    public Restaurant get(int id) {
-        return checkNotFoundWithId(restaurantRepository.get(id), id);
-    }
-
-    public Restaurant getExisted(int id) {
-        return restaurantRepository.getExisted(id);
     }
 
     public Restaurant getWithMenuLists(int id) {
@@ -46,15 +29,15 @@ public class RestaurantService {
     }
 
     public List<Restaurant> getAll() {
-        return restaurantRepository.getAll();
+        return repository.getAll();
     }
 
     public Restaurant update(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
-        return restaurantRepository.save(restaurant);
+        return repository.save(restaurant);
     }
 
     public Restaurant getByVote(int id) {
-        return restaurantRepository.getByVote(id);
+        return repository.getByVote(id);
     }
 }
