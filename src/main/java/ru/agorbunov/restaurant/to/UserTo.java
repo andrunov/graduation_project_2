@@ -1,11 +1,9 @@
 package ru.agorbunov.restaurant.to;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import ru.agorbunov.restaurant.HasIdAndEmail;
-import ru.agorbunov.restaurant.model.BaseEntity;
 import ru.agorbunov.restaurant.util.validation.NoHtml;
 
 import java.io.Serializable;
