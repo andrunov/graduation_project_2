@@ -3,11 +3,18 @@ package ru.agorbunov.restaurant.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "menu_items")
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class MenuItem extends BaseEntity{
 
 
@@ -25,9 +32,6 @@ public class MenuItem extends BaseEntity{
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Dish dish;
 
-    public MenuItem() {
-    }
-
     public MenuItem(MenuList menuList, Dish dish, Double price) {
         this.price = price;
         this.menuList = menuList;
@@ -41,27 +45,4 @@ public class MenuItem extends BaseEntity{
         this.dish = dish;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public MenuList getMenuList() {
-        return menuList;
-    }
-
-    public void setMenuList(MenuList menuList) {
-        this.menuList = menuList;
-    }
-
-    public Dish getDish() {
-        return dish;
-    }
-
-    public void setDish(Dish dish) {
-        this.dish = dish;
-    }
 }

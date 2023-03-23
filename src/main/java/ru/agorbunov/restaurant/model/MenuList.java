@@ -2,6 +2,10 @@ package ru.agorbunov.restaurant.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -14,6 +18,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "menu_lists")
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class MenuList extends BaseEntity {
 
     @ManyToOne(targetEntity = Restaurant.class)
@@ -31,36 +38,9 @@ public class MenuList extends BaseEntity {
     private LocalDate date;
 
 
-    public MenuList() {
-    }
-
     public MenuList(int id, LocalDate date) {
         this.id = id;
         this.date = date;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public List<MenuItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<MenuItem> dishList) {
-        this.items = dishList;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate localDate) {
-        this.date = localDate;
     }
 
 

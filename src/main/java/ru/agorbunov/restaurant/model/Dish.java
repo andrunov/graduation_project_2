@@ -5,6 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.agorbunov.restaurant.util.validation.NoHtml;
 
 
@@ -13,6 +17,9 @@ import ru.agorbunov.restaurant.util.validation.NoHtml;
  */
 @Entity
 @Table(name = "dishes")
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Dish extends BaseEntity {
 
     /*Name of dish*/
@@ -22,9 +29,6 @@ public class Dish extends BaseEntity {
     @NoHtml
     private String name;
 
-    public Dish() {
-    }
-
     /** Constructor
      */
     public Dish(String name) {
@@ -33,14 +37,6 @@ public class Dish extends BaseEntity {
 
     public Dish(int id, String name) {
         this.id = id;
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 

@@ -1,9 +1,12 @@
 package ru.agorbunov.restaurant.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -14,6 +17,9 @@ import java.util.List;
  */
 @Entity
 @Table(name = "restaurants")
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant extends BaseEntity {
 
     /*name of restaurant*/
@@ -33,9 +39,6 @@ public class Restaurant extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<MenuList> menuLists;
 
-    public Restaurant() {
-    }
-
     public Restaurant(String name, String address) {
         this.name = name;
         this.address = address;
@@ -45,34 +48,6 @@ public class Restaurant extends BaseEntity {
         this.id = id;
         this.name = name;
         this.address = address;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public List<MenuList> getMenuLists() {
-        return menuLists;
-    }
-
-    public void setMenuLists(List<MenuList> menus) {
-        this.menuLists = menus;
-    }
-
-    public void updateMenu(MenuList menu) {
-        this.menuLists.add(menu);
     }
 
 
