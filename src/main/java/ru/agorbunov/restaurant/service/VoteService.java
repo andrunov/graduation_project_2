@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
-import ru.agorbunov.restaurant.repository.RestaurantRepository;
 import ru.agorbunov.restaurant.repository.UserRepository;
 import ru.agorbunov.restaurant.repository.VoteRepository;
 import ru.agorbunov.restaurant.util.DateTimeUtil;
@@ -22,14 +21,14 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
 
     private final UserRepository userRepository;
 
-    public VoteService(VoteRepository voteRepository, RestaurantRepository restaurantRepository, UserRepository userRepository) {
+    public VoteService(VoteRepository voteRepository, UserRepository userRepository) {
         super(voteRepository);
         this.userRepository = userRepository;
     }
 
     /**
      * update vote for ordinal users*/
-    public void update(Vote vote, int userId) {
+    public Vote update(Vote vote, int userId) {
         Assert.notNull(vote, "vote must not be null");
         LocalDate voteDate = vote.getDateTime().toLocalDate();
         if (voteDate.isBefore(LocalDate.now())) {
@@ -40,7 +39,7 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
             } else {
                 User user = userRepository.get(userId);
                 vote.setUser(user);
-                repository.save(vote);
+                return repository.save(vote);
             }
         }
     }

@@ -28,7 +28,7 @@ public class UserVoteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Vote> get(@PathVariable int id) {
-        log.info("get dish id={}", id);
+        log.info("get vote id={}", id);
         return ResponseEntity.of(Optional.of(service.get(id)));
     }
 }
