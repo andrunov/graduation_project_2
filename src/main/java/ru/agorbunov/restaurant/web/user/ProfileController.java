@@ -16,8 +16,8 @@ import ru.agorbunov.restaurant.web.AuthUser;
 
 import java.net.URI;
 
-import static ru.agorbunov.restaurant.util.ValidationUtil.assureIdConsistent;
-import static ru.agorbunov.restaurant.util.ValidationUtil.checkNew;
+import static ru.agorbunov.restaurant.util.validation.ValidationUtil.assureIdConsistent;
+import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

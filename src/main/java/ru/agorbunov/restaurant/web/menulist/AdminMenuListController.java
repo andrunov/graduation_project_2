@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.agorbunov.restaurant.model.MenuList;
-import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.service.MenuListService;
 
 import java.net.URI;
@@ -17,8 +16,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
-import static ru.agorbunov.restaurant.util.ValidationUtil.assureIdConsistent;
-import static ru.agorbunov.restaurant.util.ValidationUtil.checkNew;
+import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = AdminMenuListController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
-import static ru.agorbunov.restaurant.util.ValidationUtil.assureIdConsistent;
-import static ru.agorbunov.restaurant.util.ValidationUtil.checkNew;
+import static ru.agorbunov.restaurant.util.validation.ValidationUtil.assureIdConsistent;
+import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = AdminVoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

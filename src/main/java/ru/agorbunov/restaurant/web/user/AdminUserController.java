@@ -1,7 +1,6 @@
 package ru.agorbunov.restaurant.web.user;
 
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +12,8 @@ import ru.agorbunov.restaurant.model.User;
 import java.net.URI;
 import java.util.List;
 
-import static ru.agorbunov.restaurant.util.ValidationUtil.assureIdConsistent;
-import static ru.agorbunov.restaurant.util.ValidationUtil.checkNew;
+import static ru.agorbunov.restaurant.util.validation.ValidationUtil.assureIdConsistent;
+import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNew;
 
 
 @RestController

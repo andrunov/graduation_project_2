@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNotFound;
 
+
 @Service
 public class UserService extends BaseService<UserRepository, User> {
 

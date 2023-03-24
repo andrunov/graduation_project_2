@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import ru.agorbunov.restaurant.util.ValidationUtil;
+import ru.agorbunov.restaurant.util.validation.ValidationUtil;
 import ru.agorbunov.restaurant.util.exception.DataConflictException;
 import ru.agorbunov.restaurant.util.exception.IllegalRequestDataException;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
