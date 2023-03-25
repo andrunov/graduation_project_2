@@ -79,7 +79,7 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void enableNotFound() throws Exception {
+    void setNewAddressNotFound() throws Exception {
         perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + NOT_FOUND_ID)
                 .param("newAddress", "... some address")
                 .contentType(MediaType.APPLICATION_JSON))
