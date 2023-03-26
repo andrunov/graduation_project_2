@@ -41,6 +41,13 @@ public class UserVoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @WithUserDetails(value = GUEST_MAIL)
+    void getForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + VOTE_01_ID))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     @WithUserDetails(value = USER_MAIL)
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + VOTE_01_ID))
@@ -49,6 +56,14 @@ public class UserVoteControllerTest extends AbstractControllerTest {
         Throwable exception = Assertions.assertThrows(NotFoundException.class, () -> {
             voteService.get(VOTE_01_ID);
         });
+    }
+
+    @Test
+    @WithUserDetails(value = GUEST_MAIL)
+    void deleteForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + VOTE_01_ID))
+                .andDo(print())
+                .andExpect(status().isForbidden());
     }
 
     @Test

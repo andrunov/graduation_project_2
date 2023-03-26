@@ -31,21 +31,16 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
      * update vote for ordinal users*/
     public Vote update(Vote vote, int userId) {
         Assert.notNull(vote, "vote must not be null");
-        User voteUser = userRepository.findByVote(vote.getId()).get();
-        if (voteUser.id() != userId) {
-            throw new AccessDeniedException("This vote does not belong to user id =" + userId);
+        LocalDate voteDate = vote.getDateTime().toLocalDate();
+        if (voteDate.isBefore(LocalDate.now())) {
+            throw new AccessDeniedException("Historical vote, update denied");
         } else {
-            LocalDate voteDate = vote.getDateTime().toLocalDate();
-            if (voteDate.isBefore(LocalDate.now())) {
-                throw new AccessDeniedException("Historical vote, update denied");
+            if (vote.getDateTime().isAfter(LocalDateTime.now().with(DEADLINE))) {
+                throw new AccessDeniedException("It's too late, " + DateTimeUtil.toString(vote.getDateTime()) + " vote needs to be made before 11:00 o'clock");
             } else {
-                if (vote.getDateTime().isAfter(LocalDateTime.now().with(DEADLINE))) {
-                    throw new AccessDeniedException("It's too late, " + DateTimeUtil.toString(vote.getDateTime()) + " vote needs to be made before 11:00 o'clock");
-                } else {
-                    User user = userRepository.get(userId);
-                    vote.setUser(user);
-                    return repository.save(vote);
-                }
+                User user = userRepository.get(userId);
+                vote.setUser(user);
+                return repository.save(vote);
             }
         }
     }
