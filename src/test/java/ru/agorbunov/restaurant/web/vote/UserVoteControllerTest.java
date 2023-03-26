@@ -6,14 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.service.VoteService;
+import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 import ru.agorbunov.restaurant.web.AbstractControllerTest;
+
+import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.web.user.UserTestData.USER_MAIL;
+import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.RESTAURANT_03;
+import static ru.agorbunov.restaurant.web.user.UserTestData.*;
 import static ru.agorbunov.restaurant.web.vote.UserVoteController.REST_URL;
 import static ru.agorbunov.restaurant.web.vote.VoteTestData.*;
 
@@ -99,30 +104,68 @@ public class UserVoteControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity());
     }
 
-
-    /*
-
     @Test
-    @WithUserDetails(value = ADMIN_MAIL)
+    @WithUserDetails(value = GUEST_MAIL)
     void update() throws Exception {
-        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_01_ID)
+        Vote vote = voteService.get(VOTE_09_ID);
+        LocalDateTime localDateTime = LocalDateTime.now().withHour(9);
+        vote.setDateTime(localDateTime);
+        vote.setRestaurant(RESTAURANT_03);
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + VOTE_09_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithName(RESTAURANT_01, "Новое название")))
+                .content(JsonUtil.writeValue(vote)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        RESTAURANT_MATCHER.assertMatch(restaurantService.get(RESTAURANT_01_ID), getUpdatedRestaurant());
+        Vote updated = voteService.get(VOTE_09_ID);
+        VOTE_MATCHER.assertMatch(vote, updated);
     }
+
+    @Test
+    @WithUserDetails(value = GUEST_MAIL)
+    void updateLate() throws Exception {
+        Vote vote = voteService.get(VOTE_09_ID);
+        LocalDateTime localDateTime = LocalDateTime.now().withHour(12);
+        vote.setDateTime(localDateTime);
+        vote.setRestaurant(RESTAURANT_03);
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + VOTE_09_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(vote)))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
 
     @Test
     @WithUserDetails(value = USER_MAIL)
     void updateForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_01_ID)
+        Vote vote = voteService.get(VOTE_09_ID);
+        LocalDateTime localDateTime = LocalDateTime.now().withHour(9);
+        vote.setDateTime(localDateTime);
+        vote.setRestaurant(RESTAURANT_03);
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + VOTE_09_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithName(RESTAURANT_01, "Новое название")))
+                .content(JsonUtil.writeValue(vote)))
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void updateInvalid() throws Exception {
+        Vote vote = voteService.get(VOTE_09_ID);
+        vote.setDateTime(null);
+        vote.setRestaurant(RESTAURANT_03);
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + VOTE_09_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(vote)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+
+
+    /*
 
 
     @Test
@@ -165,28 +208,6 @@ public class UserVoteControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity());
     }
 
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void updateInvalid() throws Exception {
-        Restaurant invalid = getUpdatedRestaurant();
-        invalid.setName("");
-        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + USER_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(invalid)))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
-    }
 
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void updateHtmlUnsafe() throws Exception {
-        Restaurant updated = getUpdatedRestaurant();
-        updated.setName("<script>name(123)</script>");
-        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + USER_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated)))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
-    }
      */
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import ru.agorbunov.restaurant.util.exception.AccessDeniedException;
 import ru.agorbunov.restaurant.util.validation.ValidationUtil;
 import ru.agorbunov.restaurant.util.exception.DataConflictException;
 import ru.agorbunov.restaurant.util.exception.IllegalRequestDataException;
@@ -35,7 +36,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             DataIntegrityViolationException.class, HttpStatus.UNPROCESSABLE_ENTITY,
             IllegalRequestDataException.class, HttpStatus.UNPROCESSABLE_ENTITY,
             NotFoundException.class, HttpStatus.NOT_FOUND,
-            DataConflictException.class, HttpStatus.CONFLICT
+            DataConflictException.class, HttpStatus.CONFLICT,
+            AccessDeniedException.class, HttpStatus.FORBIDDEN
     );
 
     @Override

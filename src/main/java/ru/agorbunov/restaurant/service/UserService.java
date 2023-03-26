@@ -34,4 +34,8 @@ public class UserService extends BaseService<UserRepository, User> {
         repository.save(user);
     }
 
+    public Optional<User> getByVote(int voteId) {
+        return repository.findByVote(voteId);
+    }
+
 }

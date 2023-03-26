@@ -58,7 +58,8 @@ public class UserServiceTest extends AbstractControllerTest {
 
     @Test
     public void saveWith() throws Exception {
-        User newUser = new User("Созданный пользователь",
+        User newUser = new User(1,
+                            "Созданный пользователь",
                             "created@yandex.ru",
                             "12340Gsdf",
                              Role.USER);
@@ -67,6 +68,7 @@ public class UserServiceTest extends AbstractControllerTest {
         Restaurant restaurant = restaurantService.get(RestaurantTestData.RESTAURANT_01_ID);
         MenuList menuList = menuListService.getByRestaurantIdAndDate(restaurant.getId(), now.toLocalDate());
         Vote vote = new Vote(now, restaurant, menuList);
+        vote.setUser(newUser);
         newUser.getVotes().add(vote);
         userService.update(newUser);
         for (Vote vote1: newUser.getVotes()) {

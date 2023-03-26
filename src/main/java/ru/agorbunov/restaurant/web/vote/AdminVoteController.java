@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.service.VoteService;
+import ru.agorbunov.restaurant.web.AuthUser;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -92,11 +94,12 @@ public class AdminVoteController {
     }
 
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+
+    @PutMapping(value = "/{id}&{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody Vote vote, @PathVariable int userId) {
-        log.info("update {} with userId={}", vote, userId);
-        assureIdConsistent(vote, userId);
+    public void update(@Valid @RequestBody Vote vote, @PathVariable int id, @PathVariable int userId) {
+        log.info("update {} with id={} and userID={}", vote, id, userId);
+        assureIdConsistent(vote, id);
         prepareAndSave(vote, userId);
     }
 

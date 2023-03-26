@@ -22,4 +22,7 @@ public interface UserRepository extends BaseRepository<User> {
     @Query("SELECT u FROM User u ORDER BY u.id asc ")
     List<User> getAll();
 
+    @Query("SELECT u FROM User u left join Vote v on u.id = v.user.id WHERE v.id =:voteId")
+    Optional<User> findByVote(int voteId);
+
 }
