@@ -1,5 +1,6 @@
 package ru.agorbunov.restaurant.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class MenuItemService extends BaseService<MenuItemRepository, MenuItem> {
         Assert.notNull(menuItem, "dishDescription must not be null");
         MenuList menuList = menuListRepository.get(menuListId);
         if (menuList == null) {
-            throw new org.springframework.dao.DataIntegrityViolationException("menuList is null!");
+            throw new EntityNotFoundException("menuList is null!");
         }
         menuItem.setMenuList(menuList);
         return repository.save(menuItem);

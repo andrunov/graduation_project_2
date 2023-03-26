@@ -11,6 +11,7 @@ import ru.agorbunov.restaurant.service.testdata.RestaurantTestData;
 import ru.agorbunov.restaurant.service.testdata.UserTestData;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
+import ru.agorbunov.restaurant.util.exception.AccessDeniedException;
 import ru.agorbunov.restaurant.util.exception.UpdateException;
 
 import java.time.LocalDate;
@@ -81,7 +82,7 @@ public class VoteServiceTest {
         Vote vote = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
         LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,1));
         vote.setDateTime(dateTime);
-        Throwable exception = Assertions.assertThrows(UpdateException.class, () -> {
+        Throwable exception = Assertions.assertThrows(AccessDeniedException.class, () -> {
             voteService.update(vote, UserTestData.USER_04_ID);
         });
     }
@@ -91,7 +92,7 @@ public class VoteServiceTest {
         Vote vote = voteService.getByUserAndDate(UserTestData.USER_00_ID, LocalDate.of(2022,12,14));
         LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,1));
         vote.setDateTime(dateTime);
-        Throwable exception = Assertions.assertThrows(UpdateException.class, () -> {
+        Throwable exception = Assertions.assertThrows(AccessDeniedException.class, () -> {
             voteService.update(vote, UserTestData.USER_00_ID);
         });
     }

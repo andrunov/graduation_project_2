@@ -8,7 +8,6 @@ import ru.agorbunov.restaurant.repository.UserRepository;
 import ru.agorbunov.restaurant.repository.VoteRepository;
 import ru.agorbunov.restaurant.util.DateTimeUtil;
 import ru.agorbunov.restaurant.util.exception.AccessDeniedException;
-import ru.agorbunov.restaurant.util.exception.UpdateException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

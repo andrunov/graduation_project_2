@@ -58,8 +58,7 @@ public class UserServiceTest extends AbstractControllerTest {
 
     @Test
     public void saveWith() throws Exception {
-        User newUser = new User(1,
-                            "Созданный пользователь",
+        User newUser = new User("Созданный пользователь",
                             "created@yandex.ru",
                             "12340Gsdf",
                              Role.USER);

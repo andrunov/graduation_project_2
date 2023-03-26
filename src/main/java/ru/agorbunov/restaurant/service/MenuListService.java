@@ -1,5 +1,6 @@
 package ru.agorbunov.restaurant.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -43,7 +44,7 @@ public class MenuListService extends BaseService<MenuListRepository, MenuList> {
         }
         Restaurant restaurant = restaurantRepository.get(restaurantId);
         if (restaurant == null) {
-            throw new org.springframework.dao.DataIntegrityViolationException("Noe exist restaurant with ID=" + restaurantId);
+            throw new EntityNotFoundException("Not exist restaurant with ID=" + restaurantId);
         }
         menuList.setRestaurant(restaurant);
         return repository.save(menuList);
