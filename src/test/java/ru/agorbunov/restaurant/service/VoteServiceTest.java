@@ -13,6 +13,7 @@ import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.util.exception.AccessDeniedException;
 import ru.agorbunov.restaurant.util.exception.UpdateException;
+import ru.agorbunov.restaurant.web.menulists.MenuListTestData;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -71,29 +72,29 @@ public class VoteServiceTest {
     public void updateSuccessful() throws Exception {
         Vote vote = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
         LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,0));
-        vote.setDateTime(dateTime);
-        voteService.update(vote, UserTestData.USER_04_ID);
-        Vote updated = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
+        int id = vote.getId();
+        voteService.update(id, UserTestData.USER_04_ID, RestaurantTestData.RESTAURANT_02_ID, MenuListTestData.MENU_LIST_05_ID, dateTime);
+        Vote updated = voteService.get(id);
         Assertions.assertEquals(dateTime, updated.getDateTime());
+        Assertions.assertEquals(RestaurantTestData.RESTAURANT_02_ID, updated.getRestaurant().id());
+        Assertions.assertEquals(MenuListTestData.MENU_LIST_05_ID, updated.getMenuList().id());
     }
 
     @Test
     public void updateUnsuccessful() throws Exception {
         Vote vote = voteService.getByUserAndDate(UserTestData.USER_04_ID, LocalDate.now());
         LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,1));
-        vote.setDateTime(dateTime);
         Throwable exception = Assertions.assertThrows(AccessDeniedException.class, () -> {
-            voteService.update(vote, UserTestData.USER_04_ID);
+            voteService.update(vote.getId(), UserTestData.USER_04_ID, RestaurantTestData.RESTAURANT_02_ID, MenuListTestData.MENU_LIST_05_ID, dateTime);
         });
     }
 
     @Test
     public void updateUnsuccessful2() throws Exception {
         Vote vote = voteService.getByUserAndDate(UserTestData.USER_00_ID, LocalDate.of(2022,12,14));
-        LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(11,1));
-        vote.setDateTime(dateTime);
+        LocalDateTime dateTime = LocalDateTime.now().with(LocalTime.of(10,1));
         Throwable exception = Assertions.assertThrows(AccessDeniedException.class, () -> {
-            voteService.update(vote, UserTestData.USER_00_ID);
+            voteService.update(vote.getId(), UserTestData.USER_00_ID, RestaurantTestData.RESTAURANT_02_ID, MenuListTestData.MENU_LIST_05_ID, dateTime);
         });
     }
 

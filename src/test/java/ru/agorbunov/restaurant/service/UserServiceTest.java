@@ -71,7 +71,7 @@ public class UserServiceTest extends AbstractControllerTest {
         newUser.getVotes().add(vote);
         userService.update(newUser);
         for (Vote vote1: newUser.getVotes()) {
-            voteService.update(vote1, newUser.getId());
+            voteService.create(newUser.getId(), RestaurantTestData.RESTAURANT_02_ID, menuList.getId(), now);
         }
         MATCHER.assertCollectionEquals(
                 Arrays.asList(newUser, USER_00, USER_01, USER_02, USER_03, USER_04, USER_05),

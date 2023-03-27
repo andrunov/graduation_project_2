@@ -80,33 +80,8 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
         super.delete(id);
     }
 
-    public Vote create(Vote vote, int userId) {
-        Assert.notNull(vote, "vote must not be null");
-        checkFields(vote);
-        User user = userRepository.get(userId);
-        vote.setUser(user);
-        return repository.save(vote);
-    }
-
-    public Vote update(Vote vote, int userId) {
-        Assert.notNull(vote, "vote must not be null");
-        checkFields(vote);
-        LocalDate voteDate = vote.getDateTime().toLocalDate();
-        if (voteDate.isBefore(LocalDate.now())) {
-            throw new AccessDeniedException("Historical vote, update denied");
-        } else {
-            if (vote.getDateTime().isAfter(LocalDateTime.now().with(DEADLINE))) {
-                throw new AccessDeniedException("It's too late, " + DateTimeUtil.toString(vote.getDateTime()) + " vote needs to be made before 11:00 o'clock");
-            } else {
-                User user = userRepository.get(userId);
-                vote.setUser(user);
-                return repository.save(vote);
-            }
-        }
-    }
 
     public Vote create(int userId, int restaurantId, int menuListId, LocalDateTime localDateTime) {
-
         User user = this.userRepository.get(userId);
         Restaurant restaurant = this.restaurantRepository.get(restaurantId);
         MenuList menuList = this.menulistRepository.get(menuListId);
@@ -128,6 +103,7 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
                 vote.setUser(this.userRepository.get(userId));
                 vote.setRestaurant(this.restaurantRepository.get(restaurantId));
                 vote.setMenuList(this.menulistRepository.get(menuListId));
+                vote.setDateTime(localDateTime);
                 checkFields(vote);
                 return repository.save(vote);
             }
