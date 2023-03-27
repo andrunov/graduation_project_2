@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.service.VoteService;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.MENU_LIST_05;
 import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.RESTAURANT_03;
 import static ru.agorbunov.restaurant.web.user.UserTestData.*;
 import static ru.agorbunov.restaurant.web.vote.UserVoteController.REST_URL;
@@ -166,7 +168,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithUserDetails(value = ADMIN_MAIL)
+    @WithUserDetails(value = USER_MAIL)
     void updateInvalid() throws Exception {
         Vote vote = voteService.get(VOTE_09_ID);
         vote.setDateTime(null);
@@ -178,51 +180,63 @@ public class UserVoteControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity());
     }
 
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void create() throws Exception {
+        Vote newVote = new Vote(LocalDateTime.now(), RESTAURANT_03, MENU_LIST_05);
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(newVote)))
+                .andExpect(status().isCreated());
 
-
-    /*
+        Vote created = VOTE_MATCHER.readFromJson(action);
+        int newId = created.id();
+        newVote.setId(newId);
+        VOTE_MATCHER.assertMatch(created, newVote);
+        VOTE_MATCHER.assertMatch(voteService.getExisted(newId), newVote);
+    }
 
 
     @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void create() throws Exception {
-        Restaurant newRestaurant = getNewRestaurant();
+    void createUnauthorized() throws Exception {
+        Vote newVote = new Vote(LocalDateTime.now(), RESTAURANT_03, MENU_LIST_05);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newRestaurant)))
-                .andExpect(status().isCreated());
-
-        Restaurant created = RESTAURANT_MATCHER.readFromJson(action);
-        int newId = created.id();
-        newRestaurant.setId(newId);
-        RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
-        RESTAURANT_MATCHER.assertMatch(restaurantService.getExisted(newId), newRestaurant);
+                .content(JsonUtil.writeValue(newVote)))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void createForbidden() throws Exception {
-        Restaurant newRestaurant = getNewRestaurant();
+    void createInvalid_1() throws Exception {
+        Vote invalid = new Vote(null, RESTAURANT_03, MENU_LIST_05);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newRestaurant)))
-                .andExpect(status().isForbidden());
-    }
-
-
-
-
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void createInvalid() throws Exception {
-        Restaurant invalid = new Restaurant(  null, "" );
-        perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
 
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void createInvalid_2() throws Exception {
+        Vote invalid = new Vote(LocalDateTime.now(), null, MENU_LIST_05);
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
 
-     */
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void createInvalid_3() throws Exception {
+        Vote invalid = new Vote(LocalDateTime.now(), RESTAURANT_03, null);
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
 }

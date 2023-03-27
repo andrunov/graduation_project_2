@@ -58,10 +58,6 @@ public class UserVoteController {
         }
     }
 
-    private Vote prepareAndSave(Vote vote, int userId) {
-        return voteService.update(vote, userId);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Vote> get(@PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
         log.info("get vote id={}", id);
@@ -79,10 +75,10 @@ public class UserVoteController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> create(@Valid @RequestBody Vote vote, @RequestParam int userId) {
+    public ResponseEntity<Vote> create(@Valid @RequestBody Vote vote, @AuthenticationPrincipal AuthUser authUser) {
         log.info("create vote {}", vote);
         checkNew(vote);
-        Vote created = prepareAndSave(vote, userId);
+        Vote created = voteService.create(vote, authUser.id());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL)
                 .buildAndExpand(created.getId()).toUri();
@@ -96,7 +92,7 @@ public class UserVoteController {
         log.info("update {} with id={} and userID={}", vote, id, authUser.id());
         checkBelongings(authUser, id);
         assureIdConsistent(vote, id);
-        prepareAndSave(vote, authUser.id());
+        voteService.update(vote, authUser.id());
     }
 
 

@@ -8,6 +8,7 @@ import ru.agorbunov.restaurant.repository.UserRepository;
 import ru.agorbunov.restaurant.repository.VoteRepository;
 import ru.agorbunov.restaurant.util.DateTimeUtil;
 import ru.agorbunov.restaurant.util.exception.AccessDeniedException;
+import ru.agorbunov.restaurant.util.exception.IllegalRequestDataException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,10 +27,27 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
         this.userRepository = userRepository;
     }
 
-    /**
-     * update vote for ordinal users*/
+    private void checkFields(Vote vote) {
+        if (vote.getRestaurant() == null) {
+            throw new IllegalRequestDataException("Restaurant must be presented");
+
+        }  else if (vote.getMenuList() == null) {
+            throw new IllegalRequestDataException("MenuList must be presented");
+
+        }
+    }
+
+    public Vote create(Vote vote, int userId) {
+        Assert.notNull(vote, "vote must not be null");
+        checkFields(vote);
+        User user = userRepository.get(userId);
+        vote.setUser(user);
+        return repository.save(vote);
+    }
+
     public Vote update(Vote vote, int userId) {
         Assert.notNull(vote, "vote must not be null");
+        checkFields(vote);
         LocalDate voteDate = vote.getDateTime().toLocalDate();
         if (voteDate.isBefore(LocalDate.now())) {
             throw new AccessDeniedException("Historical vote, update denied");
