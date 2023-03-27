@@ -64,7 +64,7 @@ public class UserServiceTest extends AbstractControllerTest {
                              Role.USER);
         newUser.setVotes(new ArrayList<>());
         LocalDateTime now = LocalDateTime.now().with(LocalTime.of(9,0));
-        Restaurant restaurant = restaurantService.get(RestaurantTestData.RESTAURANT_01_ID);
+        Restaurant restaurant = restaurantService.get(RestaurantTestData.RESTAURANT_02_ID);
         MenuList menuList = menuListService.getByRestaurantIdAndDate(restaurant.getId(), now.toLocalDate());
         Vote vote = new Vote(now, restaurant, menuList);
         vote.setUser(newUser);
