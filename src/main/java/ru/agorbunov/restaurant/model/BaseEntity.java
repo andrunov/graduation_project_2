@@ -17,7 +17,6 @@ public class BaseEntity implements Persistable<Integer>, HasId {
     /*identifier of entity in database*/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(hidden = true)
     protected Integer id;
 
     public BaseEntity() {

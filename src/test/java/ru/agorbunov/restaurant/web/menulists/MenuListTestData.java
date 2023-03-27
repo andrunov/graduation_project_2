@@ -23,6 +23,7 @@ public class MenuListTestData {
     public static final int MENU_LIST_01_ID = 100010;
     public static final int MENU_LIST_02_ID = 100014;
     public static final int MENU_LIST_03_ID = 100018;
+    public static final int MENU_LIST_05_ID = 100011;
 
     public static String jsonWithDate(MenuList menuList, LocalDate date) {
         return JsonUtil.writeAdditionProps(menuList, "date", date);

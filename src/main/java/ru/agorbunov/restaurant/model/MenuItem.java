@@ -27,7 +27,7 @@ public class MenuItem extends BaseEntity{
     @JsonIgnore
     private MenuList menuList;
 
-    @OneToOne(targetEntity = Dish.class, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = Dish.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "dish_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Dish dish;

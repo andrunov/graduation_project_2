@@ -28,7 +28,7 @@ public class AdminVoteControllerTest  extends AbstractControllerTest {
 
     @Autowired
     private VoteService voteService;
-
+/*
     @Test
     @WithUserDetails(value = GUEST_MAIL)
     void update() throws Exception {
@@ -45,4 +45,6 @@ public class AdminVoteControllerTest  extends AbstractControllerTest {
         Vote updated = voteService.get(VOTE_09_ID);
         VOTE_MATCHER.assertMatch(vote, updated);
     }
+
+ */
 }

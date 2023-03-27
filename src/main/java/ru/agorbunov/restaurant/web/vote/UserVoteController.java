@@ -40,29 +40,12 @@ public class UserVoteController {
     @Autowired
     protected UserService userService;
 
-    private User getFromVote(int voteId) {
-        User result = null;
-        Optional<User> optional = userService.getByVote(voteId);
-        if (optional.isPresent()) {
-            result = optional.get();
-        } else {
-            throw new NotFoundException("not found User for vote id=" + voteId);
-        }
-        return result;
-    }
 
-    private void checkBelongings(AuthUser authUser, int voteId) {
-        User userFromVote = this.getFromVote(voteId);
-        if (userFromVote.id() != authUser.id()) {
-            throw new AccessDeniedException("This vote does not belong to user id =" + authUser.id());
-        }
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Vote> get(@PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
         log.info("get vote id={}", id);
-        checkBelongings(authUser, id);
-        return ResponseEntity.of(Optional.of(voteService.get(id)));
+        return ResponseEntity.of(Optional.of(voteService.get(id, authUser.id())));
     }
 
 
@@ -70,8 +53,7 @@ public class UserVoteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
         log.info("delete vote id={}", id);
-        checkBelongings(authUser, id);
-        voteService.delete(id);
+        voteService.delete(id, authUser.id());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -86,13 +68,19 @@ public class UserVoteController {
     }
 
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody Vote vote, @PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
-        log.info("update {} with id={} and userID={}", vote, id, authUser.id());
-        checkBelongings(authUser, id);
-        assureIdConsistent(vote, id);
-        voteService.update(vote, authUser.id());
+    public void update(@AuthenticationPrincipal AuthUser authUser,
+                       @RequestParam int voteId,
+                       @RequestParam int restaurantId,
+                       @RequestParam int menuListId,
+                       @RequestParam LocalDateTime localDateTime) {
+
+        log.info("update vote id={} and userID={} and restaurantID={} and menuListID={} and localDateTime={}",
+                  voteId, authUser.id(), restaurantId, menuListId, localDateTime);
+
+        int userId = authUser.id();
+        voteService.update(voteId, userId, restaurantId, menuListId, localDateTime);
     }
 
 
