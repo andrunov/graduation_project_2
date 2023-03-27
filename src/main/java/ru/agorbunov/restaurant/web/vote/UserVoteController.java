@@ -67,6 +67,23 @@ public class UserVoteController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Vote> create(@AuthenticationPrincipal AuthUser authUser,
+                                       @RequestParam int restaurantId,
+                                       @RequestParam int menuListId,
+                                       @RequestParam LocalDateTime localDateTime) {
+
+        log.info("create vote userID={} and restaurantID={} and menuListID={} and localDateTime={}",
+                authUser.id(), restaurantId, menuListId, localDateTime);
+
+        int userId = authUser.id();
+        Vote created = voteService.create(userId, restaurantId, menuListId, localDateTime);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL)
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
+    }
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -2,6 +2,8 @@ package ru.agorbunov.restaurant.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.agorbunov.restaurant.model.MenuList;
+import ru.agorbunov.restaurant.model.Restaurant;
 import ru.agorbunov.restaurant.model.User;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.repository.MenuListRepository;
@@ -101,6 +103,16 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
                 return repository.save(vote);
             }
         }
+    }
+
+    public Vote create(int userId, int restaurantId, int menuListId, LocalDateTime localDateTime) {
+
+        User user = this.userRepository.get(userId);
+        Restaurant restaurant = this.restaurantRepository.get(restaurantId);
+        MenuList menuList = this.menulistRepository.get(menuListId);
+        Vote vote = new Vote(user, restaurant, menuList, localDateTime);
+        checkFields(vote);
+        return repository.save(vote);
     }
 
     public Vote update(int voteId, int userId, int restaurantId, int menuListId, LocalDateTime localDateTime) {

@@ -9,7 +9,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.model.Vote;
 import ru.agorbunov.restaurant.service.VoteService;
-import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 import ru.agorbunov.restaurant.web.AbstractControllerTest;
 
@@ -22,7 +21,8 @@ import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.MENU_LIST_0
 import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.MENU_LIST_05_ID;
 import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.RESTAURANT_03;
 import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.RESTAURANT_03_ID;
-import static ru.agorbunov.restaurant.web.user.UserTestData.*;
+import static ru.agorbunov.restaurant.web.user.UserTestData.GUEST_MAIL;
+import static ru.agorbunov.restaurant.web.user.UserTestData.USER_MAIL;
 import static ru.agorbunov.restaurant.web.vote.UserVoteController.REST_URL;
 import static ru.agorbunov.restaurant.web.vote.VoteTestData.*;
 
@@ -131,8 +131,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
                 .param("voteId", String.valueOf(VOTE_09_ID))
                 .param("restaurantId", String.valueOf(RESTAURANT_03_ID))
                 .param("menuListId", String.valueOf(MENU_LIST_05_ID))
-                .param("localDateTime", localDateTime.toString())
-                .contentType(MediaType.APPLICATION_JSON))
+                .param("localDateTime", localDateTime.toString()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
@@ -152,8 +151,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
                 .param("voteId", String.valueOf(VOTE_09_ID))
                 .param("restaurantId", String.valueOf(RESTAURANT_03_ID))
                 .param("menuListId", String.valueOf(MENU_LIST_05_ID))
-                .param("localDateTime", localDateTime.toString())
-                .contentType(MediaType.APPLICATION_JSON))
+                .param("localDateTime", localDateTime.toString()))
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
@@ -167,8 +165,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
                 .param("voteId", String.valueOf(VOTE_09_ID))
                 .param("restaurantId", String.valueOf(RESTAURANT_03_ID))
                 .param("menuListId", String.valueOf(MENU_LIST_05_ID))
-                .param("localDateTime", localDateTime.toString())
-                .contentType(MediaType.APPLICATION_JSON))
+                .param("localDateTime", localDateTime.toString()))
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
@@ -181,8 +178,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
                 .param("voteId", String.valueOf(VOTE_09_ID))
                 .param("restaurantId", "12455877")
                 .param("menuListId", String.valueOf(MENU_LIST_05_ID))
-                .param("localDateTime", localDateTime.toString())
-                .contentType(MediaType.APPLICATION_JSON))
+                .param("localDateTime", localDateTime.toString()))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -195,8 +191,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
                 .param("voteId", String.valueOf(VOTE_09_ID))
                 .param("restaurantId", String.valueOf(RESTAURANT_03_ID))
                 .param("menuListId", "1245587")
-                .param("localDateTime", localDateTime.toString())
-                .contentType(MediaType.APPLICATION_JSON))
+                .param("localDateTime", localDateTime.toString()))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -204,36 +199,36 @@ public class UserVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void create() throws Exception {
-        Vote newVote = new Vote(LocalDateTime.now(), RESTAURANT_03, MENU_LIST_05);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newVote)))
+                .param("restaurantId", String.valueOf(RESTAURANT_03_ID))
+                .param("menuListId", String.valueOf(MENU_LIST_05_ID))
+                .param("localDateTime",LocalDateTime.now().toString()))
+                .andDo(print())
                 .andExpect(status().isCreated());
 
         Vote created = VOTE_MATCHER.readFromJson(action);
         int newId = created.id();
-        newVote.setId(newId);
-        VOTE_MATCHER.assertMatch(created, newVote);
-        VOTE_MATCHER.assertMatch(voteService.getExisted(newId), newVote);
+        VOTE_MATCHER.assertMatch(voteService.getExisted(newId), created);
     }
 
 
     @Test
     void createUnauthorized() throws Exception {
-        Vote newVote = new Vote(LocalDateTime.now(), RESTAURANT_03, MENU_LIST_05);
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newVote)))
+        perform(MockMvcRequestBuilders.post(REST_URL)
+                .param("restaurantId", String.valueOf(RESTAURANT_03_ID))
+                .param("menuListId", String.valueOf(MENU_LIST_05_ID))
+                .param("localDateTime",LocalDateTime.now().toString()))
+                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     @WithUserDetails(value = USER_MAIL)
     void createInvalid_1() throws Exception {
-        Vote invalid = new Vote(null, RESTAURANT_03, MENU_LIST_05);
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(invalid)))
+        perform(MockMvcRequestBuilders.post(REST_URL)
+                .param("restaurantId", "45662547")
+                .param("menuListId", String.valueOf(MENU_LIST_05_ID))
+                .param("localDateTime",LocalDateTime.now().toString()))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -241,21 +236,10 @@ public class UserVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void createInvalid_2() throws Exception {
-        Vote invalid = new Vote(LocalDateTime.now(), null, MENU_LIST_05);
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(invalid)))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
-    }
-
-    @Test
-    @WithUserDetails(value = USER_MAIL)
-    void createInvalid_3() throws Exception {
-        Vote invalid = new Vote(LocalDateTime.now(), RESTAURANT_03, null);
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(invalid)))
+        perform(MockMvcRequestBuilders.post(REST_URL)
+                .param("restaurantId", String.valueOf(RESTAURANT_03_ID))
+                .param("menuListId", "254879954")
+                .param("localDateTime",LocalDateTime.now().toString()))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
