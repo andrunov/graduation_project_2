@@ -73,7 +73,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + NOT_FOUND_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + VOTE_NOT_FOUND_ID))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -82,7 +82,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void deleteNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + NOT_FOUND_ID))
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + VOTE_NOT_FOUND_ID))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -111,8 +111,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
     @Test
     void setNewDateTimeUnathorized() throws Exception {
         perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + VOTE_01_ID)
-                .param("newDateTime", "2022-12-16T11:18:00")
-                .contentType(MediaType.APPLICATION_JSON))
+                .param("newDateTime", "2022-12-16T11:18:00"))
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
@@ -120,11 +119,10 @@ public class UserVoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void setNewDateTimeNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + NOT_FOUND_ID)
-                .param("newDateTime", "2022-12-16T11:18:00")
-                .contentType(MediaType.APPLICATION_JSON))
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + VOTE_NOT_FOUND_ID)
+                .param("newDateTime", "2022-12-16T11:18:00"))
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test

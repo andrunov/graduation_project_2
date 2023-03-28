@@ -23,7 +23,7 @@ public class UserTestData {
     public static final int USER_ID = 100000;
     public static final int USER_2_ID = 100002;
     public static final int ADMIN_ID = 100001;
-    public static final int NOT_FOUND = 100;
+    public static final int NOT_FOUND_USER_ID = 100;
     public static final String USER_MAIL = "ivanov.alexey@gmail.com";
     public static final String USER_2_MAIL = "sidor@gmail.com";
     public static final String ADMIN_MAIL = "andrunov@gmail.com";

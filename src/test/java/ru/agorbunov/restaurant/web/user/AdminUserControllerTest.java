@@ -47,7 +47,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + NOT_FOUND))
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + NOT_FOUND_USER_ID))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -75,7 +75,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void deleteNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + NOT_FOUND))
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + NOT_FOUND_USER_ID))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -83,7 +83,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void enableNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + NOT_FOUND)
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + NOT_FOUND_USER_ID)
                 .param("newPassword", "123456789")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

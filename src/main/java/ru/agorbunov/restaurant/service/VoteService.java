@@ -37,37 +37,6 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
         this.menulistRepository = menulistRepository;
     }
 
-    private void checkFields(Vote vote) {
-        if (vote.getUser() == null) {
-            throw new IllegalRequestDataException("User must be presented");
-
-        } else if (vote.getRestaurant() == null) {
-            throw new IllegalRequestDataException("Restaurant must be presented");
-
-        } else if (vote.getMenuList() == null) {
-            throw new IllegalRequestDataException("MenuList must be presented");
-
-        }
-    }
-
-
-    private User getFromVote(int voteId) {
-        User result = null;
-        Optional<User> optional = userRepository.findByVote(voteId);
-        if (optional.isPresent()) {
-            result = optional.get();
-        } else {
-            throw new NotFoundException("not found User for vote id=" + voteId);
-        }
-        return result;
-    }
-
-    private void checkBelongings(int voteId, int userId) {
-        User userFromVote = this.getFromVote(voteId);
-        if (userFromVote.id() != userId) {
-            throw new AccessDeniedException("This vote does not belong to user id =" + userId);
-        }
-    }
 
 
     public Vote get(int id, int userId) {
@@ -93,21 +62,13 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
     public Vote update(int voteId, int userId, int restaurantId, int menuListId, LocalDateTime localDateTime) {
         checkBelongings(voteId, userId);
         Vote vote = this.repository.get(voteId);
-        if (vote.getDateTime().toLocalDate().isBefore(LocalDate.now())) {
-            throw new AccessDeniedException("Historical vote, update denied");
-        } else {
-            LocalDateTime now = LocalDateTime.now();
-            if (localDateTime.isAfter(now.with(DEADLINE))) {
-                throw new AccessDeniedException("It's too late, " + DateTimeUtil.toString(vote.getDateTime()) + " vote needs to be made before 11:00 o'clock");
-            } else {
-                vote.setUser(this.userRepository.get(userId));
-                vote.setRestaurant(this.restaurantRepository.get(restaurantId));
-                vote.setMenuList(this.menulistRepository.get(menuListId));
-                vote.setDateTime(localDateTime);
-                checkFields(vote);
-                return repository.save(vote);
-            }
-        }
+        checkDateTime(vote, localDateTime);
+        vote.setUser(this.userRepository.get(userId));
+        vote.setRestaurant(this.restaurantRepository.get(restaurantId));
+        vote.setMenuList(this.menulistRepository.get(menuListId));
+        vote.setDateTime(localDateTime);
+        checkFields(vote);
+        return repository.save(vote);
     }
 
 
@@ -139,16 +100,56 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
 
     public void updateDateTime(int voteId, int userId, LocalDateTime newDateTime) {
         checkBelongings(voteId, userId);
+        updateDateTime(voteId, newDateTime);
+    }
+
+    public void updateDateTime(int voteId,  LocalDateTime newDateTime) {
         Vote vote = this.repository.getExisted(voteId);
+        checkDateTime(vote, newDateTime);
+        repository.updateDateTime(voteId, newDateTime);
+    }
+
+    private void checkDateTime(Vote vote,  LocalDateTime newDateTime) {
         if (vote.getDateTime().toLocalDate().isBefore(LocalDate.now())) {
             throw new AccessDeniedException("Historical vote, update denied");
         } else {
             LocalDateTime now = LocalDateTime.now();
             if (newDateTime.isAfter(now.with(DEADLINE))) {
                 throw new AccessDeniedException("It's too late, " + DateTimeUtil.toString(vote.getDateTime()) + " vote needs to be made before 11:00 o'clock");
-            } else {
-                repository.updateDateTime(voteId, newDateTime);
             }
+        }
+    }
+
+
+    private void checkFields(Vote vote) {
+        if (vote.getUser() == null) {
+            throw new IllegalRequestDataException("User must be presented");
+
+        } else if (vote.getRestaurant() == null) {
+            throw new IllegalRequestDataException("Restaurant must be presented");
+
+        } else if (vote.getMenuList() == null) {
+            throw new IllegalRequestDataException("MenuList must be presented");
+
+        }
+    }
+
+
+    private User getFromVote(int voteId) {
+        User result = null;
+        Optional<User> optional = userRepository.findByVote(voteId);
+        if (optional.isPresent()) {
+            result = optional.get();
+        } else {
+            throw new IllegalRequestDataException("not found User for vote id=" + voteId);
+        }
+        return result;
+    }
+
+    private void checkBelongings(int voteId, int userId) {
+        User userFromVote = this.getFromVote(voteId);
+        if (userFromVote.id() != userId) {
+            throw new AccessDeniedException("This vote does not belong to user id =" + userId);
         }
     }
 

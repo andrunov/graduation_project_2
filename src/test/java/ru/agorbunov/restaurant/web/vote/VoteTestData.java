@@ -12,7 +12,7 @@ public class VoteTestData {
 
     public static final int VOTE_01_ID = 1;
     public static final int VOTE_09_ID = 9;
-    public static final int NOT_FOUND_ID = 100000;
+    public static final int VOTE_NOT_FOUND_ID = 100000;
     public static final Vote VOTE_01 = new Vote(1, LocalDateTime.of(2022, Month.DECEMBER, 14, 11, 35, 0, 0), null, null );
     public static final Vote VOTE_02 = new Vote(LocalDateTime.of(2022, Month.DECEMBER, 15, 10, 15, 0, 0), null, null );
     public static final Vote VOTE_03 = new Vote(LocalDateTime.of(2022, Month.DECEMBER, 16, 11, 18, 0, 0), null, null );
