@@ -17,10 +17,8 @@ import java.time.LocalDateTime;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.MENU_LIST_05;
-import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.MENU_LIST_05_ID;
-import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.RESTAURANT_03;
-import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.RESTAURANT_03_ID;
+import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.*;
+import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.*;
 import static ru.agorbunov.restaurant.web.user.UserTestData.*;
 import static ru.agorbunov.restaurant.web.vote.AdminVoteController.REST_URL;
 import static ru.agorbunov.restaurant.web.vote.VoteTestData.*;
@@ -196,7 +194,7 @@ public class AdminVoteControllerTest  extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .param("userId", String.valueOf(USER_2_ID))
                 .param("voteId", String.valueOf(VOTE_09_ID))
-                .param("restaurantId", "12455877")
+                .param("restaurantId", String.valueOf(NOT_FOUND_RESTAURANT_ID))
                 .param("menuListId", String.valueOf(MENU_LIST_05_ID))
                 .param("localDateTime", localDateTime.toString()))
                 .andDo(print())
@@ -211,7 +209,7 @@ public class AdminVoteControllerTest  extends AbstractControllerTest {
                 .param("userId", String.valueOf(USER_2_ID))
                 .param("voteId", String.valueOf(VOTE_09_ID))
                 .param("restaurantId", String.valueOf(RESTAURANT_03_ID))
-                .param("menuListId", "1245587")
+                .param("menuListId", String.valueOf(NOT_FOUND_MENU_LIST_ID))
                 .param("localDateTime", localDateTime.toString()))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
@@ -225,7 +223,7 @@ public class AdminVoteControllerTest  extends AbstractControllerTest {
                 .param("userId", String.valueOf(NOT_FOUND_USER_ID))
                 .param("voteId", String.valueOf(VOTE_09_ID))
                 .param("restaurantId", String.valueOf(RESTAURANT_03_ID))
-                .param("menuListId", "1245587")
+                .param("menuListId", String.valueOf(MENU_LIST_05_ID))
                 .param("localDateTime", localDateTime.toString()))
                 .andDo(print())
                 .andExpect(status().isForbidden());
@@ -265,7 +263,7 @@ public class AdminVoteControllerTest  extends AbstractControllerTest {
     void createInvalid_1() throws Exception {
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .param("userId", String.valueOf(USER_2_ID))
-                .param("restaurantId", "45662547")
+                .param("restaurantId", String.valueOf(NOT_FOUND_RESTAURANT_ID))
                 .param("menuListId", String.valueOf(MENU_LIST_05_ID))
                 .param("localDateTime",LocalDateTime.now().toString()))
                 .andDo(print())
@@ -278,7 +276,7 @@ public class AdminVoteControllerTest  extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .param("userId", String.valueOf(USER_2_ID))
                 .param("restaurantId", String.valueOf(RESTAURANT_03_ID))
-                .param("menuListId", "254879954")
+                .param("menuListId", String.valueOf(NOT_FOUND_MENU_LIST_ID))
                 .param("localDateTime",LocalDateTime.now().toString()))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());

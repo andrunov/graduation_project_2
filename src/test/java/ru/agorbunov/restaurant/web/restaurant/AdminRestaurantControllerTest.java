@@ -64,7 +64,7 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + NOT_FOUND_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + NOT_FOUND_RESTAURANT_ID))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -72,7 +72,7 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void deleteNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + NOT_FOUND_ID))
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + NOT_FOUND_RESTAURANT_ID))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -80,7 +80,7 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void setNewAddressNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + NOT_FOUND_ID)
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + NOT_FOUND_RESTAURANT_ID)
                 .param("newAddress", "... some address")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

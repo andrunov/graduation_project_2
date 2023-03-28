@@ -28,7 +28,7 @@ public class RestaurantTestData {
     public static final int RESTAURANT_01_ID = 100006;
     public static final int RESTAURANT_02_ID = 100007;
     public static final int RESTAURANT_03_ID = 100008;
-    public static final int NOT_FOUND_ID = 100;
+    public static final int NOT_FOUND_RESTAURANT_ID = 100;
 
     public static Restaurant getUpdatedRestaurant() {
         return new Restaurant(100006, "Новое название","ул. Некрасова, 14");

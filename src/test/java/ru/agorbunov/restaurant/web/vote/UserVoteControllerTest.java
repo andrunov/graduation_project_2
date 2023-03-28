@@ -17,10 +17,8 @@ import java.time.LocalDateTime;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.MENU_LIST_05;
-import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.MENU_LIST_05_ID;
-import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.RESTAURANT_03;
-import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.RESTAURANT_03_ID;
+import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.*;
+import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.*;
 import static ru.agorbunov.restaurant.web.user.UserTestData.GUEST_MAIL;
 import static ru.agorbunov.restaurant.web.user.UserTestData.USER_MAIL;
 import static ru.agorbunov.restaurant.web.vote.UserVoteController.REST_URL;
@@ -72,19 +70,19 @@ public class UserVoteControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void getNotFound() throws Exception {
+    void getBadUser() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + VOTE_NOT_FOUND_ID))
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnprocessableEntity());
     }
 
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void deleteNotFound() throws Exception {
+    void deleteBadUser() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + VOTE_NOT_FOUND_ID))
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
@@ -178,7 +176,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
         LocalDateTime localDateTime = LocalDateTime.now().withHour(9);
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .param("voteId", String.valueOf(VOTE_09_ID))
-                .param("restaurantId", "12455877")
+                .param("restaurantId", String.valueOf(NOT_FOUND_RESTAURANT_ID))
                 .param("menuListId", String.valueOf(MENU_LIST_05_ID))
                 .param("localDateTime", localDateTime.toString()))
                 .andDo(print())
@@ -192,7 +190,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .param("voteId", String.valueOf(VOTE_09_ID))
                 .param("restaurantId", String.valueOf(RESTAURANT_03_ID))
-                .param("menuListId", "1245587")
+                .param("menuListId", String.valueOf(NOT_FOUND_MENU_LIST_ID))
                 .param("localDateTime", localDateTime.toString()))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
@@ -228,7 +226,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = USER_MAIL)
     void createInvalid_1() throws Exception {
         perform(MockMvcRequestBuilders.post(REST_URL)
-                .param("restaurantId", "45662547")
+                .param("restaurantId", String.valueOf(NOT_FOUND_RESTAURANT_ID))
                 .param("menuListId", String.valueOf(MENU_LIST_05_ID))
                 .param("localDateTime",LocalDateTime.now().toString()))
                 .andDo(print())
@@ -240,7 +238,7 @@ public class UserVoteControllerTest extends AbstractControllerTest {
     void createInvalid_2() throws Exception {
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .param("restaurantId", String.valueOf(RESTAURANT_03_ID))
-                .param("menuListId", "254879954")
+                .param("menuListId",  String.valueOf(NOT_FOUND_MENU_LIST_ID))
                 .param("localDateTime",LocalDateTime.now().toString()))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
