@@ -20,5 +20,6 @@ public class VoteTestData {
     public static final Vote VOTE_04 = new Vote(LocalDateTime.of(2022, Month.DECEMBER, 14, 10, 25, 0, 0), null, null );
     public static final Vote VOTE_05 = new Vote(LocalDateTime.of(2022, Month.DECEMBER, 15, 10, 17, 0, 0), null, null );
     public static final Vote VOTE_06 = new Vote(LocalDateTime.of(2022, Month.DECEMBER, 16, 11, 18, 0, 0), null, null );
+    public static final Vote VOTE_09 = new Vote(9, LocalDateTime.now(), null, null );
 
 }

@@ -1,5 +1,6 @@
 package ru.agorbunov.restaurant.repository;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.model.Vote;
@@ -24,5 +25,10 @@ public interface VoteRepository extends BaseRepository<Vote> {
 
     @Query("select v from Vote v where v.user.id = :userId and v.restaurant.id = :restaurantId ")
     List<Vote> getByUserAndRestaurant(int userId, int restaurantId);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE Vote v SET v.dateTime=:newDateTime WHERE v.id=:id")
+    void updateDateTime (int id, LocalDateTime newDateTime);
 
 }

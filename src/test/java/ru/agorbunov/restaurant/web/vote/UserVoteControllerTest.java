@@ -94,20 +94,24 @@ public class UserVoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithUserDetails(value = USER_MAIL)
-    void setNewDate() throws Exception {
-        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH  + VOTE_01_ID)
-                .param("dateTime", "2022-12-16T11:18:00")
-                .contentType(MediaType.APPLICATION_JSON))
+    @WithUserDetails(value = GUEST_MAIL)
+    void setNewDateTime() throws Exception {
+        LocalDateTime newDateTime = LocalDateTime.parse("2022-12-16T11:18:00");
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH  + VOTE_09_ID)
+                .param("newDateTime", newDateTime.toString()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+
+        Vote saved = voteService.get(VOTE_09_ID);
+        VOTE_MATCHER.assertMatch(VOTE_09, saved);
+        Assertions.assertEquals(newDateTime, saved.getDateTime());
 
     }
 
     @Test
-    void setNewDateUnathorized() throws Exception {
+    void setNewDateTimeUnathorized() throws Exception {
         perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + VOTE_01_ID)
-                .param("dateTime", "2022-12-16T11:18:00")
+                .param("newDateTime", "2022-12-16T11:18:00")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
@@ -115,12 +119,12 @@ public class UserVoteControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void setNewDateInvalid() throws Exception {
+    void setNewDateTimeNotFound() throws Exception {
         perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + NOT_FOUND_ID)
-                .param("dateTime", "2022-12-16T11:18:00")
+                .param("newDateTime", "2022-12-16T11:18:00")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isNotFound());
     }
 
     @Test

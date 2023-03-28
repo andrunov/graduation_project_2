@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.agorbunov.restaurant.model.Vote;
-import ru.agorbunov.restaurant.service.UserService;
 import ru.agorbunov.restaurant.service.VoteService;
 import ru.agorbunov.restaurant.web.AuthUser;
 
@@ -29,15 +28,12 @@ public class UserVoteController {
     protected final Logger log = getLogger(getClass());
 
     @Autowired
-    protected VoteService voteService;
-
-    @Autowired
-    protected UserService userService;
+    protected VoteService service;
 
     @GetMapping("/{id}")
     public ResponseEntity<Vote> get(@PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
         log.info("get vote id={}", id);
-        return ResponseEntity.of(Optional.of(voteService.get(id, authUser.id())));
+        return ResponseEntity.of(Optional.of(service.get(id, authUser.id())));
     }
 
 
@@ -45,7 +41,7 @@ public class UserVoteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
         log.info("delete vote id={}", id);
-        voteService.delete(id, authUser.id());
+        service.delete(id, authUser.id());
     }
 
 
@@ -60,7 +56,7 @@ public class UserVoteController {
                 authUser.id(), restaurantId, menuListId, localDateTime);
 
         int userId = authUser.id();
-        Vote created = voteService.create(userId, restaurantId, menuListId, localDateTime);
+        Vote created = service.create(userId, restaurantId, menuListId, localDateTime);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL)
                 .buildAndExpand(created.getId()).toUri();
@@ -79,17 +75,16 @@ public class UserVoteController {
                   voteId, authUser.id(), restaurantId, menuListId, localDateTime);
 
         int userId = authUser.id();
-        voteService.update(voteId, userId, restaurantId, menuListId, localDateTime);
+        service.update(voteId, userId, restaurantId, menuListId, localDateTime);
     }
 
 
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    public void patch(@PathVariable int id, @RequestParam LocalDateTime dateTime) {
-        log.info("vote id={} update dateTime {}" , id, dateTime);
-        Vote vote = voteService.getExisted(id);
-        vote.setDateTime(dateTime);
+    public void patch(@PathVariable int id, @AuthenticationPrincipal AuthUser authUser, @RequestParam LocalDateTime newDateTime) {
+        log.info("vote id={} update dateTime {}" , id, newDateTime);
+        service.updateDateTime(id, authUser.id(), newDateTime);
     }
 
 }

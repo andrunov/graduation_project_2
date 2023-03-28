@@ -137,5 +137,20 @@ public class VoteService extends BaseService<VoteRepository, Vote> {
         return repository.getByUserAndRestaurant(userId, restaurantId);
     }
 
+    public void updateDateTime(int voteId, int userId, LocalDateTime newDateTime) {
+        checkBelongings(voteId, userId);
+        Vote vote = this.repository.getExisted(voteId);
+        if (vote.getDateTime().toLocalDate().isBefore(LocalDate.now())) {
+            throw new AccessDeniedException("Historical vote, update denied");
+        } else {
+            LocalDateTime now = LocalDateTime.now();
+            if (newDateTime.isAfter(now.with(DEADLINE))) {
+                throw new AccessDeniedException("It's too late, " + DateTimeUtil.toString(vote.getDateTime()) + " vote needs to be made before 11:00 o'clock");
+            } else {
+                repository.updateDateTime(voteId, newDateTime);
+            }
+        }
+    }
+
 
 }
