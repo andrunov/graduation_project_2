@@ -107,7 +107,7 @@ public class AdminVoteController {
 
     @GetMapping("byUserAndDate/{userId}")
     public ResponseEntity<Vote> getByUserAndDate(@PathVariable int userId, @RequestParam LocalDate date) {
-        log.info("get vote id={}", userId);
+        log.info("get vote for user id={} and date={}", userId, date);
         return ResponseEntity.of(Optional.of(service.getByUserAndDate(userId, date)));
     }
 

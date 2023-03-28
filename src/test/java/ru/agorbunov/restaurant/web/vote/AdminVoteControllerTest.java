@@ -12,6 +12,7 @@ import ru.agorbunov.restaurant.service.VoteService;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 import ru.agorbunov.restaurant.web.AbstractControllerTest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -292,6 +293,66 @@ public class AdminVoteControllerTest  extends AbstractControllerTest {
                 .param("localDateTime",LocalDateTime.now().toString()))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getByRestaurant() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "byRestaurant/" + RESTAURANT_01_ID))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(VOTE_MATCHER.contentJson(VOTE_01, VOTE_03, VOTE_04, VOTE_05, VOTE_08, VOTE_16));
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void getByRestaurantForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "byRestaurant/" + RESTAURANT_01_ID))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getByUser() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "byUser/" + USER_ID))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(VOTE_MATCHER.contentJson(VOTE_01, VOTE_02, VOTE_03));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getByRestaurantAndDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "byRestaurantAndDate/" + RESTAURANT_02_ID)
+                .param("date", LocalDate.now().toString()))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(VOTE_MATCHER.contentJson(VOTE_09, VOTE_12 ));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getByUserAndDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "byUserAndDate/" + USER_ID)
+                .param("date", "2022-12-14"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(VOTE_MATCHER.contentJson(VOTE_01));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getByUserAndRestaurant() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "byUserAndRestaurant/" + USER_ID + "&" + RESTAURANT_01_ID))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(VOTE_MATCHER.contentJson(VOTE_01, VOTE_03));
     }
 
 }
