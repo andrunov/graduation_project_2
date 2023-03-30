@@ -22,13 +22,18 @@ import org.springframework.context.annotation.Configuration;
                 title = "REST API documentation",
                 version = "1.0",
                 description = """
-                        Calories Management application (<a href='https://javaops.ru/view/topjava'>TopJava</a>) Spring Boot migration
-                        <p><b>Тестовые креденшелы:</b><br>
-                        - andrunov@gmail.com / 222333<br>
-                        - sidor@gmail.com / 333444<br>
-                        - jbj@gmail.com / 555666</p>
+                        Graduation project
+                        <p>
+                            <b>Test credentials</b><br>
+                            <ul>
+                                <li><b>ROLE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOGIN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PASS</b></li>
+                                <li>Admin &nbsp;&nbsp;&nbsp;&nbsp; andrunov@gmail.com &nbsp;&nbsp;&nbsp;&nbsp; 222333</li>
+                                <li>User &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sidor@gmail.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 333444</li>
+                                <li>User &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jbj@gmail.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 555666</li>
+                            </ul>
+                        </p>
                         """,
-                contact = @Contact(url = "https://javaops.ru/#contacts", name = "Grigory Kislin", email = "admin@javaops.ru")
+                contact = @Contact(name = "Andrei Gorbunov", email = "andrunov@gmail.ru")
         ),
         security = @SecurityRequirement(name = "basicAuth")
 )
