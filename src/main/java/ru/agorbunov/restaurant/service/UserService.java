@@ -29,13 +29,17 @@ public class UserService extends BaseService<UserRepository, User> {
         return repository.getAll();
     }
 
-    public void update(User user) {
+    public User update(User user) {
         Assert.notNull(user, "user must not be null");
-        repository.save(user);
+        return repository.save(user);
     }
 
     public Optional<User> getByVote(int voteId) {
         return repository.findByVote(voteId);
+    }
+
+    public Optional<User> getWithVotes(int id) {
+        return repository.getWithVotes(id);
     }
 
 }

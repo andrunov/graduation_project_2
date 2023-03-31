@@ -164,7 +164,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
         votes.add(VoteTestData.VOTE_05);
         votes.add(VoteTestData.VOTE_06);
         admin.setVotes(votes);
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + ADMIN_ID + "/with-votes"))
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "with-votes/" + ADMIN_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

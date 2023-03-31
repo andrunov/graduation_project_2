@@ -28,7 +28,7 @@ public class AdminUserController extends AbstractUserController {
         return super.get(id);
     }
 
-    @GetMapping("/{id}/with-votes")
+    @GetMapping("/with-votes/{id}")
     public ResponseEntity<User> getWithVotes(@PathVariable int id) {
         return super.getWithVotes(id);
     }
@@ -43,7 +43,7 @@ public class AdminUserController extends AbstractUserController {
     @GetMapping
     public List<User> getAll() {
         log.info("getAll users");
-        return repository.getAll();
+        return service.getAll();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -68,7 +68,7 @@ public class AdminUserController extends AbstractUserController {
     @GetMapping("/by-email")
     public ResponseEntity<User> getByEmail(@RequestParam String email) {
         log.info("user getByEmail {}", email);
-        return ResponseEntity.of(repository.findByEmailIgnoreCase(email));
+        return ResponseEntity.of(service.getByEmail(email));
     }
 
     @PatchMapping("/{id}")
@@ -76,7 +76,7 @@ public class AdminUserController extends AbstractUserController {
     @Transactional
     public void enable(@PathVariable int id, @RequestParam String newPassword) {
         log.info("newPassword user id={}" , id);
-        User user = repository.getExisted(id);
+        User user = service.getExisted(id);
         user.setPassword(newPassword);
     }
 

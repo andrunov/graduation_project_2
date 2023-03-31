@@ -31,6 +31,7 @@ public class AdminRestaurantController {
     @Autowired
     protected RestaurantService service;
 
+    //TODO remove
     protected Restaurant prepareAndSave(Restaurant restaurant) {
         return service.update(restaurant);
     }
