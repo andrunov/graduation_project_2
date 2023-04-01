@@ -62,7 +62,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + NOT_FOUND_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + NOT_FOUND_DISH_ID))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -70,7 +70,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void deleteNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + NOT_FOUND_ID))
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + NOT_FOUND_DISH_ID))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -89,7 +89,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void enableNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + NOT_FOUND_ID)
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + NOT_FOUND_DISH_ID)
                 .param("newName", "Новое имя")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

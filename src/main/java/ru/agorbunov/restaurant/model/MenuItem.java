@@ -32,6 +32,9 @@ public class MenuItem extends BaseEntity{
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Dish dish;
 
+    public MenuItem(Double price) {
+        this.price = price;
+    }
     public MenuItem(MenuList menuList, Dish dish, Double price) {
         this.price = price;
         this.menuList = menuList;

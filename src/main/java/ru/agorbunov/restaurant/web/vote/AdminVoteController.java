@@ -46,7 +46,7 @@ public class AdminVoteController {
 
 
     @PostMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Vote> create(@RequestParam int userId,
                                        @RequestParam int restaurantId,
                                        @RequestParam int menuListId,

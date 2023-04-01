@@ -29,10 +29,7 @@ public class AdminMenuItemController {
     @Autowired
     protected MenuItemService service;
 
-    protected MenuItem prepareAndSave(MenuItem menuItem,  int menuListId) {
-        return service.update(menuItem, menuListId);
-    }
-
+    //todo remove if possible
     protected MenuItem prepareAndSave(MenuItem menuItem, int dishId,  int menuListId) {
         return service.update(menuItem, dishId, menuListId);
     }
@@ -57,21 +54,30 @@ public class AdminMenuItemController {
         service.delete(id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MenuItem> create(@Valid @RequestBody MenuItem menuItem, @RequestParam int dishId, @RequestParam int menuListId) {
-        log.info("create menuList {} with dish {} and menuList {} ", menuItem, dishId, menuListId);
-        checkNew(menuItem);
-        MenuItem created = prepareAndSave(menuItem, dishId, menuListId);
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<MenuItem> create(@RequestParam double price,
+                                           @RequestParam int dishId,
+                                           @RequestParam int menuListId) {
+        log.info("create menuList price {} with dish {} and menuList {} ", price, dishId, menuListId);
+        MenuItem newMenuItem = new MenuItem(price);
+        MenuItem created = prepareAndSave(newMenuItem, dishId, menuListId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+
+    @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody MenuItem menuItem, @RequestParam int menuListId) {
-        log.info("update {} menuList id={}", menuItem, menuListId);
-        prepareAndSave(menuItem, menuListId);
+    public void update(@RequestParam int id,
+                       @RequestParam double price,
+                       @RequestParam int dishId,
+                       @RequestParam int menuListId) {
+        log.info("update menuList with id {} price {} with dish {} and menuList {} ",id,  price, dishId, menuListId);
+        MenuItem menuItem = service.get(id);
+        menuItem.setPrice(price);
+        prepareAndSave(menuItem, dishId, menuListId);
     }
 }

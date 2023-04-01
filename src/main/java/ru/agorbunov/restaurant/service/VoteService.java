@@ -13,7 +13,6 @@ import ru.agorbunov.restaurant.repository.VoteRepository;
 import ru.agorbunov.restaurant.util.DateTimeUtil;
 import ru.agorbunov.restaurant.util.exception.AccessDeniedException;
 import ru.agorbunov.restaurant.util.exception.IllegalRequestDataException;
-import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

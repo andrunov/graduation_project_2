@@ -11,6 +11,7 @@ import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.repository.DishRepository;
 import ru.agorbunov.restaurant.repository.MenuItemRepository;
 import ru.agorbunov.restaurant.repository.MenuListRepository;
+import ru.agorbunov.restaurant.util.exception.IllegalRequestDataException;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class MenuItemService extends BaseService<MenuItemRepository, MenuItem> {
             throw new EntityNotFoundException("menuList is null!");
         }
         menuItem.setMenuList(menuList);
+        checkFields(menuItem);
         return repository.save(menuItem);
     }
 
@@ -49,6 +51,7 @@ public class MenuItemService extends BaseService<MenuItemRepository, MenuItem> {
         menuItem.setMenuList(menuList);
         Dish dish = dishRepository.get(dishId);
         menuItem.setDish(dish);
+        checkFields(menuItem);
         return repository.save(menuItem);
     }
 
@@ -60,5 +63,17 @@ public class MenuItemService extends BaseService<MenuItemRepository, MenuItem> {
             menuItem.setMenuList(menuList);
         }
         repository.saveAll(menuItemList);
+    }
+
+    private void checkFields(MenuItem menuItem) {
+        if (menuItem.getMenuList() == null) {
+            throw new IllegalRequestDataException("MenuList must be presented");
+
+        } else if (menuItem.getDish() == null) {
+            throw new IllegalRequestDataException("MenuList must be presented");
+
+        } else if (menuItem.getPrice() == 0) {
+            throw new IllegalRequestDataException("MenuList must have price > 0");
+        }
     }
 }
