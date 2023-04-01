@@ -29,6 +29,12 @@ public class UserMenuListControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void getUnauthorized() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + MENU_LIST_01_ID))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     @WithUserDetails(value = USER_MAIL)
     void getByRestaurantToday() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "byRestaurantToday/" + RESTAURANT_02_ID))

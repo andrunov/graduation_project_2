@@ -26,4 +26,10 @@ public class UserDishControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(DISH_MATCHER.contentJson(DISH_01));
     }
+
+    @Test
+    void getUnauthorized() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + DISH_01_ID))
+                .andExpect(status().isUnauthorized());
+    }
 }
