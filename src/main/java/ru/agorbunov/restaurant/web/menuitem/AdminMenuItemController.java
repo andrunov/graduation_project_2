@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.service.MenuItemService;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,5 +81,13 @@ public class AdminMenuItemController {
         MenuItem menuItem = service.get(id);
         menuItem.setPrice(price);
         prepareAndSave(menuItem, dishId, menuListId);
+    }
+
+    @PatchMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
+    public void patch(@PathVariable int id, @RequestParam double newPrice) {
+        log.info("update menuList with id {} price {} ",id,  newPrice);
+        service.updatePrice(id, newPrice);
     }
 }

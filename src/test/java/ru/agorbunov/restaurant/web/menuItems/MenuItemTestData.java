@@ -15,6 +15,7 @@ public class MenuItemTestData {
 
     public static final int MENU_ITEM_01_ID = 1;
     public static final int MENU_ITEM_02_ID = 2;
+    public static final int NOT_FOUND_MENU_ITEM_ID = 958456;
 
     public static MenuItem getUpdatedMenuItem() {
        return new MenuItem(1,null, null,1.48);

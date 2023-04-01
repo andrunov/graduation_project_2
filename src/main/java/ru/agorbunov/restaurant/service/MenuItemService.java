@@ -34,6 +34,7 @@ public class MenuItemService extends BaseService<MenuItemRepository, MenuItem> {
         return repository.getByMenu(id);
     }
 
+    //todo remove
     public MenuItem update(MenuItem menuItem, int menuListId) {
         Assert.notNull(menuItem, "dishDescription must not be null");
         MenuList menuList = menuListRepository.get(menuListId);
@@ -43,6 +44,12 @@ public class MenuItemService extends BaseService<MenuItemRepository, MenuItem> {
         menuItem.setMenuList(menuList);
         checkFields(menuItem);
         return repository.save(menuItem);
+    }
+
+    public void updatePrice(int id, double newPrice) {
+        MenuItem menuItem = this.getExisted(id);
+        checkPrice(newPrice);
+        repository.updateDateTime(id, newPrice);
     }
 
     public MenuItem update(MenuItem menuItem, int dishId,  int menuListId) {
@@ -72,7 +79,11 @@ public class MenuItemService extends BaseService<MenuItemRepository, MenuItem> {
         } else if (menuItem.getDish() == null) {
             throw new IllegalRequestDataException("MenuList must be presented");
 
-        } else if (menuItem.getPrice() == 0) {
+        } else checkPrice(menuItem.getPrice());
+    }
+
+    private void checkPrice (double price) {
+        if (price == 0) {
             throw new IllegalRequestDataException("MenuList must have price > 0");
         }
     }

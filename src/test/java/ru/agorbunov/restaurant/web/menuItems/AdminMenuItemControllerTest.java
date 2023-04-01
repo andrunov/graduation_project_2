@@ -1,11 +1,13 @@
 package ru.agorbunov.restaurant.web.menuItems;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.Assert;
 import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.service.MenuItemService;
 import ru.agorbunov.restaurant.util.JsonUtil;
@@ -155,6 +157,42 @@ public class AdminMenuItemControllerTest extends AbstractControllerTest {
                 .param("price", "0.25")
                 .param("dishId", "100022")
                 .param("menuListId", String.valueOf(NOT_FOUND_MENU_LIST_ID)))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void patch() throws Exception {
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + MENU_ITEM_01_ID)
+                .param("newPrice", "2.28"))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        MenuItem saved = menuItemService.get(MENU_ITEM_01_ID);
+        Assertions.assertEquals(2.28, saved.getPrice());
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void patchForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + MENU_ITEM_01_ID)
+                .param("newPrice", "2.28"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void patchInvalid() throws Exception {
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + MENU_ITEM_01_ID)
+                .param("newPrice", "0.00"))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void patchInvalid2() throws Exception {
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + NOT_FOUND_MENU_ITEM_ID)
+                .param("newPrice", "5.26"))
                 .andExpect(status().isUnprocessableEntity());
     }
 
