@@ -1,5 +1,6 @@
 package ru.agorbunov.restaurant.web.menulists;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,16 +18,23 @@ import java.time.Month;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.agorbunov.restaurant.web.menuItems.MenuItemTestData.*;
 import static ru.agorbunov.restaurant.web.menulist.AdminMenuListController.REST_URL;
 import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.*;
-import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.RESTAURANT_01;
-import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.RESTAURANT_01_ID;
+import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.MENU_LIST_01_ID;
+import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.*;
 import static ru.agorbunov.restaurant.web.user.UserTestData.ADMIN_MAIL;
 import static ru.agorbunov.restaurant.web.user.UserTestData.USER_MAIL;
 
 public class AdminMenuListControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL_SLASH = REST_URL + '/';
+
+    private static String QUERY_STRING = MENU_ITEM_01_ID + "," + MENU_ITEM_02_ID +  "," +
+            MENU_ITEM_03_ID + "," + MENU_ITEM_04_ID + "," +  MENU_ITEM_05_ID;
+
+    private static String BAD_QUERY_STRING = MENU_ITEM_01_ID + "," + MENU_ITEM_02_ID +  "," +
+            MENU_ITEM_03_ID + "," + MENU_ITEM_04_ID + "," +  NOT_FOUND_MENU_ITEM_ID;
 
     @Autowired
     private MenuListService menuListService;
@@ -89,44 +97,41 @@ public class AdminMenuListControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        MenuList menuList = new MenuList();
-        menuList.setDate(LocalDate.now());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                .param("restaurantId", "100006")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(menuList)))
+                .param("date", LocalDate.now().toString())
+                .param("restaurantId", String.valueOf(RESTAURANT_01_ID)))
                 .andExpect(status().isCreated());
 
         MenuList created = MENULIST_MATCHER.readFromJson(action);
         int newId = created.id();
+        MenuList menuList = new MenuList();
+        menuList.setDate(LocalDate.now());
         menuList.setId(newId);
         menuList.setRestaurant(RESTAURANT_01);
-        MENULIST_MATCHER.assertMatch(menuListService.getExisted(newId), menuList);
+        MenuList saved = menuListService.getExisted(newId);
+        MENULIST_MATCHER.assertMatch(saved, menuList);
     }
 
     @Test
     @WithUserDetails(value = USER_MAIL)
     void createForbidden() throws Exception {
-        MenuList menuList = new MenuList();
-        menuList.setDate(LocalDate.now());
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                .param("restaurantId", "100006")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(menuList)))
+        perform(MockMvcRequestBuilders.post(REST_URL)
+                .param("date", LocalDate.now().toString())
+                .param("restaurantId",  String.valueOf(RESTAURANT_01_ID)))
                 .andExpect(status().isForbidden());
     }
+
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {
-        MenuList invalid = new MenuList( );
         perform(MockMvcRequestBuilders.post(REST_URL)
-                .param("restaurantId", "1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(invalid)))
-                .andDo(print())
+                .param("date", LocalDate.now().toString())
+                .param("restaurantId",  String.valueOf(NOT_FOUND_RESTAURANT_ID)))
                 .andExpect(status().isUnprocessableEntity());
     }
+
+
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)

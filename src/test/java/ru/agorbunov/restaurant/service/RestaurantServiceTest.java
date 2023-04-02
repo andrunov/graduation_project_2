@@ -52,23 +52,9 @@ public class RestaurantServiceTest {
 
     @Test
     public void saveWith() throws Exception {
-
-        LocalDate now = LocalDate.now();
-        MenuList menuList = new MenuList();
-        menuList.setDate(now);
-        List<MenuItem> menuItems = new ArrayList<>();
-        menuItems.add(MenuItemTestData.MENU_ITEM_01);
-        menuItems.add(MenuItemTestData.MENU_ITEM_02);
-        menuItems.add(MenuItemTestData.MENU_ITEM_03);
-        menuItems.add(MenuItemTestData.MENU_ITEM_04);
-        menuItems.add(MenuItemTestData.MENU_ITEM_05);
-        menuList.setItems(menuItems);
         Restaurant newRestaurant = new Restaurant("Созданный ресторант","ул. Новая, 1");
-        menuList.setRestaurant(newRestaurant);
-        newRestaurant.setMenuLists(new ArrayList<>());
-        newRestaurant.getMenuLists().add(menuList);
-        restaurantService.update(newRestaurant);
-        menuListService.update(menuList, newRestaurant.getId());
+        Restaurant saved = restaurantService.update(newRestaurant);
+        menuListService.create( LocalDate.now(), saved.getId());
         MATCHER.assertCollectionEquals(
                 Arrays.asList(newRestaurant, RESTAURANT_01, RESTAURANT_02, RESTAURANT_03, RESTAURANT_04),
                 restaurantService.getAll());

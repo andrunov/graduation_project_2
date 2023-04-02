@@ -13,10 +13,10 @@ import ru.agorbunov.restaurant.service.MenuListService;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
-import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = AdminMenuListController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -48,11 +48,10 @@ public class AdminMenuListController {
         service.delete(id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MenuList> create(@Valid @RequestBody MenuList menuList, @RequestParam int restaurantId) {
-        log.info("create menuList {}", menuList);
-        checkNew(menuList);
-        MenuList created = service.update(menuList, restaurantId);
+    @PostMapping()
+    public ResponseEntity<MenuList> create(@RequestParam LocalDate date, @RequestParam int restaurantId) {
+        log.info("create menuList {}", date);
+        MenuList created = service.create(date, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();

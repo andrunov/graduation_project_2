@@ -39,28 +39,6 @@ public class MenuListServiceTest {
     }
 
     @Test
-    public void saveWith() throws Exception {
-        LocalDate now = LocalDate.now().plusDays(1);
-        MenuList menuList = new MenuList();
-        menuList.setDate(now);
-        List<MenuItem> dishList = new ArrayList<>();
-        dishList.add(new MenuItem(null, dishService.get(100030), 1.25));
-        dishList.add(new MenuItem(null, dishService.get(100031), 1.26));
-        dishList.add(new MenuItem(null, dishService.get(100032), 3.25));
-        dishList.add(new MenuItem(null, dishService.get(100033), 4.25));
-        dishList.add(new MenuItem(null, dishService.get(100034), 5.25));
-        menuList.setItems(dishList);
-        menuListService.update(menuList, RestaurantTestData.RESTAURANT_01_ID);
-        menuItemService.updateList(menuList.getItems(), menuList.getId());
-        MenuList updated = menuListService.get(menuList.getId());
-        Assertions.assertEquals(RestaurantTestData.RESTAURANT_01.getAddress(), updated.getRestaurant().getAddress());
-        List<MenuItem> updatedDDList = menuItemService.getByMenu(menuList.getId());
-        Assertions.assertEquals(5, updatedDDList.size());
-
-    }
-
-
-    @Test
     public void saveNull() throws Exception {
         Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             menuListService.update(null, RestaurantTestData.RESTAURANT_02_ID);
