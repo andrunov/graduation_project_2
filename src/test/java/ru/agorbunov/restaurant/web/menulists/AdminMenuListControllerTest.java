@@ -1,6 +1,5 @@
 package ru.agorbunov.restaurant.web.menulists;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -9,7 +8,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.agorbunov.restaurant.model.MenuList;
 import ru.agorbunov.restaurant.service.MenuListService;
-import ru.agorbunov.restaurant.util.JsonUtil;
 import ru.agorbunov.restaurant.web.AbstractControllerTest;
 
 import java.time.LocalDate;
@@ -20,8 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.agorbunov.restaurant.web.menuItems.MenuItemTestData.*;
 import static ru.agorbunov.restaurant.web.menulist.AdminMenuListController.REST_URL;
-import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.*;
 import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.MENU_LIST_01_ID;
+import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.*;
 import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.*;
 import static ru.agorbunov.restaurant.web.user.UserTestData.ADMIN_MAIL;
 import static ru.agorbunov.restaurant.web.user.UserTestData.USER_MAIL;
@@ -29,12 +27,6 @@ import static ru.agorbunov.restaurant.web.user.UserTestData.USER_MAIL;
 public class AdminMenuListControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL_SLASH = REST_URL + '/';
-
-    private static String QUERY_STRING = MENU_ITEM_01_ID + "," + MENU_ITEM_02_ID +  "," +
-            MENU_ITEM_03_ID + "," + MENU_ITEM_04_ID + "," +  MENU_ITEM_05_ID;
-
-    private static String BAD_QUERY_STRING = MENU_ITEM_01_ID + "," + MENU_ITEM_02_ID +  "," +
-            MENU_ITEM_03_ID + "," + MENU_ITEM_04_ID + "," +  NOT_FOUND_MENU_ITEM_ID;
 
     @Autowired
     private MenuListService menuListService;
@@ -68,31 +60,7 @@ public class AdminMenuListControllerTest extends AbstractControllerTest {
                 .andExpect(status().isForbidden());
     }
 
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void update() throws Exception {
-        perform(MockMvcRequestBuilders.put(REST_URL)
-                .param("restaurantId", "100006")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithDate(MENU_LIST_01,  LocalDate.of(2023, Month.MARCH, 10))))
-                .andDo(print())
-                .andExpect(status().isNoContent());
 
-        MenuList updated = getUpdatedMenuList();
-        updated.setRestaurant(RESTAURANT_01);
-        MENULIST_MATCHER.assertMatch(menuListService.get(MENU_LIST_01_ID), updated);
-    }
-
-    @Test
-    @WithUserDetails(value = USER_MAIL)
-    void updateForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.put(REST_URL)
-                .param("restaurantId", "100006")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithDate(MENU_LIST_01,  LocalDate.of(2023, Month.MARCH, 10))))
-                .andDo(print())
-                .andExpect(status().isForbidden());
-    }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
@@ -131,18 +99,56 @@ public class AdminMenuListControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity());
     }
 
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void update() throws Exception {
+        LocalDate date =  LocalDate.of(2023, Month.MARCH, 10);
+        perform(MockMvcRequestBuilders.put(REST_URL)
+                .param("id", String.valueOf(MENU_LIST_01_ID))
+                .param("date", date.toString())
+                .param("restaurantId",  String.valueOf(RESTAURANT_01_ID)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
 
+        MenuList updated = getUpdatedMenuList();
+        updated.setRestaurant(RESTAURANT_01);
+        MENULIST_MATCHER.assertMatch(menuListService.get(MENU_LIST_01_ID), updated);
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void updateForbidden() throws Exception {
+        LocalDate date =  LocalDate.of(2023, Month.MARCH, 10);
+        perform(MockMvcRequestBuilders.put(REST_URL)
+                .param("id", String.valueOf(MENU_LIST_01_ID))
+                .param("date", date.toString())
+                .param("restaurantId",  String.valueOf(RESTAURANT_01_ID)))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void updateInvalid() throws Exception {
+        LocalDate date =  LocalDate.of(2023, Month.MARCH, 10);
         perform(MockMvcRequestBuilders.put(REST_URL)
-                .param("restaurantId", "1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonWithDate(MENU_LIST_01,  LocalDate.of(2023, Month.MARCH, 10))))
+                .param("id", String.valueOf(NOT_FOUND_MENU_LIST_ID))
+                .param("date", date.toString())
+                .param("restaurantId",  String.valueOf(RESTAURANT_01_ID)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
 
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void updateInvalid_1() throws Exception {
+        LocalDate date =  LocalDate.of(2023, Month.MARCH, 10);
+        perform(MockMvcRequestBuilders.put(REST_URL)
+                .param("id", String.valueOf(MENU_LIST_01_ID))
+                .param("date", date.toString())
+                .param("restaurantId",  String.valueOf(NOT_FOUND_RESTAURANT_ID)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
 
 }

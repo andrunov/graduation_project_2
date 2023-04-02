@@ -1,6 +1,5 @@
 package ru.agorbunov.restaurant.web.menulist;
 
-import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import ru.agorbunov.restaurant.service.MenuListService;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -50,7 +48,7 @@ public class AdminMenuListController {
 
     @PostMapping()
     public ResponseEntity<MenuList> create(@RequestParam LocalDate date, @RequestParam int restaurantId) {
-        log.info("create menuList {}", date);
+        log.info("create menuList with date {}, restaurantId {}", date, restaurantId);
         MenuList created = service.create(date, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -58,10 +56,10 @@ public class AdminMenuListController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody MenuList menuList, @RequestParam int restaurantId) {
-        log.info("update {} menuList id={}", menuList, restaurantId);
-        service.update(menuList, restaurantId);
+    public void update(@RequestParam int id, @RequestParam LocalDate date, @RequestParam int restaurantId) {
+        log.info("create menuList with id {}, date {}, restaurantId {}", id, date, restaurantId);
+        service.update(id, date, restaurantId);
     }
 }
