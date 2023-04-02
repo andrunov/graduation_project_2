@@ -30,10 +30,6 @@ public class AdminDishController {
     @Autowired
     protected DishService service;
 
-    protected Dish prepareAndSave(Dish dish) {
-        return service.update(dish);
-    }
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
@@ -45,7 +41,7 @@ public class AdminDishController {
     public ResponseEntity<Dish> create(@Valid @RequestBody Dish dish) {
         log.info("create dish {}", dish);
         checkNew(dish);
-        Dish created = prepareAndSave(dish);
+        Dish created = service.update(dish);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL)
                 .buildAndExpand(created.getId()).toUri();
@@ -56,7 +52,7 @@ public class AdminDishController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody Dish dish) {
         log.info("update dish {}", dish);
-        prepareAndSave(dish);
+        service.update(dish);
     }
 
     @PatchMapping("/{id}")

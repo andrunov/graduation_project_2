@@ -29,10 +29,6 @@ public class AdminMenuListController {
     @Autowired
     protected MenuListService service;
 
-    protected MenuList prepareAndSave(MenuList menuList, int restaurantId) {
-        return service.update(menuList, restaurantId);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<MenuList> get(@PathVariable int id) {
         log.info("get menuList id={}", id);
@@ -56,7 +52,7 @@ public class AdminMenuListController {
     public ResponseEntity<MenuList> create(@Valid @RequestBody MenuList menuList, @RequestParam int restaurantId) {
         log.info("create menuList {}", menuList);
         checkNew(menuList);
-        MenuList created = prepareAndSave(menuList, restaurantId);
+        MenuList created = service.update(menuList, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -67,6 +63,6 @@ public class AdminMenuListController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody MenuList menuList, @RequestParam int restaurantId) {
         log.info("update {} menuList id={}", menuList, restaurantId);
-        prepareAndSave(menuList, restaurantId);
+        service.update(menuList, restaurantId);
     }
 }

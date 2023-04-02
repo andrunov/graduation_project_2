@@ -31,11 +31,6 @@ public class AdminRestaurantController {
     @Autowired
     protected RestaurantService service;
 
-    //TODO remove
-    protected Restaurant prepareAndSave(Restaurant restaurant) {
-        return service.update(restaurant);
-    }
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
@@ -47,7 +42,7 @@ public class AdminRestaurantController {
     public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
         log.info("create restaurant {}", restaurant);
         checkNew(restaurant);
-        Restaurant created = prepareAndSave(restaurant);
+        Restaurant created = service.update(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL)
                 .buildAndExpand(created.getId()).toUri();
@@ -59,7 +54,7 @@ public class AdminRestaurantController {
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
         log.info("update {} with id={}", restaurant, id);
         assureIdConsistent(restaurant, id);
-        prepareAndSave(restaurant);
+        service.update(restaurant);
     }
 
     @PatchMapping("/{id}")
