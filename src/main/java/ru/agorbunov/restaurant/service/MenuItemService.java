@@ -1,6 +1,5 @@
 package ru.agorbunov.restaurant.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,26 +33,28 @@ public class MenuItemService extends BaseService<MenuItemRepository, MenuItem> {
         return repository.getByMenu(id);
     }
 
-    //todo remove
-    public MenuItem update(MenuItem menuItem, int menuListId) {
-        Assert.notNull(menuItem, "dishDescription must not be null");
-        MenuList menuList = menuListRepository.get(menuListId);
-        if (menuList == null) {
-            throw new EntityNotFoundException("menuList is null!");
-        }
-        menuItem.setMenuList(menuList);
-        checkFields(menuItem);
-        return repository.save(menuItem);
-    }
 
     public void updatePrice(int id, double newPrice) {
-        MenuItem menuItem = this.getExisted(id);
+        this.getExisted(id); //check existed
         checkPrice(newPrice);
         repository.updateDateTime(id, newPrice);
     }
 
-    public MenuItem update(MenuItem menuItem, int dishId,  int menuListId) {
+    public MenuItem update(int id, double price, int dishId,  int menuListId) {
+        MenuItem menuItem = repository.get(id);
+        menuItem.setPrice(price);
         Assert.notNull(menuItem, "dishDescription must not be null");
+        MenuList menuList = menuListRepository.get(menuListId);
+        menuItem.setMenuList(menuList);
+        Dish dish = dishRepository.get(dishId);
+        menuItem.setDish(dish);
+        checkFields(menuItem);
+        return repository.save(menuItem);
+    }
+
+    public MenuItem create( double price, int dishId,  int menuListId) {
+        MenuItem menuItem = new MenuItem();
+        menuItem.setPrice(price);
         MenuList menuList = menuListRepository.get(menuListId);
         menuItem.setMenuList(menuList);
         Dish dish = dishRepository.get(dishId);

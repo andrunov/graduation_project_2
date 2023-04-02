@@ -1,6 +1,5 @@
 package ru.agorbunov.restaurant.web.menuitem;
 
-import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,12 +12,10 @@ import ru.agorbunov.restaurant.model.MenuItem;
 import ru.agorbunov.restaurant.service.MenuItemService;
 
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import static org.slf4j.LoggerFactory.getLogger;
-import static ru.agorbunov.restaurant.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = AdminMenuItemController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,11 +27,6 @@ public class AdminMenuItemController {
 
     @Autowired
     protected MenuItemService service;
-
-    //todo remove if possible
-    protected MenuItem prepareAndSave(MenuItem menuItem, int dishId,  int menuListId) {
-        return service.update(menuItem, dishId, menuListId);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<MenuItem> get(@PathVariable int id) {
@@ -62,8 +54,7 @@ public class AdminMenuItemController {
                                            @RequestParam int dishId,
                                            @RequestParam int menuListId) {
         log.info("create menuList price {} with dish {} and menuList {} ", price, dishId, menuListId);
-        MenuItem newMenuItem = new MenuItem(price);
-        MenuItem created = prepareAndSave(newMenuItem, dishId, menuListId);
+        MenuItem created = service.create(price, dishId, menuListId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -78,9 +69,7 @@ public class AdminMenuItemController {
                        @RequestParam int dishId,
                        @RequestParam int menuListId) {
         log.info("update menuList with id {} price {} with dish {} and menuList {} ",id,  price, dishId, menuListId);
-        MenuItem menuItem = service.get(id);
-        menuItem.setPrice(price);
-        prepareAndSave(menuItem, dishId, menuListId);
+        service.update(id, price, dishId, menuListId);
     }
 
     @PatchMapping("{id}")

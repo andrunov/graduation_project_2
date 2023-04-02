@@ -9,11 +9,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agorbunov.restaurant.service.testdata.MenuItemTestData;
 import ru.agorbunov.restaurant.model.MenuItem;
+import ru.agorbunov.restaurant.util.exception.IllegalRequestDataException;
 import ru.agorbunov.restaurant.util.exception.NotFoundException;
 
 import java.util.List;
 
 import static ru.agorbunov.restaurant.service.testdata.DishTestData.*;
+import static ru.agorbunov.restaurant.web.dish.DishTestData.NOT_FOUND_DISH_ID;
 
 @SpringBootTest
 @Transactional
@@ -48,9 +50,7 @@ public class MenuItemServiceTest {
 
     @Test
     public void update() throws Exception{
-        MenuItem dishDescr = menuItemService.get(DISH_DESCR_01_ID);
-        dishDescr.setDish(dishService.get(DISH_05_ID));
-        menuItemService.update(dishDescr, MenuItemTestData.MENU_LIST_02_ID);
+        menuItemService.update(DISH_DESCR_01_ID, 2.25 ,DISH_05_ID, MenuItemTestData.MENU_LIST_02_ID);
         MenuItem dishDescrUpdated = menuItemService.get(DISH_DESCR_01_ID);
         MATCHER.assertEquals(DISH_05, dishDescrUpdated.getDish());
     }
@@ -70,17 +70,21 @@ public class MenuItemServiceTest {
 
     @Test
     public void create() throws Exception{
-        MenuItem menuItem = new MenuItem();
-        menuItem.setDish(dishService.get(100028));
-        menuItem.setPrice(2.5);
-        menuItemService.update(menuItem, MenuItemTestData.MENU_LIST_02_ID);
+        menuItemService.create(2.5, DISH_05_ID, MenuItemTestData.MENU_LIST_02_ID);
         Assertions.assertEquals(6, menuItemService.getByMenu(MenuItemTestData.MENU_LIST_02_ID).size());
     }
 
     @Test
-    public void saveNull() throws Exception {
-        Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            menuItemService.update(null, MenuItemTestData.MENU_LIST_02_ID);
+    public void saveInvalid1() throws Exception {
+        Throwable exception = Assertions.assertThrows(IllegalRequestDataException.class, () -> {
+            menuItemService.create(0,DISH_05_ID, MenuItemTestData.MENU_LIST_02_ID);
+        });
+    }
+
+    @Test
+    public void saveInvalid2() throws Exception {
+        Throwable exception = Assertions.assertThrows(IllegalRequestDataException.class, () -> {
+            menuItemService.create(5.25,NOT_FOUND_DISH_ID, MenuItemTestData.MENU_LIST_02_ID);
         });
     }
 
