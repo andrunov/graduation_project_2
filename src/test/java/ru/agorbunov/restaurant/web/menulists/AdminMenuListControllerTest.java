@@ -1,5 +1,6 @@
 package ru.agorbunov.restaurant.web.menulists;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,9 +17,7 @@ import java.time.Month;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.agorbunov.restaurant.web.menuItems.MenuItemTestData.*;
 import static ru.agorbunov.restaurant.web.menulist.AdminMenuListController.REST_URL;
-import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.MENU_LIST_01_ID;
 import static ru.agorbunov.restaurant.web.menulists.MenuListTestData.*;
 import static ru.agorbunov.restaurant.web.restaurant.RestaurantTestData.*;
 import static ru.agorbunov.restaurant.web.user.UserTestData.ADMIN_MAIL;
@@ -148,6 +147,38 @@ public class AdminMenuListControllerTest extends AbstractControllerTest {
                 .param("date", date.toString())
                 .param("restaurantId",  String.valueOf(NOT_FOUND_RESTAURANT_ID)))
                 .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void patch() throws Exception {
+        LocalDate today = LocalDate.now();
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + MENU_LIST_02_ID)
+                .param("newDate", today.toString()))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        MenuList saved = menuListService.get(MENU_LIST_02_ID);
+        Assertions.assertEquals(today, saved.getDate());
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void patchForbidden() throws Exception {
+        LocalDate today = LocalDate.now();
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + MENU_LIST_02_ID)
+                .param("newDate", today.toString()))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void patchInvalid() throws Exception {
+        LocalDate today = LocalDate.now();
+        perform(MockMvcRequestBuilders.patch(REST_URL_SLASH + NOT_FOUND_MENU_LIST_ID)
+                .param("newDate", today.toString()))
                 .andExpect(status().isUnprocessableEntity());
     }
 

@@ -53,7 +53,7 @@ public class AdminMenuItemController {
     public ResponseEntity<MenuItem> create(@RequestParam double price,
                                            @RequestParam int dishId,
                                            @RequestParam int menuListId) {
-        log.info("create menuList price {} with dish {} and menuList {} ", price, dishId, menuListId);
+        log.info("create menuItem price {} with dish {} and menuList {} ", price, dishId, menuListId);
         MenuItem created = service.create(price, dishId, menuListId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -68,7 +68,7 @@ public class AdminMenuItemController {
                        @RequestParam double price,
                        @RequestParam int dishId,
                        @RequestParam int menuListId) {
-        log.info("update menuList with id {} price {} with dish {} and menuList {} ",id,  price, dishId, menuListId);
+        log.info("update menuItem with id {} price {} with dish {} and menuList {} ",id,  price, dishId, menuListId);
         service.update(id, price, dishId, menuListId);
     }
 
@@ -76,7 +76,7 @@ public class AdminMenuItemController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void patch(@PathVariable int id, @RequestParam double newPrice) {
-        log.info("update menuList with id {} price {} ",id,  newPrice);
+        log.info("update menuItem with id {} price {} ",id,  newPrice);
         service.updatePrice(id, newPrice);
     }
 }

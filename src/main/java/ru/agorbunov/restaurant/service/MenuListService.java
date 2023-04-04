@@ -60,6 +60,11 @@ public class MenuListService extends BaseService<MenuListRepository, MenuList> {
         return repository.save(menuList);
     }
 
+    public void updateDate(int id, LocalDate newDate) {
+        MenuList menuList = repository.getExisted(id); //check existed
+        repository.updateDateTime(id, newDate);
+    }
+
     private void checkFields(MenuList menuList) {
         if (menuList.getRestaurant() == null) {
             throw new IllegalRequestDataException("Restaurant must be presented");

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.agorbunov.restaurant.model.MenuList;
@@ -61,5 +62,13 @@ public class AdminMenuListController {
     public void update(@RequestParam int id, @RequestParam LocalDate date, @RequestParam int restaurantId) {
         log.info("create menuList with id {}, date {}, restaurantId {}", id, date, restaurantId);
         service.update(id, date, restaurantId);
+    }
+
+    @PatchMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
+    public void patch(@PathVariable int id, @RequestParam LocalDate newDate) {
+        log.info("update menuList with id {} date {} ",id, newDate);
+        service.updateDate(id, newDate);
     }
 }
